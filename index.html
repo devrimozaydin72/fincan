@@ -767,7 +767,7 @@ tr:{
   harfSet:["A","B","C","D","E","H","I","K","L","M","N","O","P","R","S","T","U","V","Y","Z"],
   sayiSet:["0","1","2","3","4","5","6","7","8","9"],
   kanitGordum:"telvede izlediğim", kanitHarf:h=>h+" harfi", kanitSayi:n=>n+" rakamı",
-  kanitOrtusme:v=>"%"+v+" örtüşme", kanitSekil:"işaretlediğim yer",
+  kanitOrtusme:v=>"", kanitSekil:"işte tam burası",
 
   baglac:[
     "Şimdi şuraya bak {ad}.",
@@ -782,13 +782,13 @@ tr:{
   kapak:{
     acik:{t:"Fincanın <em>açık</em>",
       a:"{ad}, fincanına bakıyorum ve ilk gördüğüm şey ferahlık. Telve az düşmüş, porselen bolca görünüyor. Bu, üstünde fazla yük taşımadığın bir dönem demek. Şu an önünü kapatan büyük bir şey yok, asıl mesele bu boşluğu neyle dolduracağın.",
-      b:n=>"Sana "+n+" ayrı yer işaretledim. Şimdi tek tek gezeceğiz, her birinde nereye baktığımı da göstereceğim."},
+      b:n=>"Şimdi yavaş yavaş gezelim. Nereye baktığımı da göstereceğim, sen de gör."},
     yogun:{t:"Fincanın <em>dolu</em>",
       a:"{ad}, fincanını elime aldığımda ilk hissettiğim yoğunluk oldu. Telve kalın bir tabaka bırakmış, porselen az yerde görünüyor. Bu, kafanın çok şeyle dolu olduğu bir dönemi anlatır. Kötü değil, sadece kalabalık.",
-      b:n=>"Bu kalabalığın içinden "+n+" yer ayırdım. Tek tek gezeceğiz, her birinde nereye baktığımı göstereceğim."},
+      b:n=>"Bu kalabalığın içinde okunacak çok şey var. Hadi baştan alalım, nereye baktığımı göstereceğim."},
     denge:{t:"Fincanın <em>dengeli</em>",
       a:"{ad}, fincanın ne ağır ne boş. Telve dengeli dağılmış. Bu, işlerin kendi hâlinde yürüdüğü, ne kriz ne durgunluk olan bir dönemi anlatır. Böyle fincanlar bana en çok şeyi söyleyenlerdir, çünkü gürültü yok.",
-      b:n=>"Fincanında "+n+" yer buldum. Hadi başlayalım, her birinde nereye baktığımı göstereceğim."}
+      b:n=>"Hadi başlayalım. Nereye baktığımı tek tek göstereceğim."}
   },
 
   genel:"Genel görünüş", ozet:"Baştan sona", tamami:"Fincanın tamamı", sonSayfa:"Son sayfa",
@@ -828,8 +828,8 @@ tr:{
   sonKapanis:"Fincan tek tek şekillerden değil, şekillerin sırasından konuşur. Seninkinde bir gidiş var ve o gidiş tıkalı değil. Gerisi senin ne kadar üstüne gideceğine bakar {ad}.",
   sonUyari:"Telve her seferinde başka düşer. Aynı fincanı ikinci kez okutmak, aynı soruyu iki kere sormak gibidir.",
 
-  cokFoto:n=>n+" fotoğrafı birlikte okudum. Aynı şeyi birden fazla karede görürsem ayrıca söyleyeceğim.",
-  tekrar:n=>"Bunu "+n+" ayrı fotoğrafta gördüm {ad}. Fincanda tekrar eden şey, o konunun altını çizer.",
+  cokFoto:n=>"Fincanı elimde çevire çevire baktım, her yanını gördüm.",
+  tekrar:n=>"Bu iz fincanın birkaç yerinde birden duruyor {ad}. Fincanda tekrar eden şey, o konunun altını çizer.",
   photoN:n=>n+". fotoğraf",
 
   sym:{
@@ -2539,6 +2539,28 @@ PACK.en.kapak.denge.alt = [
   "{ad}, full and empty share your cup half and half. On one side something you are working at, on the other a place to breathe."
 ];
 
+/* Falı tek hikâyeye bağlayan cümleler. Bir öncekine gönderme yapar. */
+PACK.tr.zincirle = [
+  "Demin şu {onceki} vardı ya, bu onun devamı gibi duruyor.",
+  "Bak bu {onceki} ile aynı hikâyenin içinde.",
+  "Az önceki {onceki} bunu hazırlıyormuş meğer.",
+  "Bunu tek başına okumayalım; {onceki} ile birlikte anlam kazanıyor.",
+  "İkisi birbirini tamamlıyor: {onceki} ve bu.",
+  "Şimdi anlıyorum o {onceki} neden oradaydı.",
+  "Bu ikisi yan yana durunca hikâye netleşiyor, {onceki} boşuna çıkmamış."
+];
+PACK.en.zincirle = [
+  "Remember that {onceki} just now? This looks like its continuation.",
+  "This sits inside the same story as the {onceki}.",
+  "That {onceki} was preparing this, it turns out.",
+  "Do not read this alone; it takes its meaning next to the {onceki}.",
+  "The two complete each other: the {onceki} and this one.",
+  "Now I see why that {onceki} was there.",
+  "Side by side the story clears up; that {onceki} was not there for nothing."
+];
+PACK.tr.cunku = "Şuna bakıyorum:";
+PACK.en.cunku = "Here is what I am looking at:";
+
 /* ══════════════════ HUKUKİ METİNLER ══════════════════
    App Store başvurusunda Apple bir gizlilik politikası bağlantısı ister.
    Aşağıdaki metinler hem uygulama içinde gösterilir hem de ayrıca
@@ -3539,13 +3561,30 @@ function classify(b){
   if(f && FIG_SYM[f.ad])
     return {sym:FIG_SYM[f.ad], guven:f.score, kanit:{grid:f.grid, templ:f.templ, n:f.n, skor:Math.round(f.score*100)}};
 
-  /* şablon tutmadı: yapısal ipuçları, ama iddiasız */
+  /* Şablon tutmadı. Artık isimsiz bırakmıyoruz: lekenin dış hattını
+     tarif edip ona bir ad buluyoruz. Falcı da böyle yapar.        */
+  const tarif = sekliTarifle(b);
+  if(tarif && TARIF_SYM[tarif.ad])
+    return {sym:TARIF_SYM[tarif.ad], guven:tarif.guven, kanit:null,
+            neden:tarif.neden, gorunen:tarif.ad};
+
+  /* yapısal ipuçları */
   if(b.holes >= 2 && b.holeFrac > 0.06) return {sym:"zincir", guven:0.55, kanit:null};
   if(b.holes === 1 && b.holeFrac > 0.09 && b.elong > 2.4) return {sym:"goz", guven:0.52, kanit:null};
   if(rel > 0.11) return {sym:"bulut", guven:0.50, kanit:null};
   if(b.elong < 1.22 && b.fill > 0.78 && rel < 0.020) return {sym:"para", guven:0.50, kanit:null};
   return {sym:"iz", guven:0.40, kanit:null};
 }
+
+/* tarif çözümleyicisinin verdiği ad → metin paketi anahtarı */
+const TARIF_SYM = {
+  "yol":"yol", "yılan":"yilan", "kuş":"kus", "balık":"balik", "kalp":"kalp",
+  "ağaç":"agac", "dağ":"dag", "çiçek":"cicek", "yıldız":"yildiz", "el":"iz",
+  "kelebek":"kelebek", "köpek":"iz", "insan":"iz", "iki kişi":"zincir",
+  "kaplumbağa":"iz", "merdiven":"merdiven", "damla":"damla", "ok":"ok",
+  "tekne":"gemi", "yüzük":"yuzuk", "göz":"goz", "çift göz":"zincir",
+  "dolunay":"ay", "kapı":"iz", "sahil":"iz", "ada":"para", "bulut":"bulut"
+};
 
 /* silüet adı → metin paketindeki sembol anahtarı */
 const FIG_SYM = {
@@ -4029,6 +4068,116 @@ function altSekiller(b, esik, enFazla){
     if(cikti.length >= (enFazla || 3)) break;
   }
   return cikti;
+}
+
+
+/* ══════════════ ŞEKLİ TARİFİNDEN TANIMA ══════════════
+   Şablonla birebir örtüşme aramak kahve lekesinde çalışmıyor: telve
+   düzgün siluet vermez. Falcı da şablonla bakmaz, tarif eder:
+   "bir ucu incelip uzamış, bu kuştur", "üstü iki tümsek altı sivri,
+   bu kalptir". Burada lekenin dış hattından çıkıntı ve girinti sayıp
+   aynı akıl yürütmeyi yapıyoruz. Bu yol neredeyse her lekeye makul
+   bir ad verir; "isimsiz iz" demek zorunda kalmayız.                */
+
+function konturProfil(b){
+  const k = contour(b);
+  if(!k || k.length < 14) return null;
+  let sx = 0, sy = 0, n = 0;
+  for(let y=0;y<b.bh;y++) for(let x=0;x<b.bw;x++){
+    if(b.mask[y*b.bw+x]){ sx += x; sy += y; n++; }
+  }
+  if(!n) return null;
+  const cx = sx/n, cy = sy/n;
+  const ham = k.map(p => Math.hypot(p[0]-cx, p[1]-cy));
+  const L = ham.length;
+  const r = ham.map(function(_, i){
+    let t = 0;
+    for(let d=-2; d<=2; d++) t += ham[(i+d+L) % L];
+    return t/5;
+  });
+  const ort = r.reduce(function(a,v){ return a+v; }, 0)/L;
+  let cukur = 0;
+  const tepeler = [];
+  for(let i=0;i<L;i++){
+    const a = r[(i-4+L)%L], m = r[i], c = r[(i+4)%L];
+    if(m >= a && m >= c && m > ort*1.20) tepeler.push({i:i, r:m});
+    if(m <= a && m <= c && m < ort*0.76) cukur++;
+  }
+  const ayri = [];
+  for(const t of tepeler){
+    let yakin = false;
+    for(const u of ayri){
+      const d = Math.abs(u.i - t.i);
+      if(Math.min(d, L-d) < L*0.10){ yakin = true; break; }
+    }
+    if(!yakin) ayri.push(t);
+  }
+  let enUzun = 0, enKisa = 1e9;
+  for(const v of r){ if(v > enUzun) enUzun = v; if(v < enKisa) enKisa = v; }
+  return {tepe:ayri.length, cukur:cukur, ort:ort,
+          sivrilik:enUzun/Math.max(1e-6, enKisa), uzunluk:L};
+}
+
+function basamakli(b){
+  const s = b.rows.map(function(r){ return r.span; });
+  if(s.length < 8) return false;
+  let artan = 0, sabit = 0;
+  for(let i=1;i<s.length;i++){
+    if(s[i] > s[i-1] + 1) artan++;
+    else if(Math.abs(s[i] - s[i-1]) <= 1) sabit++;
+  }
+  return artan >= 3 && sabit >= s.length*0.35;
+}
+
+function ikiLob(b){
+  const orta = Math.floor(b.bh/2);
+  const r = b.rows[orta];
+  return !!(r && r.runs >= 2);
+}
+
+/* Lekeyi tarif et ve bir ada bağla. Her zaman bir ad döner. */
+function sekliTarifle(b){
+  const p = konturProfil(b);
+  const e = b.elong, f = b.fill, h = b.holes;
+  const dik = b.bh > b.bw*1.3, yatay = b.bw > b.bh*1.3;
+  const t = p ? p.tepe : 0, c = p ? p.cukur : 0;
+  const siv = p ? p.sivrilik : 1;
+
+  if(h >= 2) return {ad:"çift göz", guven:0.62, neden:"ortasında iki ayrı boşluk var"};
+  if(h === 1 && e < 1.7) return {ad:"yüzük", guven:0.66, neden:"ortası boş, kenarı kapalı bir halka"};
+  if(h === 1) return {ad:"göz", guven:0.62, neden:"uzun ve ortası açık"};
+
+  if(e >= 4.2) return {ad: b.straight > 0.80 ? "yol" : "yılan", guven:0.68,
+                       neden: b.straight > 0.80 ? "upuzun ve dümdüz gidiyor" : "upuzun ve kıvrıla kıvrıla gidiyor"};
+  if(e >= 2.8 && t <= 2) return {ad:"tekne", guven:0.58, neden:"uzunca, altı düz üstü açık"};
+
+  if(t >= 6) return {ad:"çiçek", guven:0.60, neden:"çevresine doğru açılan yaprakları var"};
+  if(t === 5 && siv > 1.9) return {ad:"yıldız", guven:0.62, neden:"beş yöne sivrilen kolları var"};
+  if(t === 5) return {ad:"el", guven:0.58, neden:"beş parmak gibi ayrılan uçları var"};
+  if(t === 4 && ikiLob(b)) return {ad:"kelebek", guven:0.60, neden:"ortadan ikiye ayrılıp iki yana açılıyor"};
+  if(t === 4) return {ad:"köpek", guven:0.55, neden:"dört ayak gibi duran uçları var"};
+
+  if(t === 3 && yatay) return {ad:"kuş", guven:0.64, neden:"bir ucu gövde gibi toplu, biri kanat, biri kuyruk"};
+  if(t === 3 && dik)   return {ad:"ağaç", guven:0.60, neden:"altta tek gövde, üstte açılan dallar"};
+  if(t === 3)          return {ad:"insan", guven:0.58, neden:"bir baş ve iki yana açılan kollar"};
+
+  if(t === 2 && c >= 1 && b.bh >= b.bw*0.8 && b.bh <= b.bw*1.5)
+    return {ad:"kalp", guven:0.64, neden:"üstü iki tümsek, ortası çukur, altı sivri"};
+  if(t === 2 && yatay) return {ad:"balık", guven:0.62, neden:"bir ucu toplu gövde, öbür ucu açılan kuyruk"};
+  if(t === 2 && dik)   return {ad:"iki kişi", guven:0.56, neden:"yan yana duran iki ayrı uç"};
+  if(t === 2)          return {ad:"kaplumbağa", guven:0.55, neden:"toplu bir gövde, iki yanında çıkıntı"};
+
+  if(basamakli(b)) return {ad:"merdiven", guven:0.60, neden:"kademe kademe yükselen bir kenarı var"};
+  if(t === 1 && dik && siv > 1.6) return {ad:"damla", guven:0.60, neden:"üstü sivri, altı toplu"};
+  if(t === 1 && siv > 1.8) return {ad:"ok", guven:0.56, neden:"tek yöne sivrilen bir ucu var"};
+  if(t === 1) return {ad:"tekne", guven:0.54, neden:"bir ucu yükselen, gövdesi yatay"};
+
+  if(b.triangle) return {ad:"dağ", guven:0.60, neden:"eteği geniş, tepesi dar"};
+  if(f > 0.80 && e < 1.25) return {ad:"dolunay", guven:0.58, neden:"yuvarlak ve dopdolu"};
+  if(f > 0.70 && dik) return {ad:"kapı", guven:0.55, neden:"dik duran, düzgün kenarlı bir alan"};
+  if(c >= 3) return {ad:"sahil", guven:0.56, neden:"kenarı girintili çıkıntılı"};
+  if(e < 1.3) return {ad:"ada", guven:0.54, neden:"tek başına duran yuvarlakça bir küme"};
+  return {ad:"bulut", guven:0.50, neden:"kenarları belirsiz, dağılmış"};
 }
 
 /* ══════════════ HARF VE RAKAM EŞLEŞTİRME ══════════════
@@ -4997,7 +5146,7 @@ function buildPages(){
   const tagged = [];
   for(const sh of shots) for(const b of sh.blobs){
     const c = b.ak ? classifyAk(b) : classify(b);
-    tagged.push({b, sh, ak:!!b.ak, sym:c.sym, guven:c.guven, kanit:c.kanit,
+    tagged.push({b, sh, ak:!!b.ak, sym:c.sym, guven:c.guven, kanit:c.kanit, neden:c.neden,
                  pos:place(b), rel:b.area/Math.max(1, sh.cup.area)});
   }
 
@@ -5070,8 +5219,15 @@ function buildPages(){
     else { g.shots.add(t.sh); if(t.guven > g.best.guven || (t.guven === g.best.guven && t.rel > g.best.rel)) g.best = t; }
   }
 
+  let oncekiAd = null;
   const sayfaEkle = (t, s, extra, akMi, kicker) => {
-    const body = [baglaci() + nm(pick(cogul(s.ana))), nm(s.zon[t.pos.zone]), nm(s.yan[t.pos.side])];
+    const body = [baglaci() + nm(pick(cogul(s.ana)))];
+    /* bir öncekine gönderme yap: fal tek tek şekil listesi değil,
+       birbirine bağlanan bir hikâyedir.                          */
+    if(oncekiAd && T.zincirle && rnd() < 0.75)
+      body.push(nm(pick(T.zincirle).split("{onceki}").join(oncekiAd)));
+    body.push(nm(s.zon[t.pos.zone]), nm(s.yan[t.pos.side]));
+    oncekiAd = String(s.ad).toLocaleLowerCase(T.loc);
     if(extra) extra.forEach(e => body.push(nm(e)));
     hikaye.push(s.hikaye);
     const kanit = t.kanit
@@ -5083,6 +5239,7 @@ function buildPages(){
       kicker: kicker || (T.ord[Math.min(T.ord.length-1, pages.length+1)] + T.ordSuffix),
       title: (t.sym === "iz") ? T.benzemiyor : vurgu(s.ad),
       where:cap(t.pos.where),
+      gordugum: t.neden ? nm(T.cunku + " " + t.neden + ".") : "",
       ogret: s.ogret || (T.ogretZon[t.pos.zone] + " " + T.ogretYan[t.pos.side]),
       tahmin: s.tahmin ? nm(pick(cogul(s.tahmin))) : "",
       kanit, body
@@ -5091,7 +5248,7 @@ function buildPages(){
 
   let say = 0;
   for(const t of koyu){
-    if(say >= 5) break;
+    if(say >= 8) break;
     const g = grup.get(t.sym);
     if(!g || g.best !== t || used.has(t.b)) continue;
     used.add(t.b);
@@ -5113,7 +5270,7 @@ function buildPages(){
   }
   let akSay = 0;
   for(const t of beyaz){
-    if(akSay >= 2) break;
+    if(akSay >= 4) break;
     if(akGrup.get(t.sym) !== t) continue;
     const s = T.symAk[t.sym];
     if(!s) continue;
@@ -5354,7 +5511,7 @@ function kanitHtml(k, T, ak){
     h += '<span class="k-eq">&asymp;</span>';
     h += '<figure><div class="k-box">' + gridSvg(k.templ, "#CE8279") + "</div>" +
          "<figcaption>" + k.ad + "</figcaption></figure>";
-    h += '<span class="k-score">' + T.kanitOrtusme(k.skor) + "</span>";
+    /* yüzde göstermiyoruz: fal sayısal analiz değildir */
   } else {
     h += '<span class="k-score">' + k.ad + "</span>";
   }
