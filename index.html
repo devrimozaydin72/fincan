@@ -322,6 +322,16 @@
     content:"";position:absolute;inset:9%;border-radius:50%;
     border:1px dashed rgba(235,212,154,.32);
   }
+  /* sonraki kareler serbest açıdan çekilir: halka artık kesin bir
+     daire değil, "fincan buranın içinde kalsın" sınırıdır */
+  .camring.serbest{ border-style:dashed; border-color:rgba(235,212,154,.6); }
+  .camring.serbest::after{ display:none; }
+  .camaci{
+    position:absolute;left:0;right:0;top:calc(46% - min(41vw,41vh) - 34px);
+    text-align:center;margin:0;padding:0 24px;
+    font-family:var(--display);font-style:italic;font-size:20px;
+    color:var(--gold-soft);text-shadow:0 2px 10px rgba(0,0,0,.9);
+  }
   .camhint{
     position:absolute;left:0;right:0;top:calc(46% + min(41vw,41vh) + 20px);
     text-align:center;margin:0;padding:0 24px;
@@ -586,7 +596,8 @@
   <div class="camwrap">
     <video id="cam" playsinline autoplay muted></video>
     <div class="camring"></div>
-    <p class="camhint" data-t="camHint"></p>
+    <p class="camaci" id="camaci"></p>
+    <p class="camhint" id="camhint"></p>
     <div class="cambar">
       <button class="camx" type="button" id="b-cam-close" data-ta="camClose">&#10005;</button>
       <button class="shutter" type="button" id="b-shutter" data-ta="shutter"></button>
@@ -1653,7 +1664,7 @@ PACK.tr.aiSoru = function(p){
 "SANA VERİLEN GÖRSEL: " + p.foto + " adet fotoğraf. Hepsi AYNI fincanın içi. Elips dışındaki her yer siyaha boyandı.",
 "",
 "MUTLAK KURALLAR",
-"1) Siyah alan hakkında tek kelime etme. Kulp, tabak, masa, el, arka plan, fincan deseni YOK. Kahve falı fincandan ibarettir; sadece fincanın içindeki telveyi yorumla.",
+"1) Siyah alan hakkında tek kelime etme. Kulp, tabak, masa, dantel, el, arka plan, fincan deseni YOK. Kahve falı fincandan ibarettir; sadece fincanın içindeki telveyi yorumla.",
 "2) Bir şekli ancak GERÇEKTEN benziyorsa adlandır. Kullanıcı fincanına bakıp 'ben bunu göremiyorum' derse fal çöker. Benzemiyorsa o şekli \"kesin\": false yap, adına \"İsimsiz iz\" yaz ve onu şekil olarak değil; durduğu yer, büyüklüğü ve koyuluğu üzerinden oku. Uydurma benzetme yapmak, hiç benzetme yapmamaktan kötüdür.",
 "3) Harf ya da rakam aramak ZORUNDA DEĞİLSİN. Telvede gerçekten bir harfe veya rakama benzeyen net bir iz yoksa \"harf\": null ve \"sayi\": null yaz. Her fala harf sıkıştırma.",
 "4) Her şekil için o izin fotoğraftaki yerini \"kutu\": [x0,y0,x1,y1] olarak ver. Değerler 0 ile 1 arası; 0,0 sol üst, 1,1 sağ alt. Kutu gerçekten o izi çevrelesin: uygulama bu kutuyu fotoğrafın üstünde işaretleyip kullanıcıya 'işte tam burada gördüm' diye gösterecek. Yanlış kutu, yanlış falla aynı şeydir.",
@@ -1663,28 +1674,39 @@ p.dokum ? "CİHAZIN ÖLÇTÜĞÜ LEKELER\nUygulama fincandaki telve kümelerini 
 "FİNCAN OKUMA KURALLARI (yorumlarında bunları kullan, ayrıca \"ogret\" alanında kullanıcıya ÖĞRET)",
 "- Fincanın ağzına yakın bölge (\"kenar\"): yakın zaman, günler ve haftalar.",
 "- Fincanın ortası (\"orta\"): birkaç ay içinde olgunlaşan işler.",
-"- Fincanın dibi (\"dip\"): geçmiş, kökler, uzun süredir süren konular.",
+"- Fincanın dibi (\"dip\"): geçmiş, kökler, uzun süredir süren konular. Dipte tek parça kalın bir kütle varsa bu, uzun süredir üzerinde durulan ağır bir konu ya da bekleyen bir karardır.",
 "- Kulbun olduğu taraf (\"yakin\"): kişinin kendisi, evi, en yakın çevresi.",
 "- Kulbun karşısı (\"karsi\"): dışarısı, uzaklar, yabancılar, gelen şeyler.",
 "- Arada kalan (\"yan\"): hem kişi hem bir başkası.",
-"- Telvenin kalınlığı konunun ağırlığıdır. Telvenin bıraktığı temiz boşluklar da okunur: açıklık, rahatlama, çıkış.",
+"- Telvenin kalınlığı konunun ağırlığıdır. Duvardan aşağı inen ince çizgiler haber, telefon, görüşme diye okunur. Kenardaki küçük dağınık benekler ufak ufak gelen para ya da haberdir.",
+"- Telvenin bıraktığı temiz beyaz boşluklar da okunur ve genelde iyiye yorulur: açıklık, ferahlama, çıkış yolu. Koyuluğun hemen yanındaki geniş beyaz alan 'sıkışıklığın ardından ferahlama' demektir.",
 "Bu fincanda kulp şu yönde: " + p.kulp + ". Bölge ve yön alanlarını buna göre doldur.",
 "",
 "ÜSLUP: EN ÖNEMLİ KISIM",
 "- Kişiye \"sen\" diye hitap et. Adı: " + p.ad + ". Adını falda topu topu iki üç kez kullan, her cümlede değil.",
-"- Konuşma dili kur. Kısa ve uzun cümleleri karıştır. Arada kendine sor, arada duraksa: 'Şuraya bak', 'Bir saniye', 'Şimdi asıl ilginç olan şu'. Kitabi ve resmî cümle kurma.",
+"- Konuşma dili kur. Kısa ve uzun cümleleri karıştır. Arada duraksa: 'Şuraya bak', 'Bir saniye', 'Şimdi asıl ilginç olan şu'. Kitabi ve resmî cümle kurma.",
 "- Her şekilde sırayla dört şey yaz:",
 "  \"gordugum\": Fincanda tam olarak neye baktığını tarif et. Nerede duruyor, ne kadar büyük, ne kadar koyu, hangi yöne uzanıyor. 2-3 cümle. Kullanıcı bu tarifle fincanına bakıp izi bulabilmeli.",
-"  \"yorum\": Asıl fal. 4-6 cümle, akıcı bir paragraf. Sadece 'bu haber demektir' deyip geçme; neden öyle okuduğunu, bunun hayatında neye denk düştüğünü anlat.",
-"  \"ogret\": Bunu hangi kurala dayanarak okuduğun. 2-3 cümle. Kullanıcı bunu okuyunca kendi fincanına da bakabilmeli.",
+"  \"yorum\": Asıl fal. 4-6 cümle, akıcı bir paragraf. Sadece 'bu haber demektir' deyip geçme; neden öyle okuduğunu ve bunun hayatında neye denk düştüğünü anlat.",
+"  \"ogret\": Bunu hangi kurala dayanarak okuduğun. 2-3 cümle.",
 "  \"tahmin\": Somut bir öngörü. 2-3 cümle. 'İyi şeyler olacak' değil; ne, nereden, ne zaman, nasıl geleceğini söyle.",
 "- Genel olarak OLUMLU ol. Ama inandırıcı olsun diye EN FAZLA BİR küçük uyarı koy (\"uyari\" alanı): ufak bir sağlık meselesi (yorgunluk, uyku, mide, boyun gibi), kısa süreli maddi bir sıkışma ya da yorucu bir dönem. Ağır hastalık, ölüm, kaza, ayrılık, iflas gibi korkutucu kehanet ASLA yapma.",
-"- Ara sıra içten bir iltifat et (\"iltifat\" alanı, falda EN FAZLA BİR tane): iyi niyeti, kalbinin temizliği, emeği gibi. Her bölümde iltifat edersen yapmacık olur.",
+"- Ara sıra içten bir iltifat et (\"iltifat\" alanı, falda EN FAZLA BİR tane).",
+"",
+"HAYAT BAŞLIKLARI: FALIN ASIL BEKLENEN KISMI",
+"İnsanlar fincanı şekil listesi olarak değil, hayatlarının başlıkları olarak duymak ister. \"alanlar\" dizisinde şu başlıkları doldur: iş ve para, aşk, çevrendeki bir kişi, önündeki yol, sağlık ve enerji.",
+"Her başlık için:",
+"  \"metin\": 4-7 cümlelik akıcı bir paragraf. Bu başlıkla ilgili fincanda ne gördüğünü ve ne anlama geldiğini anlat. Somut ol: yakın zamanda ne olabileceğini söyle.",
+"  \"dayanak\": Bu yorumu fincandaki HANGİ ize dayandırdığın, tek cümle. Boş geçme.",
+"  Mümkünse \"foto\" ve \"kutu\" da ver ki uygulama o izi fotoğrafın üstünde işaretleyebilsin.",
+"Bir başlıkta gerçekten söyleyecek bir şey yoksa o başlığı dizide hiç açma; boş laf etme. Aşk tarafı zayıfsa bunu açıkça söyle ('falının bu yanı iş tarafı kadar baskın değil' gibi).",
+"",
+"ZAMAN",
+"\"zaman\" alanında fincandan bir ritim çıkar: bir sayı ve bir birim (gün, hafta, ay). Fincanda gerçekten bir sayıya benzeyen iz varsa onu kullan; yoksa belirgin iz sayısından ya da telvenin dağılımından bir ritim ver ve bunu dürüstçe söyle. Tarih verme, süre ver.",
 "",
 "ÇOK ÖNEMLİ: GENEL GEÇER CÜMLE KURMA",
 "Yazdığın her cümleyi şu süzgeçten geçir: 'Bu cümleyi başka birinin fincanı için de aynen yazabilir miyim?' Cevap evetse o cümleyi sil ve yerine BU fincanda gördüğün şeye bağlı bir cümle yaz.",
-"Yasak kalıplar: 'hayatında yeni bir sayfa açılıyor', 'içindeki sesi dinle', 'değişim kapıda', 'her şey senin elinde', 'evren sana bir işaret gönderiyor'. Bunlar her fala uyar, yani hiçbir fala uymaz.",
-"Bunun yerine izin kendisine tutun: nerede duruyor, ne kadar koyu, hangi yöne bakıyor, yanındaki izle ilişkisi ne. Yorumu oradan kur.",
+"Yasak kalıplar: 'hayatında yeni bir sayfa açılıyor', 'içindeki sesi dinle', 'değişim kapıda', 'her şey senin elinde', 'evren sana bir işaret gönderiyor'.",
 "Şekiller birbirinden bağımsız olmasın: ikisi arasında bir ilişki görüyorsan söyle. Fincan tek tek şekillerden değil, şekillerin sırasından konuşur.",
 p.eksik ? "- Sana " + p.foto + " fotoğraf verildi, üçü birden değil. \"giris\" içinde bunu dürüstçe belirt: fincanın göremediğin yüzü olduğunu ve okumanın eksik olduğunu söyle. Yine de gördüğün kadarını tam olarak yorumla." : "- Üç açıdan da fotoğraf var; okuma eksiksiz. Aynı izi birden fazla fotoğrafta görürsen bunu belirt, tekrar eden iz konunun altını çizer.",
 "",
@@ -1698,15 +1720,23 @@ p.eksik ? "- Sana " + p.foto + " fotoğraf verildi, üçü birden değil. \"giri
 '      "bolge": "kenar", "yon": "yakin",',
 '      "gordugum": "...", "yorum": "...", "ogret": "...", "tahmin": "..." }',
 "  ],",
+'  "alanlar": [',
+'    { "alan": "is",     "baslik": "İş ve para",        "metin": "...", "dayanak": "...", "foto": 1, "kutu": [0.2,0.5,0.4,0.7] },',
+'    { "alan": "ask",    "baslik": "Aşk",                "metin": "...", "dayanak": "..." },',
+'    { "alan": "kisi",   "baslik": "Çevrendeki bir kişi","metin": "...", "dayanak": "..." },',
+'    { "alan": "yol",    "baslik": "Önündeki yol",       "metin": "...", "dayanak": "..." },',
+'    { "alan": "saglik", "baslik": "Sağlık ve enerji",   "metin": "...", "dayanak": "..." }',
+"  ],",
+'  "zaman": { "sayi": 3, "birim": "hafta", "metin": "2-4 cümle: bu ritmi neye dayandırdığın ve ne bekleneceği" },',
 '  "harf": null,',
 '  "sayi": null,',
 '  "uyari": null,',
 '  "iltifat": null,',
-'  "kapanis": "hepsini birbirine bağlayan 4-6 cümlelik kapanış; şekilleri sırasıyla tek bir hikâyeye bağla",',
-'  "ozet": ["kısa madde", "kısa madde"]',
+'  "kapanis": "hepsini birbirine bağlayan 4-6 cümlelik kapanış",',
+'  "ozet": ["kısa madde", "kısa madde", "kısa madde"]',
 "}",
 "",
-"\"sekiller\" içinde 5 ile 6 arası kayıt olsun. Biri \"kesin\": false olabilir; zorlama benzetme yapma."
+"\"sekiller\" içinde 4 ile 6 arası kayıt olsun. Biri \"kesin\": false olabilir; zorlama benzetme yapma."
   ].filter(Boolean).join("\n");
 };
 
@@ -1761,9 +1791,9 @@ PACK.en.aiSoru = function(p){
 "WHAT YOU ARE GIVEN: " + p.foto + " photograph(s), all of the inside of the SAME cup. Everything outside the ellipse has been painted black.",
 "",
 "ABSOLUTE RULES",
-"1) Say nothing about the black area. There is no handle, saucer, table, hand, background or cup pattern. A coffee reading consists of the cup and nothing else; interpret only the grounds inside it.",
+"1) Say nothing about the black area. There is no handle, saucer, table, lace, hand, background or cup pattern. A coffee reading consists of the cup and nothing else; interpret only the grounds inside it.",
 "2) Name a shape ONLY if it genuinely looks like that thing. If the person looks into their cup and cannot see it, the reading collapses. When it does not resemble anything, set \"kesin\": false, name it \"Unnamed mark\", and read it by where it sits, how large it is and how dark it is rather than as a picture. Forcing a likeness is worse than offering none.",
-"3) You are NOT required to find a letter or a number. If no mark clearly resembles one, write \"harf\": null and \"sayi\": null. Do not squeeze a letter into every reading.",
+"3) You are NOT required to find a letter or a number. If no mark clearly resembles one, write \"harf\": null and \"sayi\": null.",
 "4) For every shape give its location as \"kutu\": [x0,y0,x1,y1], values from 0 to 1, 0,0 top-left, 1,1 bottom-right. The box must actually enclose that mark: the app draws it on the photograph to show the person exactly where you saw it. A wrong box is as bad as a wrong reading.",
 "5) Put the photograph index in \"foto\" (1 to " + p.foto + ").",
 "",
@@ -1771,50 +1801,70 @@ p.dokum ? "MARKS THE DEVICE MEASURED\nThe app has already measured the clusters 
 "HOW A CUP IS READ (use this, and TEACH it in the \"ogret\" field)",
 "- Near the rim (\"kenar\"): near time, days and weeks.",
 "- Middle of the cup (\"orta\"): matters ripening within months.",
-"- Bottom (\"dip\"): the past, roots, long-running matters.",
+"- Bottom (\"dip\"): the past, roots, long-running matters. A single thick mass at the bottom is a heavy subject long dwelt on, or a decision still waiting.",
 "- Handle side (\"yakin\"): the person, their home, their closest circle.",
 "- Opposite the handle (\"karsi\"): the outside, distance, strangers, what arrives.",
 "- In between (\"yan\"): the person together with somebody else.",
-"- Thickness of the grounds is the weight of the matter. The clean gaps the grounds leave are read too: opening, relief, a way out.",
+"- Thickness is the weight of the matter. Thin lines running down the wall read as news, a phone call, a conversation. Small scattered specks near the rim are small sums of money or small pieces of news arriving.",
+"- The clean white gaps the grounds leave are read too, usually well: opening, relief, a way out. A wide white area right beside a dark mass means relief after a tight stretch.",
 "The handle in this cup points: " + p.kulp + ". Fill the region and side fields accordingly.",
 "",
 "VOICE: THE MOST IMPORTANT PART",
 "- Address the person directly. Their name: " + p.ad + ". Use the name two or three times in the whole reading, not in every sentence.",
 "- Write as speech. Mix short and long sentences. Break in now and then: 'Look here', 'Hold on', 'Now here is the interesting part'. No textbook tone.",
 "- For each shape write four things, in order:",
-"  \"gordugum\": Describe exactly what you are looking at. Where it sits, how large, how dark, which way it stretches. 2-3 sentences. The person must be able to find the mark in their own cup from this description.",
-"  \"yorum\": The reading itself. 4-6 sentences, one flowing paragraph. Do not just say 'this means news'; say why you read it that way and what it corresponds to in their life.",
-"  \"ogret\": The rule you used to read it. 2-3 sentences, so the person can read their own cup next time.",
-"  \"tahmin\": A concrete expectation. 2-3 sentences. Not 'good things are coming'; say what, from where, roughly when, and how it arrives.",
-"- Be broadly POSITIVE. For credibility include AT MOST ONE small caution (\"uyari\"): a minor health matter (tiredness, sleep, stomach, neck), a short money squeeze, or a tiring stretch. NEVER predict serious illness, death, accident, separation or ruin.",
-"- Now and then pay one sincere compliment (\"iltifat\", AT MOST ONE per reading). Complimenting in every section reads as false.",
+"  \"gordugum\": Describe exactly what you are looking at. Where it sits, how large, how dark, which way it stretches. 2-3 sentences.",
+"  \"yorum\": The reading itself. 4-6 sentences, one flowing paragraph. Say why you read it that way and what it corresponds to in their life.",
+"  \"ogret\": The rule you used to read it. 2-3 sentences.",
+"  \"tahmin\": A concrete expectation. 2-3 sentences. Say what, from where, roughly when, and how it arrives.",
+"- Be broadly POSITIVE. For credibility include AT MOST ONE small caution (\"uyari\"): a minor health matter, a short money squeeze, or a tiring stretch. NEVER predict serious illness, death, accident, separation or ruin.",
+"- Now and then pay one sincere compliment (\"iltifat\", AT MOST ONE per reading).",
+"",
+"LIFE HEADINGS: WHAT PEOPLE ACTUALLY WAIT FOR",
+"People want to hear their cup as the headings of their life, not as a list of shapes. Fill the \"alanlar\" array with: work and money, love, a person around them, the road ahead, health and energy.",
+"For each heading:",
+"  \"metin\": a flowing paragraph of 4-7 sentences. What you see in the cup about this heading and what it means. Be concrete about what may happen soon.",
+"  \"dayanak\": one sentence naming WHICH mark in the cup this reading rests on. Never leave it empty.",
+"  Where you can, also give \"foto\" and \"kutu\" so the app can mark that spot on the photograph.",
+"If a heading has nothing real to say, leave it out of the array entirely rather than padding it. If love is weak in this cup, say so plainly.",
+"",
+"TIMING",
+"In \"zaman\" give a rhythm from the cup: a number and a unit (day, week, month). If a mark genuinely resembles a digit, use it; otherwise derive a rhythm from the count of distinct marks or how the grounds spread, and say so honestly. Give duration, not a date.",
 "",
 "CRUCIAL: NO GENERIC SENTENCES",
 "Run every sentence through this filter: 'Could I write this same sentence for somebody else's cup?' If yes, delete it and write one tied to what you see in THIS cup.",
-"Banned formulas: 'a new chapter is opening', 'listen to your inner voice', 'change is at the door', 'everything is in your hands', 'the universe is sending you a sign'. These fit every reading, which means they fit none.",
-"Hold on to the mark itself instead: where it sits, how dark it is, which way it faces, how it relates to the mark beside it. Build the reading from there.",
-"Do not leave the shapes unrelated: if you see a relationship between two of them, say so. A cup speaks through the order of its shapes, not through shapes one by one.",
+"Banned formulas: 'a new chapter is opening', 'listen to your inner voice', 'change is at the door', 'everything is in your hands', 'the universe is sending you a sign'.",
+"Do not leave the shapes unrelated: if you see a relationship between two of them, say so.",
 p.eksik ? "- You were given " + p.foto + " photograph(s), not three. Say so honestly inside \"giris\": there is a face of the cup you could not see and the reading is partial. Still interpret fully what you can see." : "- All three angles are present, so the reading is complete. If you see the same mark in more than one photograph, say so; a repeated mark underlines its matter.",
 "",
 "OUTPUT SHAPE (exactly these fields, nothing else)",
 "{",
 '  "yogunluk": "acik" | "denge" | "yogun",',
 '  "baslik": "a 2-4 word title for the cover, specific to this cup",',
-'  "giris": "what I saw when I first picked up the cup, 4-6 sentences; speak about how the grounds are spread",',
+'  "giris": "what I saw when I first picked up the cup, 4-6 sentences",',
 '  "sekiller": [',
 '    { "ad": "Bird", "kesin": true, "guven": 0.78, "foto": 1, "kutu": [0.31,0.22,0.52,0.44],',
 '      "bolge": "kenar", "yon": "yakin",',
 '      "gordugum": "...", "yorum": "...", "ogret": "...", "tahmin": "..." }',
 "  ],",
+'  "alanlar": [',
+'    { "alan": "is",     "baslik": "Work and money",   "metin": "...", "dayanak": "...", "foto": 1, "kutu": [0.2,0.5,0.4,0.7] },',
+'    { "alan": "ask",    "baslik": "Love",             "metin": "...", "dayanak": "..." },',
+'    { "alan": "kisi",   "baslik": "Someone near you", "metin": "...", "dayanak": "..." },',
+'    { "alan": "yol",    "baslik": "The road ahead",   "metin": "...", "dayanak": "..." },',
+'    { "alan": "saglik", "baslik": "Health and energy","metin": "...", "dayanak": "..." }',
+"  ],",
+'  "zaman": { "sayi": 3, "birim": "hafta", "metin": "2-4 sentences: what this rhythm rests on and what to expect" },',
 '  "harf": null,',
 '  "sayi": null,',
 '  "uyari": null,',
 '  "iltifat": null,',
-'  "kapanis": "a 4-6 sentence closing that ties the shapes into one story, in order",',
-'  "ozet": ["short line", "short line"]',
+'  "kapanis": "a 4-6 sentence closing that ties it together",',
+'  "ozet": ["short line", "short line", "short line"]',
 "}",
 "",
-"Give 5 to 6 entries in \"sekiller\". One may be \"kesin\": false; never force a likeness."
+"Give 4 to 6 entries in \"sekiller\". One may be \"kesin\": false; never force a likeness.",
+"Write \"birim\" as one of: gun, hafta, ay."
   ].filter(Boolean).join("\n");
 };
 
@@ -2324,6 +2374,51 @@ PACK.en.nasil = [
 
 PACK.tr.ui.disclaimAi = "Eğlence amaçlıdır · Yalnızca fincanın içi işlendi · Fotoğrafınız saklanmadı";
 PACK.en.ui.disclaimAi = "For entertainment · Only the inside of the cup was processed · Your photo was not stored";
+
+/* ── hayat başlıkları, zaman ve kamera yönlendirmesi ── */
+PACK.tr.alanKicker = "Hayat başlığı";
+PACK.tr.alanAd = {is:"İş ve para", ask:"Aşk", kisi:"Çevrendeki kişi",
+                  yol:"Önündeki yol", saglik:"Sağlık ve enerji", genel:"Genel"};
+PACK.tr.dayanakOn = "Bunu şuna dayandırıyorum:";
+PACK.tr.zamanKicker = "Fincanın ritmi";
+PACK.tr.zamanTitle = (n,b) => "<em>" + n + " " + b + "</em> içinde";
+PACK.tr.zamanBirim = {gun:"gün", hafta:"hafta", ay:"ay"};
+PACK.tr.zamanYedek = (n,b) => "Fincan bana " + n + " " + b + "lık bir ritim veriyor. Bu bir tarih değil, bir süre; anlattıklarımın çoğu bu aralıkta yerine oturur.";
+
+PACK.en.alanKicker = "Life heading";
+PACK.en.alanAd = {is:"Work and money", ask:"Love", kisi:"Someone near you",
+                  yol:"The road ahead", saglik:"Health and energy", genel:"General"};
+PACK.en.dayanakOn = "I am basing this on:";
+PACK.en.zamanKicker = "The cup's rhythm";
+PACK.en.zamanTitle = (n,b) => "Within <em>" + n + " " + b + "</em>";
+PACK.en.zamanBirim = {gun:"days", hafta:"weeks", ay:"months"};
+PACK.en.zamanYedek = (n,b) => "The cup gives me a rhythm of about " + n + " " + b + ". That is a duration, not a date; most of what I told you settles inside it.";
+
+/* çekim sırasına göre yönlendirme */
+PACK.tr.ui.camHints = [
+  "Tepeden bak, fincanın ağzı halkayı tam doldursun",
+  "Şimdi açıyı değiştir, yine yalnız fincan görünsün",
+  "Son kare: fincanın dibi görünecek şekilde eğ"
+];
+PACK.en.ui.camHints = [
+  "Look straight down; let the cup's mouth fill the ring",
+  "Now change the angle, keeping only the cup in view",
+  "Last frame: tilt so the bottom of the cup shows"
+];
+PACK.tr.acilar = ["Tepeden, tam daire", "Yan açıdan", "Dibi görünecek şekilde"];
+PACK.tr.aciTarif = [
+  "Fincanın ağzı tam daire görünsün.",
+  "Fincanı biraz çevir, başka bir yüzünü göster.",
+  "Fincanı eğ, dibindeki telve görünsün."
+];
+PACK.en.acilar = ["From above, full circle", "From the side", "Showing the bottom"];
+PACK.en.aciTarif = [
+  "Let the cup's mouth read as a full circle.",
+  "Turn the cup a little and show another face.",
+  "Tilt the cup so the grounds at the bottom show."
+];
+PACK.tr.ui.acilarSub = "İlk kareyi tepeden çek, fincanın ağzı tam daire olsun. Sonrakileri farklı açılardan çekebilirsin; yeter ki kadrajda fincandan başka bir şey olmasın. Üçünü de yükleyemezsen de okurum, ama eksik okurum.";
+PACK.en.ui.acilarSub = "Take the first frame from straight above so the cup's mouth reads as a full circle. The others can come from any angle, as long as nothing but the cup is in frame. I will still read fewer, but the reading will be partial.";
 
 /* ══════════════════ HUKUKİ METİNLER ══════════════════
    App Store başvurusunda Apple bir gizlilik politikası bağlantısı ister.
@@ -3865,11 +3960,34 @@ function aiTemizle(j, fotoSayisi){
             yorum:yazi(o.yorum), ogret:yazi(o.ogret)};
   };
 
+  /* hayat başlıkları: falın insanların asıl beklediği kısmı */
+  const ALAN = ["is","ask","kisi","yol","saglik","genel"];
+  const alanlar = (Array.isArray(j.alanlar) ? j.alanlar : [])
+    .map(a => a && typeof a === "object" ? {
+      alan: ALAN.indexOf(a.alan) >= 0 ? a.alan : "genel",
+      baslik: yazi(a.baslik),
+      metin: yazi(a.metin),
+      dayanak: yazi(a.dayanak),
+      foto: a.foto == null ? null : foto(a.foto),
+      kutu: kutu(a.kutu)
+    } : null)
+    .filter(a => a && a.baslik && a.metin)
+    .slice(0, 6);
+
+  let zaman = null;
+  if(j.zaman && typeof j.zaman === "object"){
+    const s = Math.round(Number(j.zaman.sayi));
+    const b = String(j.zaman.birim || "").toLowerCase();
+    const birim = /g[uü]n|day/.test(b) ? "gun" : /ay|month/.test(b) ? "ay" : "hafta";
+    if(isFinite(s) && s >= 1 && s <= 12)
+      zaman = {sayi:s, birim, metin:yazi(j.zaman.metin)};
+  }
+
   return {
     yogunluk: ["acik","denge","yogun"].indexOf(j.yogunluk) >= 0 ? j.yogunluk : "denge",
     baslik: yazi(j.baslik),
     giris: yazi(j.giris),
-    sekiller,
+    sekiller, alanlar, zaman,
     harf: tek(j.harf, "harf"),
     sayi: tek(j.sayi, "sayi"),
     uyari: yazi(j.uyari),
@@ -4099,6 +4217,33 @@ function buildPagesAI(v){
 
   if(v.uyari)   pages[Math.min(pages.length-1, 1 + Math.floor(v.sekiller.length/2))].body.push(nm(v.uyari));
   if(v.iltifat) pages[Math.min(pages.length-1, 1)].body.push(nm(v.iltifat));
+
+  /* ── hayat başlıkları ──
+     Şekilleri tek tek saymak fal değildir. İnsan fincanı kendi
+     hayatının başlıkları hâlinde duymak ister: iş, aşk, yol, kişi.  */
+  for(const a of v.alanlar){
+    const sh = (a.foto != null && shots[a.foto]) ? shots[a.foto] : shots[0];
+    const b = a.kutu ? kutuyuLekeyeBagla(sh, a.kutu) : null;
+    pages.push({
+      kind:"sym", blobs: b ? [b] : [], shot:sh,
+      kicker:T.alanKicker, title:vurgu(cap(a.baslik)),
+      where: T.alanAd[a.alan] || "",
+      ogret: a.dayanak ? nm(T.dayanakOn + " " + a.dayanak) : "",
+      kanit: (b && !b.kaba) ? {grid:gridOf(b).m, ad:T.kanitSekil} : null,
+      body:[nm(a.metin)]
+    });
+  }
+
+  /* ── zaman ── */
+  if(v.zaman){
+    const birimAd = T.zamanBirim[v.zaman.birim] || T.zamanBirim.hafta;
+    pages.push({
+      kind:"sym", blobs:[], shot:shots[0],
+      kicker:T.zamanKicker, title:T.zamanTitle(v.zaman.sayi, birimAd),
+      where:T.tamami, ogret:T.sayiOgret,
+      body:[nm(v.zaman.metin || T.zamanYedek(v.zaman.sayi, birimAd))]
+    });
+  }
 
   /* harf: yapay zekâ emin değilse hiç açılmaz */
   if(v.harf){
@@ -4625,6 +4770,7 @@ async function cekBaslat(hedef){
     v.srcObject = camStream;
     v.setAttribute("playsinline", "");
     await v.play();
+    camYonlendir();
     go("cam");
   }catch(err){
     camStopla();
@@ -4633,15 +4779,52 @@ async function cekBaslat(hedef){
   }
 }
 
+/* çekilecek karenin sırasına göre halka ve ipucu */
+function camSira(){
+  return camHedef >= 0 ? camHedef : Math.min(2, shots.length);
+}
+function camYonlendir(){
+  const T = P(), i = camSira();
+  const halka = document.querySelector(".camring");
+  if(halka) halka.classList.toggle("serbest", i > 0);
+  const ip = document.getElementById("camhint");
+  if(ip) ip.textContent = (T.ui.camHints && T.ui.camHints[i]) || T.ui.camHint;
+  const et = document.getElementById("camaci");
+  if(et) et.textContent = (T.acilar && T.acilar[i]) || "";
+}
+
 function camCek(){
   const v = document.getElementById("cam");
-  const k = Math.min(v.videoWidth || 0, v.videoHeight || 0);
-  if(!k){ toast(P().ui.badPhoto); return; }
+  const vw = v.videoWidth || 0, vh = v.videoHeight || 0;
+  if(!vw || !vh){ toast(P().ui.badPhoto); return; }
+
+  /* Ekranda ne görüyorsan o çekilir: halkanın video piksellerindeki
+     karşılığını buluyoruz. Video object-fit:cover ile gösteriliyor,
+     yani taşan kenarlar kırpılmış durumda; hesabı ona göre yapıyoruz. */
+  const rv = v.getBoundingClientRect();
+  const halka = document.querySelector(".camring").getBoundingClientRect();
+  let k, sx, sy;
+  if(rv.width > 0 && rv.height > 0){
+    const s = Math.max(rv.width/vw, rv.height/vh);
+    const ox = (rv.width - vw*s)/2, oy = (rv.height - vh*s)/2;
+    const cx = (halka.left - rv.left + halka.width/2  - ox)/s;
+    const cy = (halka.top  - rv.top  + halka.height/2 - oy)/s;
+    k = Math.round(Math.min(halka.width, halka.height)/s * 1.04);   // kenardan azıcık pay
+    k = Math.max(96, Math.min(k, Math.min(vw, vh)));
+    sx = Math.round(cx - k/2);
+    sy = Math.round(cy - k/2);
+  } else {
+    k = Math.min(vw, vh);
+    sx = (vw-k)/2; sy = (vh-k)/2;
+  }
+  sx = Math.max(0, Math.min(sx, vw - k));
+  sy = Math.max(0, Math.min(sy, vh - k));
+
   const c = document.createElement("canvas");
   c.width = c.height = k;
-  c.getContext("2d").drawImage(v, (v.videoWidth-k)/2, (v.videoHeight-k)/2, k, k, 0, 0, k, k);
+  c.getContext("2d").drawImage(v, sx, sy, k, k, 0, 0, k, k);
   camStopla();
-  loadUrl(c.toDataURL("image/jpeg", 0.92));
+  loadUrl(c.toDataURL("image/jpeg", 0.92), true);
 }
 
 /* ---- fincanı çerçeveleme ---- */
@@ -4652,7 +4835,7 @@ let fEl = {cx:0, cy:0, rx:0, ry:0};
 let fFit = {s:1, ox:0, oy:0};
 let fTut = null;
 
-function frameBaslat(img, url){
+function frameBaslat(img, url, hazir){
   fImg = img; fUrl = url;
   go("frame");
   requestAnimationFrame(()=>{
@@ -4663,7 +4846,8 @@ function frameBaslat(img, url){
     frameCv.getContext("2d").setTransform(fDpr,0,0,fDpr,0,0);
     const s = Math.min(fW/img.width, fH/img.height);
     fFit = {s, ox:(fW - img.width*s)/2, oy:(fH - img.height*s)/2};
-    const t = Math.min(fW, fH)*0.34;
+    const gw = img.width*s, gh = img.height*s;
+    const t = hazir ? Math.min(gw, gh)*0.474 : Math.min(fW, fH)*0.34;
     fEl = {cx:fW/2, cy:fH/2, rx:t, ry:t};
     frameCiz();
   });
@@ -4820,9 +5004,9 @@ function addPhoto(file){
   if(camHedef < 0 && shots.length >= 3) return;
   loadUrl(URL.createObjectURL(file));
 }
-function loadUrl(url){
+function loadUrl(url, hazir){
   const img = new Image();
-  img.onload = ()=>frameBaslat(img, url);
+  img.onload = ()=>frameBaslat(img, url, hazir);
   img.onerror = ()=>toast(P().ui.badPhoto);
   img.src = url;
 }
