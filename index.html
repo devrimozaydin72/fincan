@@ -678,6 +678,10 @@
       <button class="btn primary" type="button" id="b-ayar-ok" data-t="ayarKaydet"></button>
       <button class="btn" type="button" id="b-ayar-sil" data-t="ayarSil"></button>
     </div>
+    <div class="row">
+      <button class="btn" type="button" id="b-veri-kopya" data-t="veriKopya"></button>
+      <button class="btn" type="button" id="b-veri-indir" data-t="veriIndir"></button>
+    </div>
     <button class="btn ghost" type="button" id="b-ayar-kapat" data-t="ayarKapat"></button>
   </div>
 </div>
@@ -2419,6 +2423,16 @@ PACK.en.aciTarif = [
 ];
 PACK.tr.ui.acilarSub = "İlk kareyi tepeden çek, fincanın ağzı tam daire olsun. Sonrakileri farklı açılardan çekebilirsin; yeter ki kadrajda fincandan başka bir şey olmasın. Üçünü de yükleyemezsen de okurum, ama eksik okurum.";
 PACK.en.ui.acilarSub = "Take the first frame from straight above so the cup's mouth reads as a full circle. The others can come from any angle, as long as nothing but the cup is in frame. I will still read fewer, but the reading will be partial.";
+
+/* ── eğitim verisi düğmeleri ── */
+PACK.tr.ui.veriKopya = "Örneği kopyala";
+PACK.tr.ui.veriIndir = "Örneği indir";
+PACK.tr.ui.veriYok = "Önce bir fincan okut";
+PACK.tr.ui.veriKopyalandi = "Eğitim örneği kopyalandı";
+PACK.en.ui.veriKopya = "Copy sample";
+PACK.en.ui.veriIndir = "Download sample";
+PACK.en.ui.veriYok = "Read a cup first";
+PACK.en.ui.veriKopyalandi = "Training sample copied";
 
 /* ══════════════════ HUKUKİ METİNLER ══════════════════
    App Store başvurusunda Apple bir gizlilik politikası bağlantısı ister.
@@ -5065,6 +5079,8 @@ document.querySelectorAll(".hbtn").forEach(b=>{
 /* Fincanı aç: önce yapay zekâ denenir, tutmazsa cihazdaki motor okur.
    Kullanıcı bu ayrımı görmez; her iki durumda da aynı ekran gelir.   */
 let sonAiVeri = null;
+let sonOlcum = null;   // eğitim verisi için son ölçüm dökümü
+let sonSoru = null;
 
 async function falAc(){
   if(!shots.length){ toast(P().ui.needOne); return; }
@@ -5090,6 +5106,7 @@ async function falAc(){
            işaretlenen kutular gerçekten lekenin üstüne oturuyor */
         let dokum = [];
         sirali.forEach((sh, i)=>{ dokum = dokum.concat(lekeDokumu(sh, i+1, T)); });
+        sonOlcum = {foto:cvs.length, kulp:handle, dil:T.loc, olcumler:dokum};
         const soru = T.aiSoru({
           foto: cvs.length,
           ad: KULLANICI_ADI || T.adYedek,
@@ -5097,6 +5114,7 @@ async function falAc(){
           eksik: cvs.length < 3,
           dokum: dokumMetni(dokum, T)
         });
+        sonSoru = soru;
         const ham = await Promise.race([
           aiOku(soru, cvs),
           new Promise(r => setTimeout(()=>r(null), 75000))
@@ -5312,6 +5330,57 @@ kunyeAyarla();
 /* Sunucuda anahtar var mı? Cevap gelince künye metni tazelenir;
    sayfanın ilk açılışı bu isteği beklemez. */
 try{ vekilVarMi().then(()=>kunyeAyarla()); }catch(err){}
+
+/* ══════════════════ EĞİTİM VERİSİ ══════════════════
+   Uygulama kullanıldıkça kendi eğitim kümesini biriktirir. Her okuma
+   bir çift üretir: girdi olarak cihazın ölçtüğü lekeler, hedef olarak
+   o fincan için yazılan fal. Yapay zekâ okuması yapıldıysa hedef hazır
+   gelir; yapılmadıysa yalnız ölçümler çıkar ve hedefi sonradan
+   yazarsın. Küçük bir modeli LoRA ile eğitmek için gereken biçim budur. */
+function egitimCifti(){
+  if(!sonOlcum) return null;
+  return {
+    surum: 1,
+    tarih: new Date().toISOString().slice(0,10),
+    dil: sonOlcum.dil,
+    girdi: {
+      foto: sonOlcum.foto,
+      kulp: sonOlcum.kulp,
+      ad: KULLANICI_ADI || "",
+      olcumler: sonOlcum.olcumler
+    },
+    hedef: sonAiVeri || null,
+    kaynak: sonAiVeri ? "yapay-zeka" : "elle-yazilacak"
+  };
+}
+
+function veriMetni(){
+  const c = egitimCifti();
+  return c ? JSON.stringify(c, null, 2) : "";
+}
+
+document.getElementById("b-veri-kopya").addEventListener("click", ()=>{
+  const m = veriMetni();
+  if(!m){ toast(P().ui.veriYok); return; }
+  navigator.clipboard.writeText(m).then(
+    ()=>toast(P().ui.veriKopyalandi),
+    ()=>toast(P().ui.copyFail)
+  );
+});
+
+document.getElementById("b-veri-indir").addEventListener("click", ()=>{
+  const m = veriMetni();
+  if(!m){ toast(P().ui.veriYok); return; }
+  try{
+    const b = new Blob([m], {type:"application/json"});
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(b);
+    a.download = "fincan-ornek-" + Date.now() + ".json";
+    document.body.appendChild(a);
+    a.click();
+    setTimeout(()=>{ URL.revokeObjectURL(a.href); a.remove(); }, 2000);
+  }catch(e){ toast(P().ui.copyFail); }
+});
 
 /* ══════════════════ 8. ÖRNEK FİNCAN ══════════════════ */
 
