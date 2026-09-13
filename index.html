@@ -217,13 +217,13 @@
     .reader{grid-template-columns:minmax(0,440px) minmax(0,1fr);gap:44px;align-items:start;}
     .stage-col{position:sticky;top:18px;}
   }
-  .stage{position:relative;width:100%;aspect-ratio:1/1;border-radius:3px;overflow:hidden;background:#0D0609;border:1px solid var(--gold-faint);}
+  .stage{position:relative;width:100%;aspect-ratio:1/1;border-radius:3px;overflow:hidden;background:#0D0609;border:1px solid var(--gold-faint);cursor:grab;touch-action:none;}
   .stage canvas{position:absolute;inset:0;width:100%;height:100%;display:block;}
   .stage .lbl{
     position:absolute;transform:translate(-50%,-50%);
     font-family:var(--display);font-size:15px;letter-spacing:.06em;
     color:#1C0F07;background:var(--gold-soft);padding:3px 11px;border-radius:1px;
-    white-space:nowrap;pointer-events:none;opacity:0;transition:opacity .5s ease .35s;
+    white-space:nowrap;pointer-events:none;opacity:0;transition:opacity .25s ease;
     box-shadow:0 4px 18px rgba(0,0,0,.5);
   }
   .stage .lbl.show{opacity:1;}
@@ -1330,8 +1330,8 @@ ayrilanYol:{ad:"Ayrılan Yol", hikaye:"bir seçimin eşiğine gelmen",
 
 kus:{ad:"Kuş", hikaye:"yoldaki bir haberin sana ulaşması",
   ogret:"Kuş fincanın haberci işaretidir. Gövdesi dolgun, bir ucu incelip uzuyorsa haber henüz yoldadır; kuş fincanın ağzına ne kadar yakınsa haber o kadar yakındır.",
-  ana:["İşte bu bana kuş diyor {ad}. Bir tarafı gövde gibi toplu, öbür tarafı incelip uzamış. Fincanda kuş her zaman haberdir; hem de beklenen türden.",
-       "Şu şekle dikkat et: bir uçta toplu bir gövde, diğer uçta ince bir kuyruk. Telve böyle düştüğünde ben ona kuş derim ve kuş haber demektir."],
+  ana:["İşte bu kuş {ad}. Bir tarafı gövde gibi toplu, öbür tarafı incelip uzamış. Fincanda kuş her zaman haberdir; hem de beklenen türden.",
+       "Şu şekle dikkat et: bir uçta toplu bir gövde, diğer uçta ince bir kuyruk. Telve böyle düştüğünde orası bir kuş ve kuş haber demektir."],
   tahmin:["Bu haberin telefonla ya da yazıyla geleceği, yüz yüze değil. Ve iyi haber olacak, ama sen önce 'acaba' diyeceksin.",
           "Haber bir kişiyle ilgili olacak, bir işle değil. Uzun zamandır sesi çıkmayan birinden."],
   zon:{kenar:"Kuş ağza yakın. Haber çok yakın, günler içinde.",
@@ -1344,7 +1344,7 @@ kus:{ad:"Kuş", hikaye:"yoldaki bir haberin sana ulaşması",
 balik:{ad:"Balık", hikaye:"beklemediğin bir yerden gelen bir bolluk",
   ogret:"Balık fincanın en cömert işaretidir: bereket, kısmet, akan bir kapı. Başı hangi yöne bakıyorsa bolluğun nereden geldiğini oradan okuruz.",
   ana:["Bu bir balık {ad} ve fincanda balık görmek nadirdir. Bereket demektir; hem de çalışıp hak edilen değil, denk gelen türden.",
-       "Şuradaki şekil balığa benziyor: toplu bir gövde, ucunda açılan bir kuyruk. Fincanda balık kısmettir, hep öyle okunmuştur."],
+       "Şurada bir balık var: toplu bir gövde, ucunda açılan bir kuyruk. Fincanda balık kısmettir, hep öyle okunmuştur."],
   tahmin:["Bunun parayla ilgili olduğu ama maaş gibi düzenli bir şey değil. Bir kere gelecek, beklemediğin anda gelecek.",
           "Bu bolluk bir fırsat şeklinde gelecek, para şeklinde değil. Fırsatı parayı sen çevireceksin."],
   zon:{kenar:"Balık ağza yakın, kısmet kapıda.",
@@ -1357,7 +1357,7 @@ balik:{ad:"Balık", hikaye:"beklemediğin bir yerden gelen bir bolluk",
 kalp:{ad:"Kalp", hikaye:"bir duygunun açığa çıkması",
   ogret:"Kalp göründüğünde konu akıl değil duygudur. Üstü açık, altı toplu bir kalp dışa dönük bir duyguyu; kapalı ve sıkışık bir kalp ise saklanan bir duyguyu anlatır.",
   ana:["Fincanda kalp göründü mü konu akıl değildir {ad}, duygudur. Bu şeklin üstü açık, altı toplu; yani duygu dışarı dönük, saklanacak gibi değil.",
-       "Burası bana kalp diyor. Fincanda kalp her zaman aşk değildir; bazen bir yakınlık, bazen bir affetme isteğidir. Seninkinde sıcak duruyor."],
+       "Burada bir kalp var. Fincanda kalp her zaman aşk değildir; bazen bir yakınlık, bazen bir affetme isteğidir. Seninkinde sıcak duruyor."],
   tahmin:["İlk adımı senin atman gerekecek ve sen bunu 'karşı taraf atsın' diye erteliyorsun. Erteledikçe büyüyor.",
           "Bu duygu bir vesileyle açığa çıkacak: bir kutlama, bir tesadüf, bir yolculuk. Planlayarak olmayacak."],
   zon:{kenar:"Kalp ağza yakın. Şu günlerde canlı, sıcak bir mesele.",
@@ -1395,7 +1395,7 @@ dag:{ad:"Dağ", hikaye:"önündeki bir yükü aşman",
 
 yilan:{ad:"Yılan", hikaye:"çevrende dikkat etmen gereken bir söz",
   ogret:"Yılan fincanın uyarı işaretidir ama kötülük değil, dikkat anlatır: dolambaçlı bir söz, arkadan konuşma, ikiyüzlülük. Yılanın başı nereye bakıyorsa dikkat de oraya çevrilir.",
-  ana:["Burada kıvrılarak uzayan kalın bir iz var {ad}, ben buna yılan derim. Korkma, yılan fincanda kötülük değil dikkat demektir: çevrende sözü ile özü aynı olmayan biri var.",
+  ana:["Burada kıvrılarak uzayan kalın bir iz var {ad}, burada bir yılan var. Korkma, yılan fincanda kötülük değil dikkat demektir: çevrende sözü ile özü aynı olmayan biri var.",
        "Şu kıvrımlı, kalın ize bak. Fincanda bu yılandır ve genelde tek bir şeyi söyler: her duyduğun söz sana geldiği gibi söylenmemiştir."],
   tahmin:["Bu kişi uzak biri değil, oldukça yakın. Zaten içine bir şüphe düşmüş durumda; fincan sadece onu doğruluyor.",
           "Bu konu bir dedikodu şeklinde kulağına gelecek. İlk tepkini vermeden bir gün bekle, işin rengi değişir."],
@@ -1422,7 +1422,7 @@ ev:{ad:"Ev", hikaye:"yuvayla ilgili bir düzelme",
 anahtar:{ad:"Anahtar", hikaye:"kapalı bir kapının açılması",
   ogret:"Anahtar çözüm işaretidir. Fincanda anahtar çıktığında sorulan soru 'olacak mı' değil 'ne zaman' olur; çünkü anahtar zaten kilidin açıldığını söyler.",
   ana:["Şuna bak {ad}: bir ucu halka, öbür ucu dişli. Bu anahtar. Fincanda anahtar tıkalı bir işin çözülmesidir.",
-       "Bu şekil bana anahtar diyor. Fincanda anahtar en sevdiğim işaretlerden biridir, çünkü 'kapı var ama kilidi de var' demektir."],
+       "Bu bir anahtar. Fincanda anahtar en sevdiğim işaretlerden biridir, çünkü 'kapı var ama kilidi de var' demektir."],
   tahmin:["Çözüm beklediğin yerden değil, tam tersi bir yerden gelecek. Israr ettiğin kapı değil, kapatmaya kıyamadığın kapı açılacak.",
           "Bu çözüm bir kişinin araya girmesiyle olacak. Kendi başına uğraştığın sürece kilit dönmüyor."],
   zon:{kenar:"Anahtar ağza yakın, çözüm çok yakın.",
@@ -1474,7 +1474,7 @@ yildiz:{ad:"Yıldız", hikaye:"emeğinin görünür olması",
 cicek:{ad:"Çiçek", hikaye:"küçük ama gerçek bir sevinç",
   ogret:"Çiçek müjde işaretidir. Fincanda çiçek büyük olaylardan değil, insanı iyi hissettiren küçük şeylerden söz eder: bir davet, bir hediye, bir haber.",
   ana:["Bu çiçek {ad}: ortada bir göbek, etrafında açılan yapraklar. Fincanda çiçek küçük ama gerçek bir sevinçtir.",
-       "Şeklin etrafı yaprak yaprak açılmış. Buna çiçek derim ve çiçek fincanda hep müjdedir."],
+       "Şeklin etrafı yaprak yaprak açılmış. Burada bir çiçek var ve çiçek fincanda hep müjdedir."],
   tahmin:["Bir davet ya da kutlama var yolda. Senin için değil ama seni mutlu edecek.",
           "Yakın zamanda küçük bir hediye ya da beklenmedik bir jest alacaksın. Değeri fiyatında olmayacak."],
   zon:{kenar:"Çiçek ağza yakın, günler içinde.",
@@ -1499,7 +1499,7 @@ atnali:{ad:"At Nalı", hikaye:"kıl payı atlatılan bir iş",
 
 kelebek:{ad:"Kelebek", hikaye:"bir dönemin kabuk değiştirmesi",
   ogret:"Kelebek değişim işaretidir ve fincanda değişim genelde iyidir: eski hâlin kabuğunu bırakmak. Kanatlar simetrikse değişim dengelidir.",
-  ana:["Şurada iki yana açılmış, simetrik bir şekil var {ad}. Ben buna kelebek derim: bir dönemin kabuğunu bırakıyorsun.",
+  ana:["Şurada iki yana açılmış, simetrik bir şekil var {ad}. Burada bir kelebek var: bir dönemin kabuğunu bırakıyorsun.",
        "Bu şekil ortadan ikiye ayrılıyor ve iki yanı da açılıyor. Fincanda kelebek değişimdir, hem de hafifleyerek olan bir değişim."],
   tahmin:["Bu değişim dışarıdan küçük görünecek ama senin içinde büyük olacak. Kimse fark etmeyebilir.",
           "Bu sene alışkanlıklarından birini bırakacaksın ve şaşıracaksın, çünkü zor sandığın şey kolay olacak."],
@@ -1538,7 +1538,7 @@ ok:{ad:"Ok", hikaye:"bir konuya nihayet yönelmen",
 
 ay:{ad:"Hilal", hikaye:"bir şeyin tam vaktine gelmesi",
   ogret:"Ay olgunlaşmadır. Dolunay 'vakti geldi', hilal ise 'büyüyor, bekle' der. Fincanda ay çıkması acele etmemek gerektiğinin işaretidir.",
-  ana:["Yuvarlak ama bir kenarı yenmiş gibi duruyor: bu hilal {ad}. Fincanda ay olgunlaşmadır, henüz dolmamış ama doluyor.",
+  ana:["Yuvarlak ama bir kenarı yenmiş: burada bir hilal var {ad}. Fincanda ay olgunlaşmadır, henüz dolmamış ama doluyor.",
        "Şu kavisli, içi boş şekle bak. Fincanda ay zamanı anlatır: bir şey büyüyor ve vakti yaklaşıyor."],
   tahmin:["Beklediğin şey olacak ama senin koyduğun tarihte olmayacak. Biraz sonra, biraz daha iyi olacak.",
           "Bu konuda acele eden taraf sen olma. Beklersen elindeki büyüyecek."],
@@ -1565,7 +1565,7 @@ hac:{ad:"Kavşak", hikaye:"iki konunun aynı noktada kesişmesi",
 damla:{ad:"Damla", hikaye:"içinde biriken bir şeyin boşalması",
   ogret:"Damla fincanda birikmiş duygudur. Kötü bir işaret değildir; tersine boşalmayı, hafiflemeyi anlatır. Tek damla geçici, çok damla uzun süredir tutulan bir şeydir.",
   ana:["Üstü sivri, altı toplu bir şekil: bu damla {ad}. Fincanda damla birikmiş bir duygunun boşalmasıdır. Korkma, boşalmak iyidir.",
-       "Şurada aşağı doğru toplanan bir iz var. Telvede buna damla denir ve genelde 'içinde tuttuğun bir şey var' anlamına gelir."],
+       "Şurada aşağı doğru toplanan bir iz var. Telvede burada bir damla var ve genelde 'içinde tuttuğun bir şey var' anlamına gelir."],
   tahmin:["Bunu bir konuşma çözecek. Hem de hiç planlamadığın bir anda, hiç beklemediğin biriyle.",
           "Son zamanlarda kendini fazla tuttun. Yakında bir vesileyle boşalacak ve sonrasında çok hafifleyeceksin."],
   zon:{kenar:"Damla ağza yakın, bu günlerde.",
@@ -1587,7 +1587,7 @@ zincir:{ad:"İki Halka", hikaye:"iki tarafın birbirine bağlanması",
 goz:{ad:"Göz", hikaye:"birinin seni uzaktan düşünmesi",
   ogret:"Uzun ve ortası boş bir iz fincanda gözdür: farkındalık. Ya biri seni düşünüyordur ya da senin gözünden kaçan bir ayrıntı vardır. Kulba yakınsa ayrıntı kendi işindedir.",
   ana:["Uzun ve ortası boş. Fincanda göz farkındalıktır {ad}: ya biri seni düşünüyor ya da bir konuda gözünden kaçan bir ayrıntı var.",
-       "Şurada ortası açık, uzunca bir iz duruyor. Telvede buna göz denir; 'birileri bakıyor' anlamına gelir, kötü niyetli olması şart değil."],
+       "Şurada ortası açık, uzunca bir iz duruyor. Telvede burada bir göz var; 'birileri bakıyor' anlamına gelir, kötü niyetli olması şart değil."],
   tahmin:["Adın bir yerde geçti ve sen duymadın. İyi anlamda geçti.",
           "Bir sözleşmeyi ya da mesajı dikkatli okumadan onayladın. Bir daha bakmakta fayda var."],
   zon:{kenar:"Şu günlerde adın bir yerde geçiyor.",
@@ -1619,7 +1619,7 @@ bulut:{ad:"Bulut", hikaye:"geçici bir belirsizliğin dağılması",
 
 iz:{ad:"İsimsiz İz", hikaye:"üstünde durduğun bir konunun ağırlığı",
   ogret:"Her iz bir hayvana ya da eşyaya benzemez. Kimi iz sadece ağırlıktır ve ağırlık da okunur: nerede durduğu zamanı, koyuluğu da önemini söyler.",
-  ana:["Şuradaki koyuluk bir gölge gibi duruyor {ad}. Fincanın bu köşesinde bir ağırlık var; adı konmamış ama yeri belli.",
+  ana:["Şurada bir gölge var {ad}. Fincanın bu köşesinde bir ağırlık var; adı konmamış ama yeri belli.",
        "Burada telve kendi içine kapanmış {ad}. Böyle izler eşyaya benzemez, hisse benzer: üstünde durduğun ama henüz adını koymadığın bir konu."],
   tahmin:["Bu konuyu zaten biliyorsun ve adını koymadığın için ertelemişsin. Adını koyduğun gün küçülecek.",
           "Bu ağırlık bir kişiyle değil, bir kararla ilgili. Karar verilince yeri boşalacak."],
@@ -1650,7 +1650,7 @@ akAlan:{ad:"Açıklık", hikaye:"üstünden bir yükün kalkması",
 akNokta:{ad:"Işık", hikaye:"kapalı görünen bir konunun içinde bir açıklık",
   ogret:"Koyuluğun ortasındaki küçük temiz boşluk fincanda ışıktır: kapalı görünen bir konunun içindeki gerçek ama küçük açıklık.",
   ana:["Koyuluğun tam ortasında küçük, tertemiz bir boşluk var. Fincanda bu ışıktır {ad}: kapalı görünen bir konunun içinde küçük ama gerçek bir açıklık.",
-       "Şu minik boşluğa dikkat et. Etrafı kapkara ama orası temiz kalmış. Telve böyle bir şey bıraktığında ben ona ışık derim."],
+       "Şu minik boşluğa dikkat et. Etrafı kapkara ama orası temiz kalmış. Telve böyle bir şey bıraktığında orada bir ışık var."],
   tahmin:["Bu açıklığı sen değil, konuştuğun biri gösterecek. Anlatmadığın sürece kimse gösteremez.",
           "Çözüm sandığından basit ve tam da gözden kaçırdığın yerde duruyor."],
   zon:{kenar:"Bu açıklık şu günlerde belirecek.", orta:"Birkaç ay içinde göreceksin.", dip:"Bu açıklık hep oradaydı."},
@@ -1711,6 +1711,16 @@ p.dokum ? "CİHAZIN ÖLÇTÜĞÜ LEKELER\nUygulama fincandaki telve kümelerini 
 "",
 "ÜSLUP: EN ÖNEMLİ KISIM",
 "- YAPAMADIĞINI ANLATMA. 'Harf çıkmadı', 'benzetemedim', 'uydurmayayım', 'göremedim' gibi cümleler YASAK. Bir şey yoksa ondan hiç söz etme; falcı eksiğini duyurmaz.",
+"",
+"RUH HÂLİ VE ÇEVRE: BUNLAR OLMADAN FAL TUTMAZ",
+"- Kişinin şu anki ruh hâli hakkında KESİN bir cümle kur: 'için daralıyor', 'kimseye söylemediğin bir yorgunluk taşıyorsun', 'sabrın azaldı'. İnsanın en çok inandığı yer burasıdır. Soru sorma, doğrudan söyle.",
+"- Çevresinin onun hakkında konuştuklarını da söyle ve yine KESİN söyle: 'adın geçtiği bir konuşma oldu, biri seni savundu', 'iki kişi senden bahsetti'. 'Olabilir', 'belki' deme.",
+"- Bunları hayat başlıklarının içine yedir, ayrı bir bölüm açma.",
+"",
+"BENZETEMEZSEN UYDUR",
+"- Bir ize bir türlü ad bulamıyorsan en yakın duran şeyi seç ve onu KESİN söyle. Bu bir faldır; kimse laboratuvar raporu beklemiyor.",
+"- 'Bir şeye benzetemedim' demek yasak. Her izin bir adı olacak.",
+"- Sözlükte bir sembole benziyorsa onun sembolü olduğunu açıkça söyle: 'bu bir anahtar', 'burada bir yüzük var'. 'Bana anahtar gibi geldi' deme.",
 "- KESİN KONUŞ. \"Tahminim\", \"bence\", \"sanırım\", \"olabilir\", \"gibi görünüyor\" YASAK. Falcı tereddüt etmez: \"gelecek\", \"olacak\", \"çıkacak\", \"göreceksin\" de. Tek bir cümlede bile tereddüt kullanma.",
 "- Okuma sırası şu: önce fincanın genel akışına bak, sonra bölgelere, en son tek tek şekillere. Tek bir şekle takılıp kalma.",
 "- Kişiye \"sen\" diye hitap et. Adı: " + p.ad + ". Adını falda topu topu iki üç kez kullan, her cümlede değil.",
@@ -1864,6 +1874,16 @@ p.dokum ? "MARKS THE DEVICE MEASURED\nThe app has already measured the clusters 
 "",
 "VOICE: THE MOST IMPORTANT PART",
 "- NEVER ANNOUNCE WHAT YOU COULD NOT DO. Sentences like 'no letter appeared', 'I could not liken it', 'I will not invent', 'I could not see' are BANNED. If something is absent, say nothing about it; a reader does not advertise gaps.",
+"",
+"STATE OF MIND AND WHAT PEOPLE SAY: A READING FAILS WITHOUT THESE",
+"- Make a DEFINITE statement about how the person feels right now: your heart feels tight, you carry a tiredness you told nobody about, your patience has thinned. This is where people believe most. Do not ask; state it.",
+"- Say what people around them have been saying, also DEFINITELY: your name came up and someone defended you, two people spoke of you. Never perhaps, never maybe.",
+"- Fold these into the life headings; do not open a separate section.",
+"",
+"IF YOU CANNOT LIKEN IT, INVENT",
+"- If a mark resists naming, pick the nearest thing and state it as fact. This is a fortune; nobody expects a laboratory report.",
+"- Saying you could not liken it is banned. Every mark gets a name.",
+"- If it resembles a symbol in the dictionary, say plainly that it is that symbol: this is a key, there is a ring here. Not it felt like a key to me.",
 "- SPEAK WITH CERTAINTY. \"My guess\", \"I think\", \"perhaps\", \"it seems\" are BANNED. A reader does not hesitate: say \"it will come\", \"you will see\", \"it happens\". Not one hedge anywhere.",
 "- Read in this order: the overall flow of the cup first, then its regions, then individual shapes last. Never fixate on a single shape.",
 "- Address the person directly. Their name: " + p.ad + ". Use the name two or three times in the whole reading, not in every sentence.",
@@ -2600,6 +2620,47 @@ PACK.en.sym.iz = {
        karsi:"The shadow is on the far side; it comes from outside.",
        yan:"The shadow sits at the side; it concerns those close to you."}
 };
+
+/* Kişinin ruh hâli üzerine kesin cümleler. Falın en çok tutan yanı
+   budur: insan kendini anlaşılmış hisseder.                        */
+PACK.tr.ruhHali = [
+  "Şunu da söyleyeyim {ad}: son zamanlarda için daralıyor. Sebebi büyük bir şey değil, biriken küçük şeyler. Fincan bunu gizlemiyor.",
+  "Bu aralar kimseye söylemediğin bir yorgunluk taşıyorsun. Dışarıya belli etmiyorsun ama akşamları kendini ağır hissediyorsun.",
+  "İçinde bir sıkışma var {ad}. Bir konuyu düşünüp düşünüp bırakıyorsun, sonra yine dönüyorsun. Fincan onu gösteriyor.",
+  "Son haftalarda sabrın azaldı. Eskiden sesini çıkarmadığın şeylere artık içerliyorsun. Bu geçici.",
+  "Kalabalıkta bile yalnız hissettiğin günler oldu son zamanlarda. Bu fincanda görünüyor ve geçiyor.",
+  "Bir şeyi erteliyorsun ve ertelediğin için kendine kızıyorsun {ad}. O kızgınlık işin kendisinden daha çok yoruyor seni.",
+  "İçin rahat değil ama sebebini tam koyamıyorsun. Fincan sebebini gösteriyor: kararını vermediğin için."
+];
+PACK.en.ruhHali = [
+  "Let me say this too, {ad}: lately your heart feels tight. Not one big thing, but small ones piling up. The cup does not hide it.",
+  "You are carrying a tiredness you have told nobody about. You do not show it, but the evenings feel heavy.",
+  "There is a knot inside you, {ad}. You think a matter through, drop it, then come back to it. The cup shows that.",
+  "Your patience has thinned these weeks. Things you used to let pass now sting. It is temporary.",
+  "There have been days lately when you felt alone even in a crowd. It shows here, and it is passing.",
+  "You are postponing something and you are angry at yourself for it, {ad}. That anger tires you more than the task would.",
+  "You are uneasy and cannot name why. The cup names it: because you have not decided."
+];
+
+/* Çevrenin kişi hakkında konuştukları. Kesin kip. */
+PACK.tr.cevreKonusuyor = [
+  "Adın geçtiği bir konuşma oldu {ad}. Kötü değil; biri seni savundu ve sen duymadın.",
+  "Yakın çevrenden iki kişi son günlerde senden bahsetti. Konu bir kararındı ve seni haklı buldular.",
+  "Biri arkandan seni övdü, biri de çekemedi. İkisi de aynı sofradaydı.",
+  "Hakkında konuşuluyor ama merak etme, konuşulan şey bir başarı.",
+  "Bir tanıdığın seni başkasına örnek gösterdi bu aralar. Sen bunu bilmiyorsun.",
+  "Uzaktan biri senin adını andı ve arayıp aramamakta tereddüt etti.",
+  "Çevrende senin için 'değişmiş' diyenler var {ad}. İyi anlamda söylüyorlar."
+];
+PACK.en.cevreKonusuyor = [
+  "Your name came up in a conversation, {ad}. Not badly; someone defended you and you never heard it.",
+  "Two people close to you spoke of you recently. The subject was a decision of yours, and they thought you were right.",
+  "One person praised you behind your back and one could not bear it. Both were at the same table.",
+  "You are being talked about, but do not worry; what is being said is an achievement.",
+  "An acquaintance held you up as an example to someone else lately. You do not know it.",
+  "Someone far away said your name and hesitated over whether to call.",
+  "There are people saying you have changed, {ad}. They mean it kindly."
+];
 
 /* ══════════════════ HUKUKİ METİNLER ══════════════════
    App Store başvurusunda Apple bir gizlilik politikası bağlantısı ister.
@@ -3377,6 +3438,30 @@ function segmentOrta(g, w, h, cup, koyuMask){
   while(oran < 0.04 && fark > 5 && guard++ < 14){ fark -= 2; oran = uygula(fark); }
 
   return dilate(erode(m, w, h, 1), w, h, 1);
+}
+
+/* Bir beyaz boşluğun etrafı gerçekten telveyle çevrili mi?
+   Fincanın büyük boş yarısı da beyazdır ama o okunmaz; okunan,
+   koyuluğun arasında kalan küçük açıklıktır.                    */
+function cevrili(b, koyuMask, w, h){
+  let sinir = 0, koyu = 0;
+  for(let y=0;y<b.bh;y++) for(let x=0;x<b.bw;x++){
+    if(!b.mask[y*b.bw+x]) continue;
+    const kenarda = x===0 || y===0 || x===b.bw-1 || y===b.bh-1 ||
+                    !b.mask[y*b.bw+x-1] || !b.mask[y*b.bw+x+1] ||
+                    !b.mask[(y-1)*b.bw+x] || !b.mask[(y+1)*b.bw+x];
+    if(!kenarda) continue;
+    sinir++;
+    const gx = b.x0 + x, gy = b.y0 + y;
+    let var_ = 0;
+    for(let dy=-2; dy<=2 && !var_; dy++) for(let dx=-2; dx<=2; dx++){
+      const px = gx+dx, py = gy+dy;
+      if(px<0||py<0||px>=w||py>=h) continue;
+      if(koyuMask[py*w+px]){ var_ = 1; break; }
+    }
+    koyu += var_;
+  }
+  return sinir > 0 && koyu/sinir > 0.72;
 }
 
 /* ══════════════════ 3. ŞEKİL ÖZELLİKLERİ ══════════════════ */
@@ -4976,14 +5061,17 @@ function analyzeShot(img, url, elips){
   koyular = koyular.concat(ortalar);
 
   /* telvenin bıraktığı beyaz alanlar: kenar halkası dışarıda kalsın */
+  /* Beyaz kuralı: büyük boş alanlar okunmaz. Yalnızca telvenin
+     ARASINDA kalan, etrafı koyuyla çevrili küçük boşluklar okunur.  */
   const ak = new Uint8Array(g.length);
   for(let y=0;y<wk.h;y++) for(let x=0;x<wk.w;x++){
     const i = y*wk.w+x;
-    if(cupR(c, x, y) <= 0.88 && !seg.mask[i]) ak[i] = 1;
+    if(cupR(c, x, y) <= 0.86 && !seg.mask[i]) ak[i] = 1;
   }
-  let aklar = components(erode(ak, wk.w, wk.h, 2), wk.w, wk.h, Math.max(90, minA*2))
+  let aklar = components(erode(ak, wk.w, wk.h, 2), wk.w, wk.h, Math.max(70, minA))
                 .map(pts => buildBlob(pts, wk.w, 0))
-                .filter(b => b.area < c.area*0.30 && b.area > c.area*0.012);
+                .filter(b => b.area > c.area*0.004 && b.area < c.area*0.05)
+                .filter(b => cevrili(b, seg.mask, wk.w, wk.h));
 
   const shot = {work:wk, gray:g, cup:c, frac:seg.frac, url:url, img:img,
                 seed:seedFrom(wk.data.data), blobs:[]};
@@ -5052,6 +5140,18 @@ const cogul = l => Array.isArray(l) ? l : [l];
 function serpistir(sayfalar, T){
   const sym = sayfalar.filter(p => p.kind === "sym");
   if(!sym.length) return;
+  /* Ruh hâli ve çevrenin konuşması: falın en çok tutan iki yanı.
+     Her falda birer tane, farklı sayfalara.                      */
+  if(T.ruhHali && T.ruhHali.length){
+    const p = sym[Math.floor(rnd()*sym.length) % sym.length];
+    p.body.push(nm(pick(T.ruhHali)));
+    p.ruhVar = true;
+  }
+  if(T.cevreKonusuyor && T.cevreKonusuyor.length){
+    const aday = sym.filter(p => !p.ruhVar);
+    const liste = aday.length ? aday : sym;
+    liste[Math.floor(rnd()*liste.length) % liste.length].body.push(nm(pick(T.cevreKonusuyor)));
+  }
   if(rnd() < 0.72 && T.uyarilar && T.uyarilar.length){
     const p = sym[Math.floor(rnd()*sym.length) % sym.length];
     p.body.push(nm(pick(T.uyarilar)));
@@ -5411,8 +5511,7 @@ function draw(){
   const p = pages[curPage]; if(!p || !p.shot) return;
   const sh = p.shot;
   const pc = cPhoto.getContext("2d"), vc = cVeil.getContext("2d");
-  const vurguRenk = p.ak ? "#9FD8C4" : "#F2DCA6";
-  const glowRenk  = p.ak ? [150,215,195] : [235,205,125];
+  const renk = p.ak ? "#7FE3C2" : "#FFD466";
 
   pc.setTransform(DPR,0,0,DPR,0,0);
   pc.fillStyle = "#0D0609"; pc.fillRect(0,0,SW,SH);
@@ -5424,9 +5523,9 @@ function draw(){
   vc.setTransform(DPR,0,0,DPR,0,0);
   vc.clearRect(0,0,SW,SH);
 
-  /* fincanın dışını tamamen kapat */
+  /* fincanın dışını kapat; içerisi olduğu gibi kalsın ki telve net görünsün */
   vc.save();
-  vc.fillStyle = "rgba(10,5,8,.93)";
+  vc.fillStyle = "rgba(10,5,8,.92)";
   vc.beginPath();
   vc.rect(0,0,SW,SH);
   vc.ellipse(sh.cup.cx*tf.s + tf.tx, sh.cup.cy*tf.s + tf.ty,
@@ -5434,62 +5533,47 @@ function draw(){
   vc.fill("evenodd");
   vc.restore();
 
-  const odak = p.blobs.length > 0;
-  vc.fillStyle = odak ? "rgba(14,6,10,.70)" : "rgba(14,6,10,.16)";
-  vc.fillRect(0,0,SW,SH);
+  /* İşaret basit bir çerçeve. Lekenin sınırını tek tek çizmiyoruz:
+     telve düzgün sınır vermez, çizince yanlış yerde duruyormuş gibi
+     görünür. Kutu "şuraya bak" demek için yeter.                   */
+  const marks = p.blobs.map(b => {
+    const pay = Math.max(10, Math.min(b.bw, b.bh)*0.22*tf.s + 8);
+    return {
+      b,
+      x: b.x0*tf.s + tf.tx - pay,
+      y: b.y0*tf.s + tf.ty - pay,
+      w: b.bw*tf.s + pay*2,
+      h: b.bh*tf.s + pay*2
+    };
+  });
 
-  const marks = p.blobs.map(b=>({
-    b,
-    x:b.cx*tf.s + tf.tx, y:b.cy*tf.s + tf.ty,
-    rx:Math.max(20, (b.bw*0.62)*tf.s + 12),
-    ry:Math.max(20, (b.bh*0.62)*tf.s + 12)
-  }));
-
-  if(odak){
-    vc.globalCompositeOperation = "destination-out";
+  if(marks.length){
+    vc.save();
+    vc.strokeStyle = renk;
+    vc.lineWidth = 2.6;
+    vc.lineJoin = "round";
+    vc.shadowColor = "rgba(0,0,0,.85)";
+    vc.shadowBlur = 6;
     for(const m of marks){
-      const R = Math.max(m.rx, m.ry)*1.85;
-      const g = vc.createRadialGradient(m.x, m.y, R*0.15, m.x, m.y, R);
-      g.addColorStop(0, "rgba(0,0,0,1)");
-      g.addColorStop(.55, "rgba(0,0,0,.9)");
-      g.addColorStop(1, "rgba(0,0,0,0)");
-      vc.fillStyle = g;
-      vc.beginPath(); vc.arc(m.x, m.y, R, 0, 7); vc.fill();
-    }
-    vc.globalCompositeOperation = "source-over";
-
-    vc.save();
-    vc.globalCompositeOperation = "lighter";
-    vc.globalAlpha = 0.28 + 0.15*Math.sin(performance.now()/650);
-    applyTf(vc, view, sh);
-    vc.imageSmoothingEnabled = false;
-    for(const b of p.blobs) vc.drawImage(glowCanvas(b, glowRenk), b.x0, b.y0);
-    vc.setTransform(DPR,0,0,DPR,0,0);
-    vc.restore();
-
-    /* lekenin gerçek sınırı */
-    vc.save();
-    vc.strokeStyle = vurguRenk; vc.lineWidth = 2.1; vc.lineJoin = "round";
-    vc.shadowColor = vurguRenk; vc.shadowBlur = 12;
-    for(const b of p.blobs){
-      if(!b._cont) b._cont = contour(b);
-      if(b._cont.length < 4) continue;
-      const bitis = Math.max(2, Math.floor(b._cont.length*arcT));
+      const yuvarlak = Math.abs(m.w - m.h) < Math.max(m.w, m.h)*0.22;
       vc.beginPath();
-      for(let i=0;i<bitis;i++){
-        const sx = (b.x0 + b._cont[i][0] + 0.5)*tf.s + tf.tx;
-        const sy = (b.y0 + b._cont[i][1] + 0.5)*tf.s + tf.ty;
-        i ? vc.lineTo(sx, sy) : vc.moveTo(sx, sy);
-      }
-      if(arcT >= 1) vc.closePath();
+      if(yuvarlak) vc.ellipse(m.x + m.w/2, m.y + m.h/2, m.w/2, m.h/2, 0, 0, Math.PI*2);
+      else         kutuCizRound(vc, m.x, m.y, m.w, m.h, 10);
       vc.stroke();
     }
-    vc.shadowBlur = 0;
-    /* Lekenin kendi sınırı dışında halka çizmiyoruz: ekranda görünen
-       her çizgi telvede gerçekten var olan bir şeyin sınırı olmalı. */
     vc.restore();
   }
   placeLabels(p, marks);
+}
+
+/* köşeleri yumuşak dikdörtgen */
+function kutuCizRound(c, x, y, w, h, r){
+  const k = Math.min(r, w/2, h/2);
+  c.moveTo(x+k, y);
+  c.lineTo(x+w-k, y); c.quadraticCurveTo(x+w, y, x+w, y+k);
+  c.lineTo(x+w, y+h-k); c.quadraticCurveTo(x+w, y+h, x+w-k, y+h);
+  c.lineTo(x+k, y+h); c.quadraticCurveTo(x, y+h, x, y+h-k);
+  c.lineTo(x, y+k); c.quadraticCurveTo(x, y, x+k, y);
 }
 
 function placeLabels(p, marks){
@@ -5499,22 +5583,23 @@ function placeLabels(p, marks){
   marks.forEach((m, i)=>{
     const el = document.createElement("div");
     el.className = "lbl";
-    el.textContent = p.labels ? p.labels[i] : (marks.length > 1 ? (i+1) + "." : ad);
-    let ly = m.y - m.ry - 20;
-    if(ly < 22) ly = m.y + m.ry + 20;
-    el.style.left = Math.max(58, Math.min(SW-58, m.x)) + "px";
+    el.textContent = p.labels ? p.labels[i] : (marks.length > 1 ? (i+1) + ". " + ad : ad);
+    let ly = m.y - 14;
+    if(ly < 18) ly = m.y + m.h + 16;
+    el.style.left = Math.max(60, Math.min(SW-60, m.x + m.w/2)) + "px";
     el.style.top = ly + "px";
     stage.appendChild(el);
-    requestAnimationFrame(()=>el.classList.add("show"));
+    el.classList.add("show");
   });
 }
 
 function loop(){
-  const e = 0.09;
-  view.k += (target.k - view.k)*e;
-  view.cx += (target.cx - view.cx)*e;
-  view.cy += (target.cy - view.cy)*e;
-  if(arcT < 1) arcT = Math.min(1, arcT + 0.026);
+  if(!surukleniyor){
+    const e = 0.12;
+    view.k += (target.k - view.k)*e;
+    view.cx += (target.cx - view.cx)*e;
+    view.cy += (target.cy - view.cy)*e;
+  }
   draw();
   rafId = requestAnimationFrame(loop);
 }
@@ -5554,7 +5639,6 @@ function showPage(i){
   curPage = Math.max(0, Math.min(pages.length-1, i));
   const p = pages[curPage], T = P();
   target = viewFor(p);
-  arcT = 0;
 
   let html = '<p class="pg-kicker">' + p.kicker + "</p>";
   html += '<h2 class="pg-title">' + p.title + "</h2>";
@@ -6038,11 +6122,49 @@ document.addEventListener("keydown", e=>{
   if(e.key === "ArrowLeft")  showPage(curPage-1);
   if(e.key === "ArrowRight") showPage(curPage+1);
 });
-let tsx = 0;
-stage.addEventListener("touchstart", e=>{ tsx = e.changedTouches[0].clientX; }, {passive:true});
-stage.addEventListener("touchend", e=>{
-  const d = e.changedTouches[0].clientX - tsx;
-  if(Math.abs(d) > 44) showPage(curPage + (d < 0 ? 1 : -1));
+/* ── fotoğrafı parmakla gezdir ──
+   Kullanıcı işaretlenen yere yaklaşmak isterse fotoğrafı kaydırabilsin. */
+let surukleniyor = false, surStart = null;
+stage.addEventListener("pointerdown", ev=>{
+  if(!pages.length) return;
+  const sh = pages[curPage] && pages[curPage].shot;
+  if(!sh) return;
+  surukleniyor = true;
+  surStart = {x:ev.clientX, y:ev.clientY, cx:view.cx, cy:view.cy};
+  try{ stage.setPointerCapture(ev.pointerId); }catch(e){}
+  stage.style.cursor = "grabbing";
+});
+stage.addEventListener("pointermove", ev=>{
+  if(!surukleniyor || !surStart) return;
+  const sh = pages[curPage].shot;
+  const s = baseScale(sh)*view.k;
+  view.cx = surStart.cx - (ev.clientX - surStart.x)/s;
+  view.cy = surStart.cy - (ev.clientY - surStart.y)/s;
+  target.cx = view.cx; target.cy = view.cy;
+});
+for(const olay of ["pointerup","pointercancel","pointerleave"])
+  stage.addEventListener(olay, ()=>{ surukleniyor = false; surStart = null; stage.style.cursor = "grab"; });
+
+/* iki parmakla yakınlaştır */
+stage.addEventListener("wheel", ev=>{
+  if(!pages.length) return;
+  ev.preventDefault();
+  const k = target.k * (ev.deltaY < 0 ? 1.12 : 0.89);
+  target.k = Math.max(1, Math.min(5, k));
+  view.k = target.k;
+}, {passive:false});
+
+/* ── sayfa çevirme: metnin üstünde sağa sola kaydır ── */
+let tsx = 0, tsy = 0;
+const kaydirAlan = document.querySelector(".txt") || document.body;
+kaydirAlan.addEventListener("touchstart", e=>{
+  tsx = e.changedTouches[0].clientX; tsy = e.changedTouches[0].clientY;
+}, {passive:true});
+kaydirAlan.addEventListener("touchend", e=>{
+  const dx = e.changedTouches[0].clientX - tsx;
+  const dy = e.changedTouches[0].clientY - tsy;
+  if(Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy)*1.6)
+    showPage(curPage + (dx < 0 ? 1 : -1));
 }, {passive:true});
 window.addEventListener("resize", ()=>{ if(pages.length){ sizeStage(); draw(); } });
 
