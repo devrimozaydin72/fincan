@@ -1283,11 +1283,7 @@ PACK.tr.tamFoto = "Üç açıdan da baktım {ad}, fincanın her yerini gördüm.
 PACK.tr.tahminBaslik = "Bundan çıkan tahminim";
 PACK.tr.gordugumBaslik = "Tam olarak ne gördüm";
 PACK.tr.benzemiyor = "Bu lekeyi bir şeye benzetmiyorum";
-PACK.tr.benzemiyorAna =
-  "{ad}, burada belirgin bir telve kümesi var ama sana yalan söylemeyeceğim: bu bir kuşa da balığa da benzemiyor. Zorlayıp bir isim uydurabilirdim, fincana bakınca sen de görmezdin ve fal orada biterdi. Bunun yerine bu kümeyi durduğu yerden ve ağırlığından okuyorum, ki fincan okumanın aslı da budur.";
 PACK.tr.benzerlikNot = v => "Şablonla örtüşme: %" + v;
-PACK.tr.harfYok = "Bu fincanda harfe benzeyen net bir iz çıkmadı, o yüzden harf uydurmadım.";
-PACK.tr.sayiYok = "Rakama benzeyen bir iz de yok. Her fincanda sayı çıkmaz; çıkmayınca susmak gerekir.";
 
 /* ══════════════════ SEMBOLLER ══════════════════ */
 PACK.tr.sym = {
@@ -1714,6 +1710,7 @@ p.dokum ? "CİHAZIN ÖLÇTÜĞÜ LEKELER\nUygulama fincandaki telve kümelerini 
 "- Kapanışta kişiyi iyi hissettir. Gerçeği eğip bükme ama son sözü umutla bağla.",
 "",
 "ÜSLUP: EN ÖNEMLİ KISIM",
+"- YAPAMADIĞINI ANLATMA. 'Harf çıkmadı', 'benzetemedim', 'uydurmayayım', 'göremedim' gibi cümleler YASAK. Bir şey yoksa ondan hiç söz etme; falcı eksiğini duyurmaz.",
 "- KESİN KONUŞ. \"Tahminim\", \"bence\", \"sanırım\", \"olabilir\", \"gibi görünüyor\" YASAK. Falcı tereddüt etmez: \"gelecek\", \"olacak\", \"çıkacak\", \"göreceksin\" de. Tek bir cümlede bile tereddüt kullanma.",
 "- Okuma sırası şu: önce fincanın genel akışına bak, sonra bölgelere, en son tek tek şekillere. Tek bir şekle takılıp kalma.",
 "- Kişiye \"sen\" diye hitap et. Adı: " + p.ad + ". Adını falda topu topu iki üç kez kullan, her cümlede değil.",
@@ -1741,7 +1738,7 @@ p.dokum ? "CİHAZIN ÖLÇTÜĞÜ LEKELER\nUygulama fincandaki telve kümelerini 
 "Yazdığın her cümleyi şu süzgeçten geçir: 'Bu cümleyi başka birinin fincanı için de aynen yazabilir miyim?' Cevap evetse o cümleyi sil ve yerine BU fincanda gördüğün şeye bağlı bir cümle yaz.",
 "Yasak kalıplar: 'hayatında yeni bir sayfa açılıyor', 'içindeki sesi dinle', 'değişim kapıda', 'her şey senin elinde', 'evren sana bir işaret gönderiyor'.",
 "Şekiller birbirinden bağımsız olmasın: ikisi arasında bir ilişki görüyorsan söyle. Fincan tek tek şekillerden değil, şekillerin sırasından konuşur.",
-p.eksik ? "- Sana " + p.foto + " fotoğraf verildi, üçü birden değil. \"giris\" içinde bunu dürüstçe belirt: fincanın göremediğin yüzü olduğunu ve okumanın eksik olduğunu söyle. Yine de gördüğün kadarını tam olarak yorumla." : "- Üç açıdan da fotoğraf var; okuma eksiksiz. Aynı izi birden fazla fotoğrafta görürsen bunu belirt, tekrar eden iz konunun altını çizer.",
+p.eksik ? "- Sana " + p.foto + " fotoğraf verildi. Bundan hiç söz etme, eksiklikten yakınma. Gördüğün kadarını dolu dolu yorumla; okuma tam bir okumaymış gibi yaz." : "- Üç açıdan da fotoğraf var; okuma eksiksiz. Aynı izi birden fazla fotoğrafta görürsen bunu belirt, tekrar eden iz konunun altını çizer.",
 "",
 "ÇIKTI BİÇİMİ (tam olarak bu alanlar, başka hiçbir şey yazma)",
 "{",
@@ -1812,10 +1809,7 @@ PACK.en.tamFoto = "I looked from all three angles, {ad}; I saw every part of the
 PACK.en.tahminBaslik = "What I expect from this";
 PACK.en.gordugumBaslik = "Exactly what I saw";
 PACK.en.benzemiyor = "I do not liken this mark to anything";
-PACK.en.benzemiyorAna = "{ad}, there is a clear cluster of grounds here, but I will not lie to you: it does not look like a bird or a fish or anything else. I could have forced a name onto it, you would have looked into your cup and seen nothing, and the reading would have died there. Instead I read this cluster by where it sits and how heavy it is, which is the real craft anyway.";
 PACK.en.benzerlikNot = v => "Template overlap: " + v + "%";
-PACK.en.harfYok = "No mark in this cup clearly resembled a letter, so I invented none.";
-PACK.en.sayiYok = "There is no mark resembling a number either. Not every cup gives a number, and when it does not, one should stay quiet.";
 
 PACK.en.aiSoru = function(p){
   return [
@@ -1869,6 +1863,7 @@ p.dokum ? "MARKS THE DEVICE MEASURED\nThe app has already measured the clusters 
 "- Close by making them feel good. Do not bend the truth, but end on hope.",
 "",
 "VOICE: THE MOST IMPORTANT PART",
+"- NEVER ANNOUNCE WHAT YOU COULD NOT DO. Sentences like 'no letter appeared', 'I could not liken it', 'I will not invent', 'I could not see' are BANNED. If something is absent, say nothing about it; a reader does not advertise gaps.",
 "- SPEAK WITH CERTAINTY. \"My guess\", \"I think\", \"perhaps\", \"it seems\" are BANNED. A reader does not hesitate: say \"it will come\", \"you will see\", \"it happens\". Not one hedge anywhere.",
 "- Read in this order: the overall flow of the cup first, then its regions, then individual shapes last. Never fixate on a single shape.",
 "- Address the person directly. Their name: " + p.ad + ". Use the name two or three times in the whole reading, not in every sentence.",
@@ -1896,7 +1891,7 @@ p.dokum ? "MARKS THE DEVICE MEASURED\nThe app has already measured the clusters 
 "Run every sentence through this filter: 'Could I write this same sentence for somebody else's cup?' If yes, delete it and write one tied to what you see in THIS cup.",
 "Banned formulas: 'a new chapter is opening', 'listen to your inner voice', 'change is at the door', 'everything is in your hands', 'the universe is sending you a sign'.",
 "Do not leave the shapes unrelated: if you see a relationship between two of them, say so.",
-p.eksik ? "- You were given " + p.foto + " photograph(s), not three. Say so honestly inside \"giris\": there is a face of the cup you could not see and the reading is partial. Still interpret fully what you can see." : "- All three angles are present, so the reading is complete. If you see the same mark in more than one photograph, say so; a repeated mark underlines its matter.",
+p.eksik ? "- You were given " + p.foto + " photograph(s). Never mention this and never complain of a gap. Interpret what you see fully, and write as if the reading were complete." : "- All three angles are present, so the reading is complete. If you see the same mark in more than one photograph, say so; a repeated mark underlines its matter.",
 "",
 "OUTPUT SHAPE (exactly these fields, nothing else)",
 "{",
@@ -2560,6 +2555,51 @@ PACK.en.zincirle = [
 ];
 PACK.tr.cunku = "Şuna bakıyorum:";
 PACK.en.cunku = "Here is what I am looking at:";
+
+/* Eksik fotoğraf bir kusur gibi anlatılmasın. Falcı neyi göremediğini
+   dert etmez; daha fazlasını görmek için ister.                      */
+PACK.tr.eksikFoto = {
+  1:"Fincanı bir de öbür yüzünden çekersen {ad}, oradan da bir sürü şey anlatırım sana.",
+  2:"Bir kare daha eklersen fincanın dibini de okurum {ad}, orası hep en çok konuşan yerdir."
+};
+PACK.en.eksikFoto = {
+  1:"Photograph the other face of the cup too, {ad}, and I will tell you plenty from there as well.",
+  2:"Add one more frame and I will read the bottom of the cup too, {ad}; that part always talks the most."
+};
+PACK.tr.tamFoto = "Fincanı elimde çevire çevire baktım {ad}, her yanını gördüm.";
+PACK.en.tamFoto = "I turned the cup over in my hand, {ad}, and saw every side of it.";
+
+/* İsim konmayan leke için soyut ve mistik anlatım */
+PACK.tr.sym.iz = {
+  ad:"Gölge",
+  hikaye:"üstünde duran bir konunun ağırlığı",
+  ogret:"Her iz bir hayvana ya da eşyaya benzemez. Kimi iz sadece ağırlıktır ve ağırlık da okunur: nerede durduğu zamanı, koyuluğu da önemini söyler.",
+  ana:["Şuradaki koyuluk bir gölge gibi duruyor {ad}. Fincanın bu köşesinde bir ağırlık var; adı konmamış ama yeri belli.",
+       "Burada telve kendi içine kapanmış. Böyle izler eşyaya benzemez, hisse benzer: üstünde durduğun ama henüz adını koymadığın bir konu."],
+  tahmin:["Bu konunun adını koyduğun gün küçülecek. Kafanda büyüyor, dışarıda o kadar değil.",
+          "Yakında biri bu konuyu sana açacak ve sen rahatlayacaksın; tek başına taşımaktan yorulmuşsun."],
+  zon:{kenar:"Gölge ağza yakın, bu günlerin meselesi.",
+       orta:"Gölge ortada, birkaç aya yayılıyor.",
+       dip:"Gölge dipte, eski ve hâlâ kapanmamış."},
+  yan:{yakin:"Gölge senin tarafında, doğrudan seninle ilgili.",
+       karsi:"Gölge karşı tarafta, dışarıdan geliyor.",
+       yan:"Gölge yanda, yakın çevrenle ilgili."}
+};
+PACK.en.sym.iz = {
+  ad:"The Shadow",
+  hikaye:"the weight of a matter you keep returning to",
+  ogret:"Not every mark resembles an animal or an object. Some marks are simply weight, and weight is read too: where it sits gives the time, how dark it is gives its importance.",
+  ana:["That darkness sits like a shadow, {ad}. There is a weight in this corner of the cup; it has no name, but its place is clear.",
+       "Here the grounds folded in on themselves. Marks like this resemble a feeling rather than a thing: something you dwell on but have not yet named."],
+  tahmin:["The day you name this matter it will shrink. It grows in your head, not outside it.",
+          "Soon someone will open this subject with you and you will feel lighter; carrying it alone has tired you."],
+  zon:{kenar:"The shadow sits near the rim; this is these days' business.",
+       orta:"The shadow sits mid-cup; it spreads across some months.",
+       dip:"The shadow sits at the bottom; old and still not closed."},
+  yan:{yakin:"The shadow is on your side; it concerns you directly.",
+       karsi:"The shadow is on the far side; it comes from outside.",
+       yan:"The shadow sits at the side; it concerns those close to you."}
+};
 
 /* ══════════════════ HUKUKİ METİNLER ══════════════════
    App Store başvurusunda Apple bir gizlilik politikası bağlantısı ister.
@@ -5062,7 +5102,7 @@ function buildPagesAI(v){
     pages.push({
       kind:"sym", blobs, shot:sh,
       kicker: T.ord[Math.min(T.ord.length-1, i+2)] + T.ordSuffix,
-      title: s.kesin ? vurgu(cap(s.ad)) : T.benzemiyor,
+      title: vurgu(cap(s.ad)),
       where: cap(yerAdi(T, s.bolge, s.yon)),
       gordugum: s.gordugum ? nm(s.gordugum) : "",
       ogret: s.ogret ? nm(s.ogret) : (T.ogretZon[s.bolge] + " " + T.ogretYan[s.yon]),
@@ -5125,10 +5165,7 @@ function buildPagesAI(v){
       body:[nm(v.sayi.yorum), nm(T.sayiSon(v.sayi.deger))]
     });
   }
-  if(!v.harf && !v.sayi){
-    const son = pages[pages.length-1];
-    son.body.push(nm(T.harfYok + " " + T.sayiYok));
-  }
+  /* harf ya da rakam yoksa sessiz geçiyoruz */
 
   const ozet = v.ozet && v.ozet.length ? v.ozet
              : pages.filter(p => p.kind === "sym").map(p => p.title.replace(/<[^>]+>/g,""));
@@ -5237,7 +5274,7 @@ function buildPages(){
     pages.push({
       kind:"sym", blobs:[t.b], shot:t.sh, ak:akMi,
       kicker: kicker || (T.ord[Math.min(T.ord.length-1, pages.length+1)] + T.ordSuffix),
-      title: (t.sym === "iz") ? T.benzemiyor : vurgu(s.ad),
+      title: vurgu(s.ad),
       where:cap(t.pos.where),
       gordugum: t.neden ? nm(T.cunku + " " + t.neden + ".") : "",
       ogret: s.ogret || (T.ogretZon[t.pos.zone] + " " + T.ogretYan[t.pos.side]),
@@ -5304,13 +5341,8 @@ function buildPages(){
       body:[nm(T.sayiAna(num)), T.sayiOrta(T.sayiZon[t.pos.zone], num, kap), nm(T.sayiSon(num))]
     });
   }
-  if(!harfM || !sayiM){
-    const son = pages[pages.length-1];
-    const notlar = [];
-    if(!harfM) notlar.push(T.harfYok);
-    if(!sayiM) notlar.push(T.sayiYok);
-    son.body.push(notlar.join(" "));
-  }
+  /* Harf ya da rakam çıkmadıysa bundan hiç söz etmiyoruz. Falcı
+     yapamadığını anlatmaz; olmayan şey zaten konuşulmaz.        */
 
   serpistir(pages, T);
   pages.push(kapanisSayfasi(T, hikaye, null,
