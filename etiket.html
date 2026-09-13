@@ -566,7 +566,15 @@ document.getElementById("b-resim").addEventListener("click", ()=>{
   c.toBlob(b=>indir(b, "fincan-isaretli-" + (aktif+1) + ".png"), "image/png");
 });
 
-function indir(blob, ad){
+async function indir(blob, ad){
+  /* claude.ai görüntüleyicisinde sıradan indirme bağlantısı çalışmaz;
+     oranın kendi indirme yolunu kullanıyoruz.                        */
+  try{
+    if(window.claude && typeof window.claude.use === "function"){
+      const d = await window.claude.use("downloads");
+      if(d){ await d.save({filename:ad, data:blob}); toast("İndirildi"); return; }
+    }
+  }catch(e){ /* alttaki yola düş */ }
   try{
     const a = document.createElement("a");
     a.href = URL.createObjectURL(blob);
