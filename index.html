@@ -1677,8 +1677,18 @@ PACK.tr.aiSoru = function(p){
 "6) Her şekil için o izin fotoğraftaki yerini \"kutu\": [x0,y0,x1,y1] olarak ver. Değerler 0 ile 1 arası; 0,0 sol üst, 1,1 sağ alt. Kutu gerçekten o izi çevrelesin: uygulama bu kutuyu fotoğrafın üstünde işaretleyip kullanıcıya 'işte tam burada gördüm' diye gösterecek. Yanlış kutu, yanlış falla aynı şeydir.",
 "7) \"foto\" alanına o izi hangi fotoğrafta gördüğünü yaz (1'den " + p.foto + "'e).",
 "",
+sozlukIstem() ,
 p.parca ? "CİHAZIN LEKELERİN İÇİNDE BULDUĞU FİGÜRLER\nUygulama kütlelerin kenarında pencere gezdirip siluet aradı ve aşağıdakileri buldu. Bunlar sana başlangıç noktası: o kutuya bak, gerçekten benziyorsa adını koy ve kutusunu kullan. Benzemiyorsa kendi bulduğun şekli yaz, listeye mahkûm değilsin.\n" + p.parca + "\n" : "",
 p.dokum ? "CİHAZIN ÖLÇTÜĞÜ LEKELER\nUygulama fincandaki telve kümelerini zaten ölçtü. Aşağıdaki liste sana yol göstersin: konuştuğun izleri mümkün olduğunca bu kümelerden seç ve kutularını buradan al, böylece işaretleme fotoğrafın üstüne tam oturur. Ölçüm gördüğünle çelişiyorsa kendi gözüne güven.\n" + p.dokum + "\nKoyuluk 10'a yakınsa iz koyu ve ağır, 3'e yakınsa silik demektir. Uzunluk oranı 1'e yakınsa yuvarlak, 3'ten büyükse uzun bir izdir.\n" : "",
+"",
+"ŞEKİLLER NEREDE OLUR (gerçek fal okumalarından öğrenildi)",
+"- Kalın kütlenin İÇİ değil, KENARI konuşur. Kütlenin dış hattındaki çıkıntılar ve girintiler figür verir.",
+"- Fincan duvarındaki ince kahverengi izler en verimli yerdir: bir insan, bir hayvan, bir yazı çoğu zaman oradadır.",
+"- Telvenin bıraktığı BEYAZ boşluklar da şekil verir. Koyunun arasındaki temiz bir parça da bir figürdür.",
+"- Aynı şekil fincanda birkaç kez çıkabilir; hepsini ayrı ayrı yaz, tekrar eden şekil o konunun altını çizer.",
+"- Adı tarif ederek koy, tek kelimeyle yetinme: 'kepçe kulaklı adam', 'elinde sopa olan adam', 'girintili çıkıntılı sahil', 'hamile hayvan'. Böyle adlar kullanıcıya şekli buldurur.",
+"- Sayı ve harf de şekildir: telvede gerçekten 3 gibi, 9 gibi, V gibi duran bir iz varsa onu da şekil olarak yaz.",
+"",
 "FİNCAN OKUMA KURALLARI (yorumlarında bunları kullan, ayrıca \"ogret\" alanında kullanıcıya ÖĞRET)",
 "- Fincanın ağzına yakın bölge (\"kenar\"): yakın zaman, günler ve haftalar.",
 "- Fincanın ortası (\"orta\"): birkaç ay içinde olgunlaşan işler.",
@@ -1746,7 +1756,7 @@ p.eksik ? "- Sana " + p.foto + " fotoğraf verildi, üçü birden değil. \"giri
 '  "ozet": ["kısa madde", "kısa madde", "kısa madde"]',
 "}",
 "",
-"\"sekiller\" içinde 5 ile 7 arası kayıt olsun. En fazla biri \"kesin\": false olsun; gerisinin adı konmuş olsun. Aynı lekeden çıkan iki ayrı şekli ayrı kayıt olarak yaz."
+"\"sekiller\" içinde 10 ile 16 arası kayıt olsun. Gerçek bir falcı tek fincanda on beş şekil bulur; sen de bul. En fazla biri \"kesin\": false olsun."
   ].filter(Boolean).join("\n");
 };
 
@@ -1809,8 +1819,18 @@ PACK.en.aiSoru = function(p){
 "6) For every shape give its location as \"kutu\": [x0,y0,x1,y1], values from 0 to 1, 0,0 top-left, 1,1 bottom-right. The box must actually enclose that mark: the app draws it on the photograph to show the person exactly where you saw it. A wrong box is as bad as a wrong reading.",
 "7) Put the photograph index in \"foto\" (1 to " + p.foto + ").",
 "",
+sozlukIstem() ,
 p.parca ? "FIGURES THE DEVICE FOUND INSIDE THE MASSES\nThe app slid windows along the edges of the masses looking for silhouettes and found these. Treat them as starting points: look at that box, and if it genuinely resembles the thing, name it and use its box. If it does not, write the shape you see instead; you are not bound to this list.\n" + p.parca + "\n" : "",
 p.dokum ? "MARKS THE DEVICE MEASURED\nThe app has already measured the clusters of grounds in this cup. Use the list below: wherever you can, pick the marks you talk about from these clusters and take their boxes from here, so the highlight lands exactly on the mark. If a measurement contradicts what you see, trust your eyes.\n" + p.dokum + "\nA darkness near 10 means a heavy, dark mark; near 3 means faint. An elongation near 1 is round; above 3 is a long mark.\n" : "",
+"",
+"WHERE SHAPES ARE (learned from real readings)",
+"- The INSIDE of a thick mass says nothing; its EDGE speaks. Bulges and bays along the outline give figures.",
+"- The thin brown marks on the cup wall are the richest ground: a person, an animal, a script is usually there.",
+"- The WHITE gaps the grounds leave are shapes too. A clean piece inside the dark is a figure as much as the dark is.",
+"- The same shape may appear several times; write each one separately, since repetition underlines its subject.",
+"- Name it descriptively, not in one word: 'a man with jug ears', 'a man holding a stick', 'a ragged coastline', 'a pregnant animal'. Names like that let the person find the shape.",
+"- Numbers and letters are shapes too: if a mark truly stands like a 3, a 9 or a V, write it as a shape.",
+"",
 "HOW A CUP IS READ (use this, and TEACH it in the \"ogret\" field)",
 "- Near the rim (\"kenar\"): near time, days and weeks.",
 "- Middle of the cup (\"orta\"): matters ripening within months.",
@@ -1878,7 +1898,7 @@ p.eksik ? "- You were given " + p.foto + " photograph(s), not three. Say so hone
 '  "ozet": ["short line", "short line", "short line"]',
 "}",
 "",
-"Give 5 to 7 entries in \"sekiller\". At most one may be \"kesin\": false; name the rest. Write two shapes from the same mass as two separate entries.",
+"Give 10 to 16 entries in \"sekiller\". A real reader finds fifteen shapes in one cup; so should you. At most one may be \"kesin\": false.",
 "Write \"birim\" as one of: gun, hafta, ay."
   ].filter(Boolean).join("\n");
 };
@@ -2454,6 +2474,45 @@ PACK.en.ui.btnOpen = "Begin the reading";
 PACK.tr.ui.ogretAraci = "Şekil öğretme aracı";
 PACK.en.ui.ogretAraci = "Shape teaching tool";
 
+/* Kapak metni her fincanda aynıydı. Artık telve oranına göre birden
+   çok açılış var ve tohuma göre seçiliyor.                          */
+PACK.tr.kapak.yogun.alt = [
+  "{ad}, bu fincan ağzına kadar dolu. Telve hiçbir yeri boş bırakmamış, duvarlara tırmanmış. Böyle fincanlar konuşkandır: aynı anda birden çok konu açık demektir.",
+  "Fincanını elime alır almaz ağırlığını hissettim {ad}. Telve kalın düşmüş ve dağılmamış. Bu, kafanın dolu olduğu ama dağınık olmadığı bir dönemi anlatır.",
+  "Bu fincanda porselen zor görünüyor {ad}. Telve her yeri tutmuş. Yoğun bir dönemdesin ama şunu söyleyeyim: yoğunluk ile sıkıntı aynı şey değildir.",
+  "{ad}, telve burada bolca kalmış ve sıkı oturmuş. Fincan dolu olduğunda okunacak şey de çok olur; bu fincan bana çok şey anlatacak."
+];
+PACK.tr.kapak.acik.alt = [
+  "{ad}, fincanın ferah. Telve az düşmüş, porselen bolca görünüyor. Üstünde fazla yük taşımadığın bir dönemdesin.",
+  "Bu fincan hafif {ad}. Telve az ve dağınık. Böyle fincanlarda asıl soru şudur: bu boşluğu neyle dolduracaksın?",
+  "Fincanın tertemiz sayılır {ad}. Telve tutunacak yer bulamamış. Kafan rahat, önün açık.",
+  "{ad}, burada telve ince bir tabaka bırakmış. Ferah bir dönem; kararlarını rahat verebileceğin bir zaman."
+];
+PACK.tr.kapak.denge.alt = [
+  "{ad}, fincanın ne ağır ne boş. Telve dengeli dağılmış. İşlerin kendi hâlinde yürüdüğü bir dönem.",
+  "Bu fincan ölçülü {ad}. Bir yanı dolu, bir yanı açık. Böyle fincanlar en çok şeyi söyleyenlerdir, çünkü gürültü yok.",
+  "Telve burada ne tıkamış ne de kaçmış {ad}. Dengeli bir dönemdesin; ne kriz var ne durgunluk.",
+  "{ad}, fincanında dolu ile boş yarı yarıya. Bir tarafta uğraştığın bir şey, diğer tarafta nefes aldığın bir yer var."
+];
+PACK.en.kapak.yogun.alt = [
+  "{ad}, this cup is full to the rim. The grounds left nothing empty and climbed the walls. Cups like this talk: several matters are open at once.",
+  "I felt the weight the moment I picked it up, {ad}. The grounds fell thick and did not scatter. A full head, but not a scattered one.",
+  "The porcelain is hard to find in this cup, {ad}. A dense stretch, though a dense stretch and a difficult one are not the same thing.",
+  "{ad}, the grounds stayed plentiful here and settled tight. A full cup gives plenty to read, and this one will tell me a great deal."
+];
+PACK.en.kapak.acik.alt = [
+  "{ad}, your cup is airy. Few grounds, plenty of porcelain. You are in a stretch where you carry little weight.",
+  "This cup is light, {ad}. The grounds are thin and scattered. The real question in such a cup is what you will fill the space with.",
+  "Your cup counts as clean, {ad}. The grounds found nothing to hold onto. Your head is clear and the way is open.",
+  "{ad}, the grounds left only a thin layer here. An easy stretch, a good time to decide things."
+];
+PACK.en.kapak.denge.alt = [
+  "{ad}, your cup is neither heavy nor empty. The grounds spread evenly. A stretch where things run at their own pace.",
+  "This cup is measured, {ad}. One side full, one side open. Cups like this say the most, because there is no noise.",
+  "The grounds neither blocked nor fled here, {ad}. A balanced stretch: no crisis, no standstill.",
+  "{ad}, full and empty share your cup half and half. On one side something you are working at, on the other a place to breathe."
+];
+
 /* ══════════════════ HUKUKİ METİNLER ══════════════════
    App Store başvurusunda Apple bir gizlilik politikası bağlantısı ister.
    Aşağıdaki metinler hem uygulama içinde gösterilir hem de ayrıca
@@ -2656,6 +2715,338 @@ PACK.en.yasal = {
     ]}
   ]
 };
+
+/* ══════════════════ KAHVE FALI SEMBOL SÖZLÜĞÜ ══════════════════
+   Türkçe kahve falı kaynaklarından derlendi. Bir sembolün birden çok
+   anlamı olduğunda en yaygın olanı seçildi; fal tereddüt kaldırmaz.
+   Anlamlar bilerek SOMUT yazıldı: "geçiş" demek yerine "yeni bir iş,
+   yeni bir ev" denir. Bu uygulamayı teknik terim sevmeyen insanlar
+   kullanacak.
+   Her kayıt: [anlam, somut örnek]                                    */
+
+const SEMBOL = {
+
+/* ── kuşlar ve kanatlılar ── */
+"kuş":        ["Haber geliyor.", "Bir telefon, bir mesaj, sesi çıkmayan birinden arama."],
+"kuşlar":     ["Arka arkaya haberler.", "Birkaç gün içinde üst üste gelişme olur."],
+"güvercin":   ["Barış ve müjde.", "Küskün olduğun biriyle araya giren bir vesile çıkar."],
+"leylek":     ["Doğum ve yeni katılan.", "Ailede bir bebek ya da eve yeni biri gelir."],
+"kartal":     ["Yüksek hedef ve resmî haber.", "Bir kurumdan, devletten ya da büyük bir yerden cevap gelir."],
+"baykuş":     ["Gerçeği görme.", "Bir konuda gözün açılır, gizlenen bir şeyi öğrenirsin."],
+"horoz":      ["Uyarı ve laf taşıma.", "Çevrende arayı bozmaya çalışan biri var."],
+"tavuk":      ["Ev bereketi.", "Evin mutfağı şenlenir, küçük ama sürekli bir bolluk gelir."],
+"tavuskuşu":  ["Beklenmedik teklif.", "Ummadığın bir yerden gelen iş ya da para teklifi."],
+"ördek":      ["Eve giren para.", "Elden çıkmayan, kalıcı bir kazanç olur."],
+"kaz":        ["Dedikodu.", "Hakkında konuşulur ama zarar vermez."],
+"kanat":      ["Yükselme ve kurtulma.", "Seni tutan bir yükten kurtulursun."],
+"tüy":        ["Hafifleme.", "Bir yükü bırakır, uzun süredir hissetmediğin bir rahatlık duyarsın."],
+"yuva":       ["Yuva kurma.", "Ev, evlilik ya da aile düzeniyle ilgili bir karar verilir."],
+
+/* ── su canlıları ── */
+"balık":      ["Kısmet ve para.", "Beklemediğin bir yerden para gelir: bir borç döner, bir ikramiye çıkar."],
+"balıklar":   ["Bol kısmet.", "Birden fazla yerden gelir açılır."],
+"büyük balık":["Büyük kazanç.", "Tek seferde ciddi bir para eline geçer."],
+"yengeç":     ["Yan yollardan ilerleme.", "Doğrudan gitmek yerine dolaylı bir yol bulursun."],
+"denizatı":   ["Dilek kabulü.", "Uzun süredir istediğin bir şey gerçekleşir."],
+"balina":     ["Büyük fırsat.", "Hayatını değiştirecek ölçekte bir kapı açılır."],
+"kaplumbağa": ["Yavaş ama sağlam ilerleme.", "Acele ettiğin iş beklediğinden geç ama daha sağlam biter."],
+"kurbağa":    ["Değişim ve para.", "Beklemediğin küçük bir gelir ya da ortam değişikliği olur."],
+"salyangoz":  ["Yavaşlık ve ev.", "Ev işlerinde ya da taşınmada gecikme olur."],
+"yılan balığı":["Elden kaçan fırsat.", "Geciktirdiğin bir işi başkası kapar."],
+
+/* ── kara hayvanları ── */
+"at":         ["Kavuşma ve hız.", "Özlediğin birine kavuşursun, beklediğin iş hızlanır."],
+"eşek":       ["İnat.", "Kararında diretmen sana kaybettirir, bir adım geri at."],
+"deve":       ["Büyük kısmet ve sabır.", "Uzun süre bekleyeceksin ama sonunda büyük bir kazanç gelir."],
+"fil":        ["Güç ve unutulmayan.", "Uzun sürecek ama sağlam duracak bir iş kurarsın."],
+"aslan":      ["Cesaret ve otorite.", "Dik durman gereken bir konu var; geri adım atma."],
+"kaplan":     ["Rekabet.", "İşinde ya da çevrende biriyle yarış içindesin."],
+"kurt":       ["Yalnız mücadele.", "Bir işi kimseden yardım almadan çözersin."],
+"tilki":      ["Kurnaz biri.", "Yakınında göründüğü gibi olmayan biri var."],
+"köpek":      ["Sadık dost.", "Zor gününde yanında olacak biri var, güvenebilirsin."],
+"kedi":       ["Söylenmeyen şey.", "Biri sana her şeyi anlatmıyor; sorarsan öğrenirsin."],
+"tavşan":     ["Kısa sürede müjde.", "Günler içinde sevindirecek bir haber gelir."],
+"koyun":      ["Uysallık ve bolluk.", "Kırıcı olmadan çözülecek bir mesele var."],
+"kuzu":       ["Saf niyet.", "İyi niyetle yaklaştığın bir iş karşılığını verir."],
+"keçi":       ["Dik başlılık.", "Bir yakının seni dinlemiyor, zorla olmaz."],
+"inek":       ["Bereket.", "Evin geçimi genişler, sofra büyür."],
+"boğa":       ["Zenginlik ve kudret.", "Maddi olarak güçlenirsin, sözün geçer."],
+"geyik":      ["Uzaktan gelen ağır haber.", "Uzaktaki bir tanıdıkla ilgili bir gelişme duyarsın."],
+"ayı":        ["Korumacı biri.", "Seni kollayan ama bazen bunaltan bir yakının var."],
+"maymun":     ["Taklit ve oyun.", "Biri senin yaptığını taklit ediyor, ciddiye alma."],
+"fare":       ["Küçük sızıntı.", "Paran farkında olmadan eriyor, hesabına bak."],
+"sincap":     ["Biriktirme.", "Kenara koyduğun şey yakında işine yarar."],
+"kirpi":      ["Savunma.", "Kendini fazla koruyorsun, kimse saldırmıyor."],
+"yarasa":     ["Gece düşüncesi.", "Geceleri kafanı meşgul eden bir konu var, gündüz küçülür."],
+"domuz":      ["Beklenmedik bolluk.", "Hiç ummadığın bir yerden eline geçen bir şey olur."],
+"zürafa":     ["Kullanılmak.", "Biri iyi niyetini kullanıyor, mesafeni koru."],
+"ejderha":    ["Büyük engel.", "Karşında güçlü bir itiraz var ama aşılır."],
+"yılan":      ["Arkandan konuşan biri.", "Yüzüne başka arkana başka olan biri var, sözünü tartarak söyle."],
+"akrep":      ["Sivri söz.", "Bir tartışmada kırıcı bir laf duyarsın, büyütme."],
+"örümcek":    ["Sabırla kurulan düzen.", "Uzun zamandır ördüğün bir iş sonunda tutar."],
+"arı":        ["Çalışkanlık ve kazanç.", "Emeğinin karşılığını bu ay alırsın."],
+"karınca":    ["Azar azar birikme.", "Küçük kazançlar birikip gözle görülür hale gelir."],
+"kelebek":    ["Değişim.", "Eski bir alışkanlığı ya da dönemi geride bırakırsın."],
+"kuş yuvası": ["Aile düzeni.", "Evle ilgili bir konu yoluna girer."],
+
+/* ── insan ── */
+"insan":      ["Hayatına giren biri.", "Kulba yakınsa tanıdık, karşıdaysa yeni tanışacağın biri."],
+"insan yüzü": ["Seni düşünen biri.", "Adını anan, aklından geçiren biri var; genelde uzaklaşılmış bir tanıdık."],
+"iki kişi":   ["İki taraf.", "Aranızda konuşulmayı bekleyen bir konu var."],
+"kadın":      ["Yakın bir kadın.", "Anne, abla ya da yakın bir arkadaş bir konuda devreye girer."],
+"erkek":      ["Yakın bir erkek.", "Baba, eş ya da işten biri bir konuda belirleyici olur."],
+"çocuk":      ["Yeni başlangıç.", "Tertemiz bir sayfa açılır, bazen bir doğum haberi gelir."],
+"bebek":      ["Müjde.", "Ailede sevindirici bir haber duyulur."],
+"gelin":      ["Hayırlı haber.", "Yakın zamanda bir düğün, nişan ya da kutlama olur."],
+"damat":      ["Söz ve karar.", "Bir bağ resmîleşir."],
+"yaşlı":      ["Tecrübeli bir akıl.", "Yaşça büyük birinin sözü sana yol gösterir."],
+"asker":      ["Korunma ve disiplin.", "Bir konuda düzen kurman gerekiyor."],
+"el":         ["Yardım.", "Biri sana el uzatır ya da senden yardım istenir."],
+"iki el":     ["Anlaşma.", "El sıkışılan bir iş olur."],
+"ayak":       ["Yola çıkma.", "Bir yolculuk ya da yeni bir işe başlama."],
+"göz":        ["Nazar ve farkındalık.", "Kıskanılıyorsun; ayrıca gözünden kaçan bir ayrıntı var."],
+"gözyaşı":    ["Birikmiş duygu.", "İçinde tuttuğun şey yakında dökülür, sonrası rahatlık."],
+"kalp":       ["Aşk ve gönül işi.", "Ya bir yakınlık başlar ya mevcut ilişkide bir konu netleşir."],
+"yürek":      ["Gönül meselesi.", "Kalple aynı okunur."],
+"saç":        ["Güç ve düşünce.", "Kafanı meşgul eden bir konu var, dağınık değil ama yoğun."],
+"kucak":      ["Sarılma ve barış.", "Küs olduğun biriyle araya bir vesile girer."],
+
+/* ── doğa ── */
+"ağaç":       ["Kök salma ve büyüme.", "Emek verdiğin bir şey artık kendi kendine yürür; aile ve ev düzeni."],
+"hayat ağacı":["Köklü bereket.", "Aile tarafından gelen bir destek ya da miras konusu."],
+"yaprak":     ["Mevsim değişimi.", "Bir dönem kapanır, yenisi açılır."],
+"dal":        ["Yeni kol.", "Mevcut işine bir yan iş eklenir."],
+"kök":        ["Geçmişten gelen.", "Eski bir konu bugüne uzanır."],
+"çiçek":      ["Müjde.", "Bir davet, bir hediye, seni sevindirecek küçük bir haber."],
+"gül":        ["Sevgi ve değer görme.", "Biri sana kıymet verdiğini gösterir."],
+"meyve":      ["Emeğin karşılığı.", "Uğraştığın iş sonuç verir."],
+"elma":       ["Sağlık ve bolluk.", "Bedenin toparlar, sofran genişler."],
+"üzüm":       ["Bereket.", "Küçük küçük gelen ama kesilmeyen bir kazanç."],
+"başak":      ["Rızık.", "Geçim tarafı rahatlar."],
+"dağ":        ["Aşılacak iş.", "Zor ama imkânsız değil; tepesi görünüyorsa yarısını çoktan geçmişsin."],
+"tepe":       ["Yükseliş.", "Bir konuda üste çıkarsın."],
+"kaya":       ["Sağlamlık.", "Güvenebileceğin bir dayanak var."],
+"taş":        ["Sabır.", "Bu işin vakti gelmemiş, zorlama."],
+"deniz":      ["Büyük değişim.", "Uzak bir yer ya da büyük bir karar gündeme gelir."],
+"göl":        ["Durgunluk.", "Sakin bir dönem; kötü değil, dinlenme zamanı."],
+"nehir":      ["Akış.", "İşler kendi hızında ama kesintisiz ilerler."],
+"dalga":      ["İnişli çıkışlı dönem.", "Birkaç hafta dengesiz geçer, sonra durulur."],
+"bulut":      ["Belirsizlik.", "Henüz netleşmemiş bir konu var; bulut durmaz, dağılır."],
+"yağmur":     ["Bereket ve arınma.", "Sıkıntılı bir konu temizlenir."],
+"kar":        ["Bekleme.", "Bir iş bir süre askıda kalır, sonra açılır."],
+"güneş":      ["Ferahlama.", "Sıkıntılı dönem biter, yüzün güler."],
+"ay":         ["Olgunlaşma.", "Beklediğin şey tam vaktinde olur, acele etme."],
+"hilal":      ["Büyüyen şey.", "Yeni başlayan bir konu zamanla büyür."],
+"dolunay":    ["Vakti gelmiş.", "Beklediğin şey artık olgunlaştı, uzatma."],
+"yıldız":     ["Şans ve takdir.", "Emeğin görülür, bir teşekkür ya da ödül gelir."],
+"yıldızlar":  ["Üst üste iyi haber.", "Kısa sürede birkaç güzel gelişme olur."],
+"şimşek":     ["Ani gelişme.", "Beklemediğin anda bir haber düşer."],
+"ateş":       ["Tutku ve acele.", "Bir konuda fazla hızlısın, biraz soğut."],
+"duman":      ["Geçici karışıklık.", "Kafan karışık ama kısa sürede dağılır."],
+"gökkuşağı":  ["Sıkıntıdan sonra güzellik.", "Zor bir dönemin hemen ardından iyi bir haber gelir."],
+"rüzgâr":     ["Hareket.", "Durgun bir konu canlanır."],
+"orman":      ["Kalabalık konu.", "Aynı anda birçok işle uğraşıyorsun, birini seç."],
+"ada":        ["Yalnızlık.", "Bir konuda kendini yalnız hissediyorsun ama yardım yakında."],
+
+/* ── ev ve nesneler ── */
+"ev":         ["Yuva.", "Taşınma, ev alma ya da evde bir düzen değişikliği."],
+"kapı":       ["Açık fırsat.", "Önünde duran bir imkân var; girmek sana kalmış."],
+"açık kapı":  ["Davet.", "Bir yerden çağrılırsın."],
+"kapalı kapı":["Ertelenen iş.", "Bu iş şimdi değil, birkaç ay sonra açılır."],
+"pencere":    ["Dışarıyı görme.", "Bir konuda yeni bir bakış açısı kazanırsın."],
+"anahtar":    ["Kapalı kapının açılması.", "Bekleyen bir iş çözülür: bir izin, bir onay, bir görüşme."],
+"kilit":      ["Tıkanma.", "Bir iş şimdilik duruyor, zorlamak işe yaramaz."],
+"merdiven":   ["Basamak basamak yükseliş.", "İşte terfi, konum değişikliği, sorumluluğun artması."],
+"köprü":      ["Araya girme.", "İki tarafı barıştıran bir durum ya da bir aracı çıkar."],
+"yol":        ["Yeni bir yol açılıyor.", "Yeni bir iş, yeni bir ev, bir taşınma ya da alışılmışın dışında bir karar."],
+"ayrılan yol":["Seçim.", "İki gerçek seçenek var; ikisi de yaşanabilir."],
+"kesik yol":  ["Ertelenen plan.", "Bir planın tarihi değişir, iptal olmaz."],
+"kuyu":       ["Derin konu.", "Uzun süredir konuşulmayan bir mesele gündeme gelir."],
+"çeşme":      ["Kesilmeyen gelir.", "Düzenli bir kazanç kapısı açılır."],
+"kuyruk":     ["Bekleme sırası.", "Sıranın sana gelmesi için biraz daha beklemen gerekir."],
+"masa":       ["Toplanma.", "Bir araya gelinen bir konuşma olur."],
+"sandalye":   ["Makam ve davet.", "Sana bir yer, bir görev ya da bir davet gelir."],
+"yatak":      ["Dinlenme ihtiyacı.", "Kendini fazla yordun, birkaç gün ağır al."],
+"beşik":      ["Müjde.", "Ailede sevindirici bir haber duyulur."],
+"bardak":     ["Paylaşım.", "Biriyle oturup konuşulacak bir mesele var."],
+"fincan":     ["Sohbet ve haber.", "Uzun bir konuşma sonunda bir şey netleşir."],
+"kaşık":      ["Rızık.", "Sofra ve geçim tarafı rahatlar."],
+"bıçak":      ["Ayrılma ya da netleşme.", "Bir konuyu kesip atman gerekiyor."],
+"makas":      ["Kesip atma.", "Bir ilişkiyi ya da işi sonlandırma kararı."],
+"kılıç":      ["Mücadele.", "Hakkını aramak için karşı çıkman gereken bir durum var."],
+"iğne":       ["İnce iş.", "Dikkat isteyen, sabırla yürütülecek bir mesele."],
+"ip":         ["Bağ.", "Seni bir yere bağlayan bir sorumluluk var."],
+"düğüm":      ["Çözülecek mesele.", "Karışık görünen bir iş tek bir konuşmayla çözülür."],
+"zincir":     ["Ortaklık.", "İki kişinin ya da iki işin birbirine bağlanması."],
+"yüzük":      ["Söz ve bağ.", "Nişan, nikâh, ortaklık ya da yazıya dökülecek bir anlaşma."],
+"kolye":      ["Değer verilen.", "Sana kıymetli bir şey emanet edilir."],
+"taç":        ["Başarı.", "Bir işte öne çıkar, adın anılır."],
+"para":       ["Eline geçecek nakit.", "Küçük ama düzenli bir gelir başlar."],
+"paralar":    ["Bereket akışı.", "Azar azar ama kesilmeyen bir gelir olur."],
+"çanta":      ["Yolculuk ya da iş değişikliği.", "Bir yere gitmen ya da işini değiştirmen gündeme gelir."],
+"valiz":      ["Uzun yol.", "Şehir dışı ya da yurt dışı bir hareket olur."],
+"mektup":     ["Resmî haber.", "Bir yazı, bir belge, bir kurumdan cevap gelir."],
+"zarf":       ["Haber.", "Beklediğin bir cevap ulaşır."],
+"kitap":      ["Öğrenme.", "Bir kursa, bir eğitime ya da yeni bir bilgiye yönelirsin."],
+"kalem":      ["İmza.", "Bir belge imzalanır."],
+"saat":       ["Zamanı gelen iş.", "Ertelediğin bir konunun vakti doldu."],
+"ayna":       ["Kendine bakma.", "Bir konuda kendi payını görürsün."],
+"şapka":      ["Yeni sorumluluk.", "Sana yeni bir görev verilir."],
+"ayakkabı":   ["Yola çıkma.", "Bir yolculuk ya da yeni bir işe adım."],
+"elbise":     ["Davet.", "Bir kutlamaya çağrılırsın."],
+"şemsiye":    ["Korunma.", "Bir sıkıntı sana teğet geçer."],
+"süpürge":    ["Temizlik.", "Hayatından bir yükü ya da bir kişiyi çıkarırsın."],
+"mum":        ["Umut.", "Karanlık görünen konuda küçük ama gerçek bir ışık var."],
+"lamba":      ["Aydınlanma.", "Bir konu netleşir, kafan rahatlar."],
+"fener":      ["Yol gösteren.", "Biri sana doğru yolu gösterir."],
+"çan":        ["Duyuru.", "Bir haber çevrende duyulur."],
+"davul":      ["Kutlama.", "Bir düğün ya da şenlik olur."],
+"bayrak":     ["Zafer.", "Uğraştığın işte kazanırsın."],
+"balon":      ["Geçici sevinç.", "Kısa süren ama hoş bir gelişme olur."],
+"hediye":     ["Beklenmedik iyilik.", "Biri sana karşılıksız bir şey verir."],
+"kutu":       ["Sır.", "Saklanan bir şey yakında açığa çıkar."],
+"gemi":       ["Uzaklık.", "Yurt dışı, şehir dışı, uzaktaki birinden haber ya da yolculuk."],
+"yelkenli":   ["Yolun açılması.", "Bekleyen bir iş rüzgârını bulur."],
+"araba":      ["Hareket.", "Bir yer değişikliği ya da hızlanan bir iş."],
+"tren":       ["Uzun süreçli yol.", "Başlayan bir iş uzun sürer ama rayında gider."],
+"uçak":       ["Uzak ve hızlı.", "Uzaktan gelen ani bir gelişme."],
+"bisiklet":   ["Kendi çaban.", "Bu işi kendi gücünle yürütürsün."],
+"top":        ["Şans oyunu.", "Bir konuda risk alırsın, denemeye değer."],
+"at nalı":    ["Korunma.", "Kötü bir şeyi ucuz atlatırsın; nazardan korunursun."],
+"nazar":      ["Kıskanılma.", "Çevrende seni çekemeyen biri var, umursama."],
+
+/* ── şekiller ── */
+"daire":      ["Tamamlanma.", "Yarım kalmış bir iş kapanır."],
+"halka":      ["Söz ve bağ.", "Bir anlaşma ya da nişan gündeme gelir."],
+"üçgen":      ["Beklenmedik şans.", "Ummadığın bir yerden gelen bir fırsat."],
+"kare":       ["Düzen.", "Bir konuda düzen ve güvence sağlanır."],
+"haç":        ["Kavşak.", "İki konu aynı anda önüne gelir."],
+"artı":       ["Ekleme.", "Hayatına bir şey ya da biri eklenir."],
+"ok":         ["Hedef.", "Dağınık enerjini tek bir yere toplarsın."],
+"çizgi":      ["Yol.", "Kesintisizse önün açık, kopuksa bir gecikme var."],
+"nokta":      ["Küçük ama net konu.", "Kısa sürecek ama net bir mesele."],
+"noktalar":   ["Para benekleri.", "Azar azar gelen para ya da haberler."],
+"spiral":     ["Aynı konuya dönme.", "Aynı meseleyi tekrar tekrar konuşuyorsun, bir karar ver."],
+"zikzak":     ["Kararsızlık.", "Fikrini sık değiştiriyorsun, bir yolu seç."],
+"yay":        ["Esneme.", "Bir konuda taviz vermen işi çözer."],
+"damla":      ["Birikmiş duygu.", "İçinde tuttuğun bir şey dökülür, sonrası rahatlama."],
+"merdivenli çizgi":["Kademeli yükseliş.", "Adım adım ilerleyen bir iş."],
+
+/* ── beyaz kalan yerler ── */
+"boşluk":     ["Ferahlama.", "Üstünden bir yük kalkar, nefes alırsın."],
+"açıklık":    ["Rahatlama.", "Seni sıkan konu göründüğü kadar büyük değilmiş."],
+"aydınlık yol":["Temiz çıkış.", "Kalabalığın arasından sana ayrılmış bir yol var."],
+"beyaz alan": ["Huzur.", "Bu tarafta seni yoran bir şey yok."],
+"ışık":       ["Kapalı konuda açıklık.", "Umutsuz göründüğü yerde gerçek bir çıkış var."],
+"perde":      ["Örtülen şey.", "Sana anlatılmayan bir ayrıntı var, sorarsan öğrenirsin."],
+"gölge":      ["Geçmişten kalan.", "Eski bir konu hâlâ arkanda duruyor ama gücü azalmış."],
+
+/* ── soyut, benzetemediğimizde ── */
+"ağırlık":    ["Üstünde durduğun konu.", "Uzun süredir aynı meseleyi taşıyorsun."],
+"kalabalık":  ["Çok konu.", "Aynı anda çok şeyle uğraşıyorsun, biri diğerini ezmiyor."],
+"sessizlik":  ["Bekleme.", "Şu an yapılacak bir şey yok, cevabı beklemek gerekiyor."],
+"kıvılcım":   ["Başlangıç.", "Küçük bir adım büyük bir şeyin başlangıcı olur."],
+"düğüm noktası":["Karar anı.", "Bir konuda artık karar vermen gerekiyor."]
+};
+
+/* Adı sözlükte ara: birebir, sonra tekil-çoğul ve içerme. */
+function sembolAra(ad){
+  const a = String(ad || "").toLocaleLowerCase("tr").trim();
+  if(!a) return null;
+  if(SEMBOL[a]) return {ad:a, anlam:SEMBOL[a][0], ornek:SEMBOL[a][1]};
+  for(const k in SEMBOL){
+    if(a === k + "lar" || a === k + "ler") return {ad:k, anlam:SEMBOL[k][0], ornek:SEMBOL[k][1]};
+  }
+  let enIyi = null;
+  for(const k in SEMBOL){
+    if(a.includes(k) || k.includes(a)){
+      if(!enIyi || k.length > enIyi.length) enIyi = k;
+    }
+  }
+  return enIyi ? {ad:enIyi, anlam:SEMBOL[enIyi][0], ornek:SEMBOL[enIyi][1]} : null;
+}
+
+/* Yapay zekâya verilecek derli toplu liste. Kendi sözlüğümüzü
+   kullanmasını istiyoruz ki yorumlar rastgele değil tutarlı olsun. */
+function sozlukMetni(enFazla){
+  const k = Object.keys(SEMBOL);
+  const n = enFazla || k.length;
+  return k.slice(0, n)
+    .map(a => a + ": " + SEMBOL[a][0] + " " + SEMBOL[a][1])
+    .join("\n");
+}
+
+/* ══════ Devrim'in fincanlarından öğrenilenler ══════
+   Üç fincanda işaretlenen şekiller. Adlar tarif edici geldi
+   ("kepçe kulaklı adam", "elinde sopa olan adam"); sözlük bunları
+   baştaki sıfattan değil, sondaki asıl addan çözer.               */
+Object.assign(SEMBOL, {
+"adam":        ["Hayatında sözü geçen bir erkek.", "Baba, eş ya da işten biri bir konuda belirleyici olacak."],
+"kepçe kulaklı adam":["Seni dinleyen biri.", "Derdini anlatacağın biri çıkacak ve gerçekten dinleyecek."],
+"elinde sopa olan adam":["Arkanda duran biri.", "Bir konuda seni savunacak, hakkını arayacak biri var."],
+"araba kullanan adam":["İşi yürüten kişi.", "Bir işin dümeni bir başkasının elinde; onunla konuşman gerekecek."],
+"komik adam":  ["Neşe katan biri.", "Çevrene keyif veren biri hayatına girecek."],
+"korkuluk":    ["İçi boş korku.", "Seni ürküten şey yaklaşınca dağılacak, göründüğü kadar büyük değil."],
+"palyaço":     ["Gülen yüz, saklanan dert.", "Çevrende neşeli görünüp sıkıntısını söylemeyen biri var."],
+"tabanca":     ["Sert söz.", "Bir tartışmada kırıcı bir laf duyacaksın; karşılık verme, kısa sürede geçecek."],
+"sopa":        ["Dayanak.", "Bir konuda sana destek olacak bir el bulacaksın."],
+"adalar":      ["Ayrı ayrı duran işler.", "Birbirinden bağımsız birkaç konu var; hepsini aynı anda çözmeye çalışma."],
+"ada":         ["Tek başına kalan konu.", "Bir meseleyi kimseye anlatmadan taşıyorsun."],
+"soru işareti":["Cevap bekleyen konu.", "Sorulmamış bir soru var; sorduğun gün her şey netleşecek."],
+"köpekbalığı": ["Rekabet.", "İşinde seni çekemeyen biri var; anlaşmalarını yazılı tut."],
+"tekne":       ["Kısa yolculuk.", "Yakın bir seyahat ya da bir yer değişikliği olacak."],
+"arapça yazı": ["Manevi bağ.", "Bir dua, bir adak ya da geçmişten gelen bir söz bu işin içinde."],
+"yazı":        ["Yazılı haber.", "Bir belge, bir mesaj ya da resmî bir cevap gelecek."],
+"hamile hayvan":["Doğmak üzere olan iş.", "Beklettiğin konu son aşamada; yakında sonucu çıkacak."],
+"hamile":      ["Olgunlaşmış bekleyiş.", "Uzun süredir beklediğin şeyin vakti doldu."],
+"yunus":       ["Kendiliğinden gelen yardım.", "Zor bir anda biri istemeden yardımına koşacak."],
+"yunus kafası":["Yardım yolda.", "Sıkıştığın anda beklemediğin biri devreye girecek."],
+"timsah":      ["Sessiz duran mesele.", "Unuttuğunu sandığın bir konu hâlâ duruyor; hazırlıklı ol."],
+"diş":         ["Canını yakan söz.", "Ağızdan çıkan bir laf seni üzecek; büyütmezsen unutulacak."],
+"çift göz":    ["İki taraftan bakış.", "İki kişi aynı anda seni izliyor; biri iyi niyetli, biri meraklı."],
+"sahil":       ["Varış.", "Uzun bir uğraşın sonuna geliyorsun, kıyı göründü."],
+"girintili çıkıntılı bir sahil":["İnişli çıkışlı varış.", "Sonuca ulaşacaksın ama yol düz olmayacak."],
+"sürüngen":    ["Yavaş yaklaşan konu.", "Uzaktaki bir mesele adım adım sana doğru geliyor."],
+"iki nokta":   ["İki haber.", "Arka arkaya iki gelişme duyacaksın."],
+"üstüste iki nokta":["Peş peşe haber.", "Aynı konuda iki ayrı haber gelecek."],
+"silikleşen kalp":["Soluklaşan duygu.", "Eskiden ağır gelen bir his artık üstünde durmuyor."],
+"kulak":       ["Duyulacak söz.", "Biri sana bir şey anlatacak; dinlemeye değer."],
+"kuyruk":      ["Arkada kalan.", "Bir işin son parçası hâlâ tamamlanmadı."],
+"V harfi":     ["Zafer.", "Uğraştığın işten galip çıkacaksın."],
+"harf":        ["Bir ismin baş harfi.", "Adı o harfle başlayan biri gündeme gelecek."],
+"sayı":        ["Süre.", "Fincanda sayılar tarih değil süre verir: gün, hafta ya da ay."],
+"deniz ve dalgalar":["Hareketli dönem.", "Birkaç hafta dalgalı geçecek, sonra durulacak."],
+"kadın":       ["Sözü geçen bir kadın.", "Anne, abla ya da yakın bir arkadaş bir konuda devreye girecek."],
+"büyük balık": ["Büyük kısmet.", "Tek seferde ciddi bir para ya da fırsat eline geçecek."],
+"uzun balık":  ["Uzun sürecek kazanç.", "Gelir bir kerelik değil, aylara yayılacak."]
+});
+
+/* Tarif edici adlarda asıl sembolü kelimelerden bul: "kepçe kulaklı
+   adam" -> adam, "girintili çıkıntılı bir sahil" -> sahil.          */
+function sembolCoz(ad){
+  const tam = sembolAra(ad);
+  if(tam && tam.ad === String(ad||"").toLocaleLowerCase("tr").trim()) return tam;
+  const kelimeler = String(ad||"").toLocaleLowerCase("tr")
+    .replace(/[^a-zçğıöşü0-9\s]/g, " ").split(/\s+/).filter(Boolean);
+  for(let i=kelimeler.length-1; i>=0; i--){
+    const k = sembolAra(kelimeler[i]);
+    if(k) return k;
+  }
+  return tam;
+}
+
+
+/* İstemin içine giren sembol listesi. Yapay zekâ kendi kafasından
+   anlam uydurmasın, bizim sözlüğümüzü kullansın diye veriliyor.    */
+function sozlukIstem(){
+  const satir = Object.keys(SEMBOL)
+    .map(a => a + " = " + SEMBOL[a][0] + " " + SEMBOL[a][1])
+    .join("\n");
+  return "SEMBOL SÖZLÜĞÜ\nBir şekli adlandırdığında anlamını BURADAN al; kendi kafandan anlam uydurma. "
+       + "Listede olmayan bir şekil görürsen onu da yaz ve anlamını kendin ver, ama listedekilerde bu anlamlara sadık kal. "
+       + "Anlamı olduğu gibi kopyalama, kendi cümlenle ve bu fincana bağlayarak anlat.\n"
+       + satir + "\n";
+}
 
 /* ══════════════════ 2. GÖRÜNTÜ İŞLEME ══════════════════ */
 
@@ -4290,21 +4681,10 @@ function kutuyuLekeyeBagla(shot, kb){
   }
   if(en) return en;
 
-  /* leke bulunamadıysa kutunun kendisini çiz */
-  const w = shot.work.w, h = shot.work.h;
-  const pts = [];
-  const cx = mx, cy = my, rx = Math.max(6,(wx1-wx0)/2), ry = Math.max(6,(wy1-wy0)/2);
-  for(let y=Math.max(0,Math.floor(cy-ry)); y<=Math.min(h-1,Math.ceil(cy+ry)); y++)
-    for(let x=Math.max(0,Math.floor(cx-rx)); x<=Math.min(w-1,Math.ceil(cx+rx)); x++){
-      const dx=(x-cx)/rx, dy=(y-cy)/ry;
-      if(dx*dx+dy*dy <= 1) pts.push(y*w+x);
-    }
-  if(pts.length < 12) return null;
-  const prevW = work; work = shot.work;
-  let b = null;
-  try{ b = buildBlob(pts, w, 0); b.shot = shot; b.kaba = true; }catch(e){ b = null; }
-  work = prevW;
-  return b;
+  /* Gerçek bir leke bulunamadıysa HİÇBİR ŞEY çizmiyoruz. Eskiden
+     oraya bir elips uydurup işaretliyordu; olmayan şeyi göstermek
+     yanlış göstermekten de beterdir.                             */
+  return null;
 }
 
 /* ══════════════════ FOTOĞRAF KALİTESİ ══════════════════ */
@@ -4493,7 +4873,7 @@ function buildPagesAI(v){
   if(!shots.length || !v || !v.sekiller.length) return false;
 
   const k = T.kapak[v.yogunluk] || T.kapak.denge;
-  const kapakBody = [nm(v.giris || k.a)];
+  const kapakBody = [nm(v.giris || (k.alt ? pick(k.alt) : k.a))];
   kapakBody.push(nm(shots.length >= 3 ? T.tamFoto : (T.eksikFoto[shots.length] || T.eksikFoto[1])));
   pages.push({kind:"kapak", blobs:[], shot:shots[0], kicker:T.ord[1] + T.ordSuffix,
               title: v.baslik ? vurgu(cap(v.baslik)) : k.t, where:T.genel, body:kapakBody});
@@ -4622,7 +5002,7 @@ function buildPages(){
   /* ── kapak ── */
   const frac = shots.reduce((s,x)=>s+x.frac,0)/shots.length;
   const k = T.kapak[frac > 0.30 ? "yogun" : frac < 0.16 ? "acik" : "denge"];
-  const kapakBody = [nm(k.a), nm(k.b(koyu.length + beyaz.length))];
+  const kapakBody = [nm(k.alt ? pick(k.alt) : k.a), nm(k.b(koyu.length + beyaz.length))];
   kapakBody.push(nm(shots.length >= 3 ? T.tamFoto : (T.eksikFoto[shots.length] || T.eksikFoto[1])));
   pages.push({kind:"kapak", blobs:[], shot:shots[0], kicker:T.ord[1] + T.ordSuffix,
               title:k.t, where:T.genel, body:kapakBody});
@@ -4890,13 +5270,8 @@ function draw(){
       vc.stroke();
     }
     vc.shadowBlur = 0;
-    vc.strokeStyle = "rgba(212,168,67,.4)"; vc.lineWidth = 1;
-    vc.globalAlpha = arcT;
-    for(const m of marks){
-      vc.beginPath();
-      vc.ellipse(m.x, m.y, m.rx*1.25, m.ry*1.25, m.b.theta, 0, Math.PI*2);
-      vc.stroke();
-    }
+    /* Lekenin kendi sınırı dışında halka çizmiyoruz: ekranda görünen
+       her çizgi telvede gerçekten var olan bir şeyin sınırı olmalı. */
     vc.restore();
   }
   placeLabels(p, marks);
