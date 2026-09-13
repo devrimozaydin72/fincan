@@ -3764,9 +3764,34 @@ async function aiSample(){
   return _sample;
 }
 
+/* ══════ kendi sunucumuz ══════
+   Anahtarı sayfaya gömmek yerine sunucuda tutuyoruz. Sayfayı inceleyen
+   kimse anahtarı göremez, arkadaşların da anahtar girmek zorunda kalmaz. */
+let _vekil = null;                 // null: bilinmiyor, true/false: denendi
+async function vekilVarMi(){
+  if(_vekil !== null) return _vekil;
+  try{
+    const r = await fetch("/api/fal", {method:"GET", cache:"no-store"});
+    if(!r.ok){ _vekil = false; return _vekil; }
+    const j = await r.json();
+    _vekil = !!(j && j.hazir);
+  }catch(e){ _vekil = false; }
+  return _vekil;
+}
+async function cagirVekil(soru, gorseller){
+  const r = await fetch("/api/fal", {
+    method:"POST", headers:{"Content-Type":"application/json"},
+    body: JSON.stringify({soru, gorseller})
+  });
+  if(!r.ok) throw new Error("vekil " + r.status);
+  const j = await r.json();
+  return (j && j.metin) ? j.metin : "";
+}
+
 /* yapay zekâ hiç kullanılabilir mi (metinleri buna göre yazıyoruz) */
 function aiMumkun(){
   if(AI_AYAR.kapali) return false;
+  if(_vekil === true) return true;
   if(aiAnahtar()) return true;
   return !!(window.claude && typeof window.claude.use === "function");
 }
@@ -3884,11 +3909,19 @@ async function aiOku(soru, canvaslar){
     }catch(e){ /* sessizce alt yola geç */ }
   }
 
-  /* 2) ücretsiz anahtar */
+  /* 2) kendi sunucumuz (anahtar orada durur) */
+  const b64 = canvaslar.slice(0,3).map(cupB64);
+  if(await vekilVarMi()){
+    try{
+      const j = aiJson(await cagirVekil(soru, b64));
+      if(j) return j;
+    }catch(e){ /* sıradaki yola geç */ }
+  }
+
+  /* 3) sayfaya gömülü anahtar */
   const k = aiAnahtar();
   const sag = aiSaglayici(k);
   if(!sag) return null;
-  const b64 = canvaslar.slice(0,3).map(cupB64);
   const modeller = AI_AYAR.model ? [AI_AYAR.model] : AI_MODEL[sag];
   for(const m of modeller){
     try{
@@ -5275,6 +5308,10 @@ document.getElementById("b-ayar-kapat").addEventListener("click", ayarKapat);
 ayarKutu.addEventListener("click", e=>{ if(e.target === ayarKutu) ayarKapat(); });
 
 kunyeAyarla();
+
+/* Sunucuda anahtar var mı? Cevap gelince künye metni tazelenir;
+   sayfanın ilk açılışı bu isteği beklemez. */
+try{ vekilVarMi().then(()=>kunyeAyarla()); }catch(err){}
 
 /* ══════════════════ 8. ÖRNEK FİNCAN ══════════════════ */
 
