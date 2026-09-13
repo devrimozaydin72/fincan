@@ -5094,19 +5094,23 @@ async function falAc(){
   const enAz = new Promise(r => setTimeout(r, 2200));
 
   let veri = null;
+  /* Ölçüm dökümünü her hâlükârda çıkarıyoruz: yapay zekâ kapalıyken de
+     eğitim örneği dışa aktarılabilsin diye. Modeli eğitecek veri,
+     okumanın yapay zekâyla yapılmasına bağlı değil.                  */
+  const cvs = [], sirali = [];
+  for(const sh of shots){
+    const cv = cupCanvas(sh, 1024);
+    if(cv){ sh._kes = cv._kes; cvs.push(cv); sirali.push(sh); }
+  }
+  let dokum = [];
+  sirali.forEach((sh, i)=>{ dokum = dokum.concat(lekeDokumu(sh, i+1, T)); });
+  sonOlcum = cvs.length ? {foto:cvs.length, kulp:handle, dil:T.loc, olcumler:dokum} : null;
+
   try{
     if(aiMumkun()){
-      const cvs = [], sirali = [];
-      for(const sh of shots){
-        const cv = cupCanvas(sh, 1024);
-        if(cv){ sh._kes = cv._kes; cvs.push(cv); sirali.push(sh); }
-      }
       if(cvs.length){
         /* cihazın ölçtüğü lekeleri de veriyoruz: yorum somutlaşıyor ve
            işaretlenen kutular gerçekten lekenin üstüne oturuyor */
-        let dokum = [];
-        sirali.forEach((sh, i)=>{ dokum = dokum.concat(lekeDokumu(sh, i+1, T)); });
-        sonOlcum = {foto:cvs.length, kulp:handle, dil:T.loc, olcumler:dokum};
         const soru = T.aiSoru({
           foto: cvs.length,
           ad: KULLANICI_ADI || T.adYedek,
