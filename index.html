@@ -2810,6 +2810,76 @@ function segment(g, w, h, cup){
   return {mask:clean, frac:res.frac};
 }
 
+/* ── ikinci katman: orta tonlu izler ──
+   Fincanda iki ayrı okunacak şey var: dipteki kalın koyu kütle ve
+   duvarlara yapışmış soluk kahverengi çizgiler. Tek bir eşik ikisini
+   birden yakalayamaz; koyu kütleyi tutturan eşik, beyaz porselen
+   üstündeki ince izleri tamamen kaçırır. Oysa fal okurken en çok
+   konuşulan şey o çizgilerdir: duvardan aşağı inen iz haberdir.
+   Burada koyu katmanın dışında kalan bölgeyi ikinci kez eşikliyoruz. */
+/* kutu bulanıklaştırma: yerel ortalamayı hızlıca çıkarır */
+function kutuBulanik(g, w, h, r){
+  const kes = (v, ust) => v < 0 ? 0 : (v > ust ? ust : v);
+  const a = new Float32Array(w*h), b = new Float32Array(w*h);
+  const n = 2*r + 1;
+  for(let y=0;y<h;y++){
+    let sum = 0;
+    for(let x=-r; x<=r; x++) sum += g[y*w + kes(x, w-1)];
+    for(let x=0;x<w;x++){
+      a[y*w+x] = sum/n;
+      sum -= g[y*w + kes(x-r, w-1)];
+      sum += g[y*w + kes(x+r+1, w-1)];
+    }
+  }
+  for(let x=0;x<w;x++){
+    let sum = 0;
+    for(let y=-r; y<=r; y++) sum += a[kes(y, h-1)*w + x];
+    for(let y=0;y<h;y++){
+      b[y*w+x] = sum/n;
+      sum -= a[kes(y-r, h-1)*w + x];
+      sum += a[kes(y+r+1, h-1)*w + x];
+    }
+  }
+  return b;
+}
+
+function segmentOrta(g, w, h, cup, koyuMask){
+  /* Fincanın duvarı bir uçtan diğerine aydınlık farkı taşır: arka taraf
+     gölgede, ön taraf parlak. Genel bir eşik bu yüzden lekeyi değil
+     aydınlanmayı ayırır ve bütün üst duvarı tek parça "iz" sanır.
+     Onun yerine her pikseli KENDİ ÇEVRESİNE kıyaslıyoruz: çevresinden
+     belirgin biçimde koyu olan yerler gerçek izdir, gölge değildir.  */
+  const yari = Math.max(4, Math.round(Math.min(cup.rx, cup.ry) * 0.20));
+  const yerel = kutuBulanik(g, w, h, yari);
+
+  const alan = new Uint8Array(g.length);
+  let n = 0;
+  for(let y=0;y<h;y++) for(let x=0;x<w;x++){
+    const i = y*w+x;
+    if(cupR(cup, x, y) > 0.90 || koyuMask[i]) continue;
+    if(g[i] > 250) continue;                    // parlama: telve değil
+    alan[i] = 1; n++;
+  }
+  if(n < 200) return new Uint8Array(g.length);
+
+  const m = new Uint8Array(g.length);
+  const uygula = fark => {
+    let c = 0;
+    for(let i=0;i<g.length;i++){
+      const v = (alan[i] && g[i] < yerel[i] - fark) ? 1 : 0;
+      m[i] = v; c += v;
+    }
+    return c/n;
+  };
+
+  let fark = 15, oran = uygula(fark), guard = 0;
+  while(oran > 0.30 && guard++ < 14){ fark += 3; oran = uygula(fark); }
+  guard = 0;
+  while(oran < 0.04 && fark > 5 && guard++ < 14){ fark -= 2; oran = uygula(fark); }
+
+  return dilate(erode(m, w, h, 1), w, h, 1);
+}
+
 /* ══════════════════ 3. ŞEKİL ÖZELLİKLERİ ══════════════════ */
 
 function buildBlob(pts, w, h){
@@ -3748,7 +3818,7 @@ function lekeDokumu(shot, sira, T){
         foto: sira,
         kutu: [Math.max(0,nx-rx), Math.max(0,ny-ry), Math.min(1,nx+rx), Math.min(1,ny+ry)]
                 .map(v => Math.round(v*100)/100),
-        yuzde: yuzde < 1 ? yuzde.toFixed(1) : Math.round(yuzde),
+        yuzde: Math.round(yuzde*10)/10,
         koyu: koyuluk(b),
         uzun: Math.round(b.elong*10)/10,
         bolge: p.zone,
@@ -4146,6 +4216,16 @@ function analyzeShot(img, url, elips){
   let koyular = components(seg.mask, wk.w, wk.h, minA)
                   .map(pts => buildBlob(pts, wk.w, 0))
                   .filter(b => b.area < c.area*0.72);
+  koyular.forEach(b => { b.ton = "koyu"; });
+
+  /* orta tonlu izler: duvara yapışmış soluk çizgiler, kenar bulaşmaları.
+     Fal okurken en çok konuşulan izler bunlar.                        */
+  const ortaMask = segmentOrta(g, wk.w, wk.h, c, seg.mask);
+  const ortalar = components(ortaMask, wk.w, wk.h, Math.max(28, Math.round(c.area*0.0011)))
+                    .map(pts => buildBlob(pts, wk.w, 0))
+                    .filter(b => b.area < c.area*0.34);
+  ortalar.forEach(b => { b.ton = "orta"; });
+  koyular = koyular.concat(ortalar);
 
   /* telvenin bıraktığı beyaz alanlar: kenar halkası dışarıda kalsın */
   const ak = new Uint8Array(g.length);
@@ -4173,8 +4253,14 @@ function analyzeShot(img, url, elips){
     return cikti.filter(b => b.area >= minA && blobIcerde(b, c, 0.92));
   };
 
-  koyular = parcala(koyular, false).sort((a,b)=>b.area-a.area).slice(0, 22);
-  aklar   = parcala(aklar,   true ).sort((a,b)=>b.area-a.area).slice(0, 6);
+  /* İki tonu ayrı ayrı seçiyoruz. Tek listede sıralarsak dipteki
+     kocaman kütle bütün yerleri kapar ve duvardaki ince izler hiç
+     okunmaz; oysa fal okurken asıl konuşulan onlardır.            */
+  const hepsi = parcala(koyular, false);
+  const kSirali = hepsi.filter(b => b.ton !== "orta").sort((a,b)=>b.area-a.area).slice(0, 14);
+  const oSirali = hepsi.filter(b => b.ton === "orta").sort((a,b)=>b.area-a.area).slice(0, 8);
+  koyular = kSirali.concat(oSirali);
+  aklar   = parcala(aklar, true).sort((a,b)=>b.area-a.area).slice(0, 6);
 
   shot.blobs = koyular.concat(aklar);
   shot.q = quality(shot);
