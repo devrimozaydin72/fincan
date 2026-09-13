@@ -752,7 +752,7 @@ tr:{
     nogrounds:(n,y)=>n+". fotoğrafta telve göremiyorum. Halkanın fincanın içini aldığından emin ol.",
     fewshapes:(n,y)=>n+". fotoğrafta okunacak belirgin bir şey çıkmadı. Başka bir açıdan bir tane daha çekelim.",
     soft:(n,y)=>n+". fotoğraf biraz yumuşak. Böyle de okurum ama daha net bir kare eklersen daha çok şey görürüm.",
-    shadow:(n,y)=>n+". fotoğrafta fincanın "+y+" tarafı gölgede kalmış, orayı göremedim. Işığı yandan değil tepeden alacak şekilde bir daha çek.",
+    shadow:(n,y)=>n+". fotoğrafta fincanın "+y+" tarafı gölgede kalmış. Işığı yandan değil tepeden alacak şekilde bir daha çekersen oradan da çok şey çıkar.",
     glare:(n,y)=>n+". fotoğrafta fincanın "+y+" tarafı parlıyor, telve kayboluyor. Açıyı azıcık değiştirip bir daha çek."
   },
 
@@ -935,7 +935,7 @@ tr:{
     yan:{yakin:"Gözünden kaçan şey kendi işinde.", karsi:"Dikkat etmen gereken şey dışarıda.", yan:"Yakınındaki biri sana bir şey söylemek istiyor."}},
 
   iz:{ad:"İz", hikaye:"üstünde durduğun bir konunun ağırlığı",
-    ana:"Burada telve belirgin bir küme bırakmış. Şekle isim vermeyeceğim {ad}, uydurmuş olurum. Ama fincanda her koyu küme bir ağırlıktır: iyi ya da kötü değil, sadece üzerinde durulan bir konu.",
+    ana:"Burada telve toplu bir küme bırakmış {ad}. Fincanda böyle bir koyuluk ağırlıktır: iyi ya da kötü değil, üstünde durduğun bir konu.",
     zon:{kenar:"Konu güncel, bu haftanın meselesi.", orta:"Konu birkaç aya yayılıyor.", dip:"Konu eski ve hâlâ kapanmamış."},
     yan:{yakin:"Mesele doğrudan seninle ilgili.", karsi:"Mesele dışarıdan, seni dolaylı ilgilendiriyor.", yan:"Mesele yakın çevrenle ilgili."}}
   },
@@ -1275,10 +1275,10 @@ PACK.tr.aciTarif = [
   "Fincanın içine dik bak, dibi görünsün."
 ];
 PACK.tr.eksikFoto = {
-  1:"Elimde tek fotoğraf var {ad}. Fincanın o yüzünü okudum ama arka tarafını ve dibini göremedim, o yüzden bu okuma eksik bir okuma. Yine de gördüğümü sakladığım yok, hepsini anlattım.",
-  2:"İki fotoğrafla baktım. Fincanın bir yüzü karanlıkta kaldı; oradan ne çıkardı bilemiyorum. Anlattıklarım gördüğüm kadarıyla doğru, ama tam değil."
+  1:"Fincanı bir de öbür yüzünden çekersen {ad}, oradan da bir sürü şey anlatırım sana.",
+  2:"Bir kare daha eklersen fincanın dibini de okurum {ad}, orası hep en çok konuşan yerdir."
 };
-PACK.tr.tamFoto = "Üç açıdan da baktım {ad}, fincanın her yerini gördüm. Bu okuma eksiksiz.";
+PACK.tr.tamFoto = "Fincanı elimde çevire çevire baktım {ad}, her yanını gördüm.";
 
 PACK.tr.tahminBaslik = "Bundan çıkan tahminim";
 PACK.tr.gordugumBaslik = "Tam olarak ne gördüm";
@@ -1618,9 +1618,9 @@ bulut:{ad:"Bulut", hikaye:"geçici bir belirsizliğin dağılması",
        yan:"Yanındaki biri de aynı belirsizliğin içinde."}},
 
 iz:{ad:"İsimsiz İz", hikaye:"üstünde durduğun bir konunun ağırlığı",
-  ogret:"Her lekeye isim vermek zorunda değiliz. İsim verilemeyen bir küme, durduğu yerden ve ağırlığından okunur: bölge zamanı, kulba göre yönü kimi, koyuluğu ise konunun ağırlığını söyler.",
-  ana:["{ad}, burada belirgin bir küme var ama sana yalan söylemeyeceğim: bu bir şeye benzemiyor. Zorlayıp isim uydurabilirdim, sen de fincana bakıp göremezdin. Onun yerine bunu durduğu yerden okuyorum.",
-       "Bu kümeye bilerek isim vermiyorum {ad}. Fincan okumanın yarısı susmayı bilmektir. Ama susmak 'bir şey yok' demek değil: burada bir ağırlık var ve nerede durduğu bana yetiyor."],
+  ogret:"Her iz bir hayvana ya da eşyaya benzemez. Kimi iz sadece ağırlıktır ve ağırlık da okunur: nerede durduğu zamanı, koyuluğu da önemini söyler.",
+  ana:["Şuradaki koyuluk bir gölge gibi duruyor {ad}. Fincanın bu köşesinde bir ağırlık var; adı konmamış ama yeri belli.",
+       "Burada telve kendi içine kapanmış {ad}. Böyle izler eşyaya benzemez, hisse benzer: üstünde durduğun ama henüz adını koymadığın bir konu."],
   tahmin:["Bu konuyu zaten biliyorsun ve adını koymadığın için ertelemişsin. Adını koyduğun gün küçülecek.",
           "Bu ağırlık bir kişiyle değil, bir kararla ilgili. Karar verilince yeri boşalacak."],
   zon:{kenar:"Konu güncel, bu haftanın meselesi.", orta:"Konu birkaç aya yayılıyor.", dip:"Konu eski ve hâlâ kapanmamış."},
@@ -1802,10 +1802,10 @@ PACK.en.ogretBosluk = "A cup is read not only from the grounds but from the clea
 PACK.en.acilar = ["Handle side", "Opposite side", "Bottom of the cup"];
 PACK.en.aciTarif = ["Handle toward you, shot from above.","Turn the cup halfway, shoot the far side.","Look straight down into the cup so the bottom shows."];
 PACK.en.eksikFoto = {
-  1:"I only have one photograph, {ad}. I read that face of the cup, but I could not see its far side or its bottom, so this reading is a partial one. I have kept nothing back from what I did see.",
-  2:"I looked with two photographs. One face of the cup stayed in the dark and I cannot tell you what it held. What I told you is true as far as it goes, but it is not complete."
+  1:"Photograph the other face of the cup too, {ad}, and I will tell you plenty from there as well.",
+  2:"Add one more frame and I will read the bottom of the cup too, {ad}; that part always talks the most."
 };
-PACK.en.tamFoto = "I looked from all three angles, {ad}; I saw every part of the cup. This reading is complete.";
+PACK.en.tamFoto = "I turned the cup over in my hand, {ad}, and saw every side of it.";
 PACK.en.tahminBaslik = "What I expect from this";
 PACK.en.gordugumBaslik = "Exactly what I saw";
 PACK.en.benzemiyor = "I do not liken this mark to anything";
@@ -2257,9 +2257,9 @@ bulut:{ad:"The Cloud", hikaye:"a passing uncertainty clearing",
        yan:"Someone beside you is inside the same uncertainty."}},
 
 iz:{ad:"An Unnamed Mark", hikaye:"the weight of a matter you keep returning to",
-  ogret:"We are not obliged to name every mark. A cluster that cannot be named is read from where it sits and how heavy it is: the region gives the time, the side of the handle gives who, and the darkness gives the weight.",
-  ana:["{ad}, there is a clear cluster here, and I will not lie to you: it does not look like anything. I could have forced a name on it, and you would have looked into the cup and seen nothing. Instead I read it from where it sits.",
-       "I am deliberately not naming this cluster, {ad}. Half of reading a cup is knowing when to stay quiet. But staying quiet does not mean nothing is there: there is a weight here, and where it sits tells me enough."],
+  ogret:"Not every mark resembles an animal or an object. Some marks are simply weight, and weight is read too: where it sits gives the time, how dark it is gives its importance.",
+  ana:["That darkness sits like a shadow, {ad}. There is a weight in this corner of the cup; it has no name, but its place is clear.",
+       "Here the grounds folded in on themselves, {ad}. Marks like this resemble a feeling rather than a thing."],
   tahmin:["You already know this matter and have postponed it because you never named it. It shrinks the day you name it.",
           "This weight concerns a decision rather than a person. Its place clears once the decision is made."],
   zon:{kenar:"The matter is current; this week's business.", orta:"It stretches across a few months.", dip:"It is old and still not closed."},
