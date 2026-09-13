@@ -533,6 +533,7 @@
     <div class="minor">
       <button type="button" id="b-priv" data-t="yasalGizlilik"></button>
       <button type="button" id="b-terms" data-t="yasalKosul"></button>
+      <button type="button" id="b-ogret" data-t="ogretAraci"></button>
     </div>
   </div>
 </section>
@@ -2450,6 +2451,9 @@ PACK.en.tahminBaslik = "What happens next";
 PACK.tr.ui.btnOpen = "Fala başla";
 PACK.en.ui.btnOpen = "Begin the reading";
 
+PACK.tr.ui.ogretAraci = "Şekil öğretme aracı";
+PACK.en.ui.ogretAraci = "Shape teaching tool";
+
 /* ══════════════════ HUKUKİ METİNLER ══════════════════
    App Store başvurusunda Apple bir gizlilik politikası bağlantısı ister.
    Aşağıdaki metinler hem uygulama içinde gösterilir hem de ayrıca
@@ -3082,6 +3086,23 @@ function blobIcerde(b, C, sinir){
     if(cupR(C, b.x0+x, b.y0+y) > S) tasan++;
   }
   return tasan / Math.max(1, b.area) < 0.04;
+}
+
+/* Fincan sınırını aşan lekeyi ATMAK yerine KESİYORUZ. Atarsak dipteki
+   ana kütle gibi kenara dayanan gerçek izler de gider; kesersek
+   dışarıdaki hiçbir piksel okunmaz ama içerideki her şey kalır.   */
+function kirpBlob(b, C, sinir, w){
+  let tasan = 0;
+  const kalan = [];
+  for(const i of b.pts){
+    const x = i % w, y = (i - x) / w;
+    if(cupR(C, x, y) <= sinir) kalan.push(i); else tasan++;
+  }
+  if(!tasan) return b;
+  if(kalan.length < 24) return null;
+  const y2 = buildBlob(kalan, w, 0);
+  y2.shot = b.shot; y2.ak = b.ak; y2.ton = b.ton; y2.kirpik = true;
+  return y2;
 }
 
 /* ── sınıflandırma ──
@@ -4382,7 +4403,8 @@ function analyzeShot(img, url, elips){
     }
     /* Fincanın dışına taşan hiçbir leke okunmaz. Kahve falı fincandan
        ibarettir: kulp, tabak, masa ve elin gölgesi burada elenir.     */
-    return cikti.filter(b => b.area >= minA && blobIcerde(b, c, 0.92));
+    return cikti.map(b => kirpBlob(b, c, 0.90, wk.w))
+                .filter(b => b && b.area >= minA);
   };
 
   /* İki tonu ayrı ayrı seçiyoruz. Tek listede sıralarsak dipteki
@@ -5127,8 +5149,28 @@ function frameBaslat(img, url, hazir){
     const s = Math.min(fW/img.width, fH/img.height);
     fFit = {s, ox:(fW - img.width*s)/2, oy:(fH - img.height*s)/2};
     const gw = img.width*s, gh = img.height*s;
-    const t = hazir ? Math.min(gw, gh)*0.474 : Math.min(fW, fH)*0.34;
-    fEl = {cx:fW/2, cy:fH/2, rx:t, ry:t};
+    if(hazir){
+      const t = Math.min(gw, gh)*0.474;
+      fEl = {cx:fW/2, cy:fH/2, rx:t, ry:t};
+    } else {
+      /* galeriden gelen karede fincan çoğu zaman ortada değil; kaba bir
+         tahmin yapıp halkayı oraya koyuyoruz, kullanıcı düzeltiyor.  */
+      let t = Math.min(fW, fH)*0.34, cx = fW/2, cy = fH/2;
+      try{
+        const kucuk = toWork(img);
+        const tahmin = findCup(grayOf(kucuk.data), kucuk.w, kucuk.h);
+        const k = (img.width*s) / kucuk.w;
+        const rx = tahmin.rx*k, ry = tahmin.ry*k;
+        if(rx > gw*0.12 && rx < gw*0.52 && ry > gh*0.12 && ry < gh*0.52){
+          cx = fFit.ox + tahmin.cx*k;
+          cy = fFit.oy + tahmin.cy*k;
+          fEl = {cx, cy, rx, ry};
+          frameCiz();
+          return;
+        }
+      }catch(err){}
+      fEl = {cx, cy, rx:t, ry:t};
+    }
     frameCiz();
   });
 }
@@ -5567,6 +5609,11 @@ document.getElementById("b-ayar-sil").addEventListener("click", ()=>{
 });
 document.getElementById("b-ayar-kapat").addEventListener("click", ayarKapat);
 ayarKutu.addEventListener("click", e=>{ if(e.target === ayarKutu) ayarKapat(); });
+
+const ogretDugme = document.getElementById("b-ogret");
+if(ogretDugme) ogretDugme.addEventListener("click", ()=>{
+  window.open("etiket.html", "_blank", "noopener");
+});
 
 kunyeAyarla();
 

@@ -1,0 +1,582 @@
+<title>Fincan Öğretmeni</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;1,6..96,400&family=Cormorant+Garamond:wght@400;600&family=Jost:wght@300;400;500&display=swap">
+<style>
+  :root{
+    --night:#180C12; --night-2:#21111A; --ink:#F3E7DD; --ink-2:#CBAEA2; --ink-3:#9A7F77;
+    --gold:#D4A843; --gold-soft:#EBD49A; --gold-dim:rgba(212,168,67,.28);
+    --gold-faint:rgba(212,168,67,.14); --rose:#CE8279; --ok:#7FBE8E; --bad:#D97A6C;
+    --display:"Bodoni Moda",Didot,Georgia,serif;
+    --body:"Cormorant Garamond",Georgia,serif;
+    --ui:"Jost","Century Gothic",sans-serif;
+  }
+  *{box-sizing:border-box;}
+  html,body{background:var(--night);margin:0;}
+  body{color:var(--ink);font-family:var(--body);font-size:18px;line-height:1.6;
+       -webkit-font-smoothing:antialiased;}
+  .shell{max-width:900px;margin:0 auto;padding-inline:18px;padding-block:26px 60px;}
+  .kicker{font-family:var(--ui);font-weight:300;font-size:10.5px;letter-spacing:.32em;
+          text-transform:uppercase;color:var(--gold);margin:0;}
+  h1{font-family:var(--display);font-weight:400;font-size:clamp(30px,7vw,44px);
+     line-height:1.05;margin:12px 0 0;}
+  h1 em{font-style:italic;color:var(--gold-soft);}
+  .lede{color:var(--ink-2);margin:12px 0 0;max-width:56ch;}
+  h2{font-family:var(--display);font-weight:400;font-size:21px;color:var(--gold-soft);
+     margin:30px 0 10px;display:flex;align-items:baseline;gap:9px;}
+  h2 i{font-style:normal;font-family:var(--ui);font-size:10px;letter-spacing:.2em;
+       color:var(--gold);border:1px solid var(--gold-dim);border-radius:99px;
+       width:22px;height:22px;display:grid;place-items:center;flex:none;}
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;
+       font-family:var(--ui);font-weight:400;font-size:12px;letter-spacing:.14em;
+       text-transform:uppercase;padding:12px 18px;border-radius:2px;cursor:pointer;
+       border:1px solid var(--gold-dim);background:transparent;color:var(--ink);}
+  .btn:hover:not(:disabled){border-color:var(--gold);background:rgba(212,168,67,.07);}
+  .btn.primary{background:linear-gradient(180deg,#E2BC63,#C79B35);border-color:transparent;
+               color:#20110A;font-weight:500;}
+  .btn:disabled{opacity:.3;cursor:default;}
+  .row{display:flex;gap:9px;flex-wrap:wrap;align-items:center;}
+  input[type=file]{display:none;}
+
+  .sekmeler{display:flex;gap:7px;margin:14px 0 0;flex-wrap:wrap;}
+  .sekmeler button{background:transparent;border:1px solid var(--gold-faint);border-radius:99px;
+    color:var(--ink-3);font-family:var(--ui);font-size:11px;letter-spacing:.12em;
+    padding:7px 15px;cursor:pointer;}
+  .sekmeler button[aria-pressed=true]{background:var(--gold);color:#20110A;border-color:var(--gold);}
+
+  .tuval-kutu{position:relative;width:100%;margin:14px 0 0;border:1px solid var(--gold-faint);
+    border-radius:3px;overflow:hidden;background:#0D0609;touch-action:none;}
+  canvas{display:block;width:100%;height:auto;cursor:crosshair;}
+  .ipucu{font-family:var(--ui);font-size:11px;letter-spacing:.08em;color:var(--ink-3);
+    margin:10px 0 0;line-height:1.7;}
+  .ipucu b{color:var(--gold-soft);font-weight:400;}
+
+  .liste{margin:14px 0 0;display:flex;flex-direction:column;gap:8px;}
+  .kayit{border:1px solid var(--gold-faint);border-radius:3px;padding:11px 13px;
+    background:rgba(255,255,255,.022);display:grid;grid-template-columns:1fr auto;gap:8px;
+    align-items:start;}
+  .kayit b{font-family:var(--display);font-size:19px;font-weight:400;color:var(--gold-soft);}
+  .kayit .anlam{color:var(--ink-2);font-size:16px;display:block;margin-top:3px;}
+  .kayit .yer{font-family:var(--ui);font-size:10px;letter-spacing:.1em;color:var(--ink-3);
+    text-transform:uppercase;display:block;margin-top:5px;}
+  .kayit button{background:none;border:1px solid var(--gold-faint);border-radius:99px;
+    color:var(--ink-3);font-family:var(--ui);font-size:10px;letter-spacing:.1em;
+    padding:5px 11px;cursor:pointer;height:fit-content;}
+  .kayit button:hover{border-color:var(--bad);color:var(--bad);}
+
+  .sor{position:fixed;inset:0;z-index:40;background:rgba(10,5,8,.92);display:none;
+    place-items:center;padding:20px;}
+  .sor.on{display:grid;}
+  .sor-kutu{width:min(460px,100%);background:var(--night-2);border:1px solid var(--gold-dim);
+    border-radius:4px;padding:22px;display:flex;flex-direction:column;gap:12px;
+    max-height:88vh;overflow:auto;}
+  .sor-kutu input[type=text]{width:100%;padding:12px 14px;background:rgba(0,0,0,.3);
+    border:1px solid var(--gold-dim);border-radius:2px;color:var(--ink);
+    font-family:var(--display);font-size:20px;outline:none;}
+  .oner{display:flex;gap:6px;flex-wrap:wrap;}
+  .oner button{background:transparent;border:1px solid var(--gold-faint);border-radius:99px;
+    color:var(--ink-2);font-family:var(--body);font-size:15px;padding:5px 12px;cursor:pointer;}
+  .oner button:hover{border-color:var(--gold);color:var(--gold-soft);}
+
+  textarea{width:100%;min-height:90px;padding:12px 14px;background:rgba(0,0,0,.3);
+    border:1px solid var(--gold-dim);border-radius:2px;color:var(--ink);
+    font-family:var(--body);font-size:17px;outline:none;resize:vertical;}
+  .kulp{display:flex;gap:7px;flex-wrap:wrap;margin:10px 0 0;}
+  .kulp button{background:transparent;border:1px solid var(--gold-faint);border-radius:99px;
+    color:var(--ink-3);font-family:var(--ui);font-size:11px;letter-spacing:.12em;
+    padding:7px 16px;cursor:pointer;}
+  .kulp button[aria-pressed=true]{background:var(--gold);color:#20110A;border-color:var(--gold);}
+
+  .cikti{width:100%;min-height:150px;font-family:ui-monospace,Menlo,Consolas,monospace;
+    font-size:12px;line-height:1.5;white-space:pre;overflow:auto;}
+  .not{font-family:var(--ui);font-size:11px;letter-spacing:.06em;color:var(--ink-3);
+    line-height:1.8;margin:10px 0 0;}
+  .uyari{color:var(--bad);}
+  .iyi{color:var(--ok);}
+  .toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%) translateY(16px);
+    background:var(--gold-soft);color:#1C0F07;padding:10px 18px;border-radius:2px;
+    font-family:var(--ui);font-size:12px;letter-spacing:.1em;text-transform:uppercase;
+    opacity:0;pointer-events:none;transition:all .3s ease;z-index:60;}
+  .toast.on{opacity:1;transform:translateX(-50%) translateY(0);}
+</style>
+
+<div class="shell">
+  <p class="kicker">Fincan · öğretme aracı</p>
+  <h1>Şekilleri <em>işaretle</em></h1>
+  <p class="lede">Fincanının fotoğraflarını yükle, önce fincanın ağzını çerçevele, sonra gördüğün
+  şekillerin üstüne kutu çiz ve adını yaz. Uygulama bunlardan öğrenecek. Halkanın dışına
+  çizemezsin, çünkü kahve falı fincandan ibarettir.</p>
+
+  <h2><i>1</i> Fotoğraflar</h2>
+  <div class="row">
+    <label class="btn primary" for="dosya">Fotoğraf ekle</label>
+    <input type="file" id="dosya" accept="image/*" multiple>
+    <span class="ipucu" id="foto-say">Henüz fotoğraf yok</span>
+  </div>
+  <div class="sekmeler" id="sekmeler"></div>
+
+  <h2><i>2</i> Fincanı çerçevele</h2>
+  <p class="ipucu"><b>Ortadan sürükle</b> taşır, <b>sağdaki ve alttaki noktalar</b> boyutlandırır.
+  Halka fincanın ağzına otursun; kulp, tabak ve masa dışarıda kalsın.</p>
+  <div class="kulp" id="kulp">
+    <button type="button" data-k="sol">Kulp solda</button>
+    <button type="button" data-k="sag" aria-pressed="true">Kulp sağda</button>
+    <button type="button" data-k="ust">Kulp üstte</button>
+    <button type="button" data-k="alt">Kulp altta</button>
+  </div>
+
+  <h2><i>3</i> Şekilleri işaretle</h2>
+  <div class="row">
+    <button class="btn" type="button" id="mod-fincan" aria-pressed="true">Çerçeve kipi</button>
+    <button class="btn" type="button" id="mod-sekil">Şekil kipi</button>
+    <button class="btn" type="button" id="geri-al">Son şekli sil</button>
+  </div>
+  <div class="tuval-kutu"><canvas id="tuval"></canvas></div>
+  <p class="ipucu" id="durum">Önce bir fotoğraf ekle.</p>
+
+  <div class="liste" id="liste"></div>
+
+  <h2><i>4</i> Fincanın geneli</h2>
+  <p class="ipucu">Üç fotoğrafı birlikte düşününce ne görüyorsun? Telve nerede yoğun, nerede
+  temiz kalmış, genel his ne? Buraya kendi cümlelerinle yaz.</p>
+  <textarea id="genel" placeholder="Örnek: dibi çok yoğun, sağ taraf tertemiz kalmış, kulbun yanında ince çizgiler var..."></textarea>
+
+  <h2><i>5</i> Bana gönder</h2>
+  <div class="row">
+    <button class="btn primary" type="button" id="b-resim">İşaretli resmi indir</button>
+    <button class="btn" type="button" id="b-kopya">Etiketleri kopyala</button>
+    <button class="btn" type="button" id="b-indir">Etiketleri indir</button>
+  </div>
+  <p class="not">İşaretli resmi sohbete yapıştır, etiketleri de kopyalayıp altına ekle.
+  İkisini birlikte görünce şekli nereye benzettiğini tam olarak anlarım.</p>
+  <textarea class="cikti" id="cikti" readonly></textarea>
+</div>
+
+<div class="sor" id="sor">
+  <div class="sor-kutu">
+    <p class="kicker">Bu ne?</p>
+    <input type="text" id="sor-ad" placeholder="kuş, balık, insan yüzü, fil…" autocomplete="off">
+    <div class="oner" id="oner"></div>
+    <input type="text" id="sor-not" placeholder="istersen not: kanadı açık, sağa bakıyor…" autocomplete="off">
+    <div class="row">
+      <button class="btn primary" type="button" id="sor-ok">Ekle</button>
+      <button class="btn" type="button" id="sor-iptal">Vazgeç</button>
+    </div>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+"use strict";
+
+/* ══════════ sembol sözlüğü ══════════
+   Anlamlar internetteki kahve falı kaynaklarından derlendi. Bir sembolün
+   birden çok anlamı varsa en yaygın olanı alındı. Teknik değil, somut
+   yazıldı: "geçit" demek yerine "yeni bir iş, yeni bir ev" denir.      */
+const SOZLUK = {
+  "kuş":       "Haber. Bir telefon, bir mesaj, uzaktan birinin aranması. Fincanın ağzına yakınsa günler içinde gelir.",
+  "balık":     "Bereket ve kısmet. Beklemediğin bir yerden gelen para, bir ikramiye, bir borcun geri dönmesi.",
+  "kalp":      "Aşk ve gönül işi. Ya bir yakınlık başlıyor ya da mevcut ilişkide bir konu netleşiyor.",
+  "insan":     "Hayatına giren ya da seni düşünen biri. Kulba yakınsa tanıdık, karşıdaysa yeni tanışacağın biri.",
+  "insan yüzü":"Seni düşünen, adını anan biri. Genelde küs olunan ya da uzaklaşılmış bir tanıdık.",
+  "yol":       "Yeni bir yol açılıyor. Yeni bir iş, yeni bir ev, bir taşınma ya da alışılmışın dışında bir karar.",
+  "ağaç":      "Kök salma ve büyüme. Emek verdiğin bir şey artık kendi kendine yürüyor; aile ve ev düzeni.",
+  "dağ":       "Aşılacak bir iş. Zor ama imkânsız değil; tepesi görünüyorsa yarısını çoktan geçmişsin.",
+  "ev":        "Yuva. Taşınma, ev alma, evde bir düzen değişikliği ya da aileyle ilgili bir karar.",
+  "anahtar":   "Kapalı bir kapının açılması. Bekleyen bir iş çözülüyor: bir izin, bir onay, bir görüşme.",
+  "yılan":     "Dikkat edilecek bir söz. Arkandan konuşan ya da yüzüne başka arkana başka olan biri.",
+  "yüzük":     "Söz ve bağ. Nişan, nikâh, ortaklık ya da yazıya dökülecek bir anlaşma.",
+  "yıldız":    "Emeğinin görülmesi. Bir takdir, bir teşekkür, hak edilmiş bir şans.",
+  "çiçek":     "Müjde. Bir davet, bir hediye, seni sevindirecek küçük bir haber.",
+  "gemi":      "Uzaklık. Yurt dışı, şehir dışı, uzaktaki birinden haber ya da bir yolculuk.",
+  "merdiven":  "Basamak basamak yükseliş. İşte terfi, konum değişikliği, sorumluluğun artması.",
+  "at nalı":   "Korunma. Kötü bir şeyi ucuz atlatmak; nazardan korunma.",
+  "kelebek":   "Değişim. Eski bir alışkanlığı ya da dönemi geride bırakmak.",
+  "köpek":     "Sadık dost. Zor gününde yanında olacak biri var; güvenebilirsin.",
+  "kedi":      "Nazik davranılması gereken bir ilişki. Biri sana göründüğünden fazlasını söylemiyor.",
+  "çocuk":     "Yeni başlangıç. Bir müjde, bir doğum haberi ya da tertemiz bir sayfa.",
+  "mektup":    "Resmî bir haber. Bir yazı, bir belge, bir kurumdan gelecek cevap.",
+  "göz":       "Farkındalık ve nazar. Ya biri seni izliyor ya da gözünden kaçan bir ayrıntı var.",
+  "güneş":     "Ferahlama. Sıkıntılı bir dönemin sonu, yüzünün gülmesi.",
+  "ay":        "Olgunlaşma. Beklediğin şey tam vaktinde olacak, acele etme.",
+  "kartal":    "Güç ve hedef. Yüksek bir amaç, cesaret isteyen bir karar.",
+  "fil":       "Sabır ve güç. Uzun sürecek ama sağlam duracak bir iş; unutulmayan bir hatıra.",
+  "at":        "Hareket ve haber. Beklenen gelişme hızlanıyor.",
+  "el":        "Yardım. Biri sana el uzatacak ya da senden yardım istenecek.",
+  "kapı":      "Eşik. Önünde açık duran bir fırsat; girmek sana kalmış.",
+  "köprü":     "Araya girme. İki tarafı barıştıran bir durum ya da bir aracı.",
+  "haç":       "Kavşak. İki konu aynı anda önüne geliyor.",
+  "damla":     "Birikmiş duygu. İçinde tuttuğun bir şey yakında dökülecek, sonrası rahatlama.",
+  "bulut":     "Belirsizlik. Henüz netleşmemiş bir konu; bulut durmaz, dağılır.",
+  "yürek":     "Gönül meselesi. Kalple aynı okunur.",
+  "bebek":     "Müjde ve yeni başlangıç.",
+  "çanta":     "Yolculuk ya da iş değişikliği.",
+  "para":      "Eline geçecek nakit; küçük ama düzenli bir gelir.",
+  "yüzükler":  "İki taraflı bağ, ortaklık.",
+  "aslan":     "Cesaret ve otorite. Dik durman gereken bir konu.",
+  "kuzu":      "Sabır ve uysallık. Kırıcı olmadan halledilecek bir iş."
+};
+const ONERI = ["kuş","balık","kalp","insan","insan yüzü","yol","ağaç","dağ","ev","anahtar",
+               "yılan","yüzük","yıldız","çiçek","gemi","merdiven","köpek","çocuk","göz","fil"];
+
+function anlam(ad){
+  const a = (ad||"").toLocaleLowerCase("tr").trim();
+  if(SOZLUK[a]) return SOZLUK[a];
+  for(const k in SOZLUK) if(a.includes(k) || k.includes(a)) return SOZLUK[k];
+  return "";
+}
+
+/* ══════════ durum ══════════ */
+const fotolar = [];      // {img, ad, elips:{cx,cy,rx,ry}, sekiller:[{ad,not,kutu}]}
+let aktif = -1;
+let mod = "fincan";
+let kulp = "sag";
+
+const tuval = document.getElementById("tuval");
+const ctx = tuval.getContext("2d");
+let ciz = {w:0, h:0, s:1};
+
+function toast(m){
+  const t = document.getElementById("toast");
+  t.textContent = m; t.classList.add("on");
+  clearTimeout(toast._t);
+  toast._t = setTimeout(()=>t.classList.remove("on"), 2600);
+}
+
+/* ══════════ fotoğraf ekleme ══════════ */
+document.getElementById("dosya").addEventListener("change", e=>{
+  const dosyalar = Array.from(e.target.files).slice(0, 3 - fotolar.length);
+  let kalan = dosyalar.length;
+  if(!kalan){ toast("En fazla üç fotoğraf"); return; }
+  for(const d of dosyalar){
+    const img = new Image();
+    img.onload = ()=>{
+      fotolar.push({
+        img, ad:d.name,
+        elips:{cx:0.5, cy:0.5, rx:0.34, ry:0.34*(img.width/img.height)},
+        sekiller:[]
+      });
+      if(aktif < 0) aktif = 0;
+      if(--kalan === 0){ sekmeleriYaz(); boyutla(); ciziver(); }
+    };
+    img.onerror = ()=>{ if(--kalan === 0){ sekmeleriYaz(); boyutla(); ciziver(); } };
+    img.src = URL.createObjectURL(d);
+  }
+  e.target.value = "";
+});
+
+function sekmeleriYaz(){
+  const s = document.getElementById("sekmeler");
+  s.innerHTML = fotolar.map((f,i)=>
+    '<button type="button" data-i="'+i+'" aria-pressed="'+(i===aktif)+'">'+
+    (i+1)+". fotoğraf</button>").join("");
+  s.querySelectorAll("[data-i]").forEach(b=>b.addEventListener("click", ()=>{
+    aktif = Number(b.dataset.i); sekmeleriYaz(); boyutla(); ciziver(); listeYaz();
+  }));
+  document.getElementById("foto-say").textContent =
+    fotolar.length ? fotolar.length + " fotoğraf yüklendi" : "Henüz fotoğraf yok";
+}
+
+/* ══════════ çizim ══════════ */
+function boyutla(){
+  const f = fotolar[aktif];
+  if(!f) return;
+  const kutu = tuval.parentElement.getBoundingClientRect();
+  const en = Math.max(320, Math.round(kutu.width));
+  const s = en / f.img.width;
+  ciz = {w:en, h:Math.round(f.img.height*s), s};
+  const dpr = Math.min(2, window.devicePixelRatio || 1);
+  tuval.width = ciz.w*dpr; tuval.height = ciz.h*dpr;
+  tuval.style.height = ciz.h + "px";
+  ctx.setTransform(dpr,0,0,dpr,0,0);
+}
+
+function ciziver(){
+  const f = fotolar[aktif];
+  if(!f){ ctx.clearRect(0,0,ciz.w,ciz.h); return; }
+  ctx.setTransform(Math.min(2,window.devicePixelRatio||1),0,0,Math.min(2,window.devicePixelRatio||1),0,0);
+  ctx.fillStyle = "#0D0609"; ctx.fillRect(0,0,ciz.w,ciz.h);
+  ctx.drawImage(f.img, 0, 0, ciz.w, ciz.h);
+
+  const e = f.elips;
+  const cx = e.cx*ciz.w, cy = e.cy*ciz.h, rx = e.rx*ciz.w, ry = e.ry*ciz.h;
+
+  /* fincan dışını karart: okunmayacak yer budur */
+  ctx.save();
+  ctx.fillStyle = "rgba(10,5,8,.74)";
+  ctx.beginPath();
+  ctx.rect(0,0,ciz.w,ciz.h);
+  ctx.ellipse(cx, cy, rx, ry, 0, 0, Math.PI*2, true);
+  ctx.fill("evenodd");
+  ctx.restore();
+
+  ctx.strokeStyle = "#EBD49A"; ctx.lineWidth = 2;
+  ctx.beginPath(); ctx.ellipse(cx, cy, rx, ry, 0, 0, Math.PI*2); ctx.stroke();
+
+  if(mod === "fincan"){
+    for(const h of [[cx+rx,cy],[cx,cy+ry]]){
+      ctx.fillStyle = "#EBD49A";
+      ctx.beginPath(); ctx.arc(h[0], h[1], 9, 0, 7); ctx.fill();
+      ctx.fillStyle = "#20110A";
+      ctx.beginPath(); ctx.arc(h[0], h[1], 3, 0, 7); ctx.fill();
+    }
+  }
+
+  /* kulp yönü */
+  const yon = {sol:[cx-rx-16,cy], sag:[cx+rx+16,cy], ust:[cx,cy-ry-16], alt:[cx,cy+ry+16]}[kulp];
+  ctx.fillStyle = "rgba(212,168,67,.85)";
+  ctx.beginPath(); ctx.arc(yon[0], yon[1], 7, 0, 7); ctx.fill();
+
+  /* işaretlenmiş şekiller */
+  f.sekiller.forEach((s, i)=>{
+    const x0 = s.kutu[0]*ciz.w, y0 = s.kutu[1]*ciz.h;
+    const x1 = s.kutu[2]*ciz.w, y1 = s.kutu[3]*ciz.h;
+    ctx.strokeStyle = "#CE8279"; ctx.lineWidth = 2;
+    ctx.strokeRect(x0, y0, x1-x0, y1-y0);
+    const yazi = (i+1) + ". " + s.ad;
+    ctx.font = "500 13px Jost, sans-serif";
+    const g = ctx.measureText(yazi).width + 12;
+    ctx.fillStyle = "#CE8279";
+    ctx.fillRect(x0, Math.max(0, y0-20), g, 19);
+    ctx.fillStyle = "#1C0F07";
+    ctx.fillText(yazi, x0+6, Math.max(13, y0-6));
+  });
+
+  /* çizilmekte olan kutu */
+  if(surukle && surukle.mod === "kutu"){
+    ctx.setLineDash([5,4]);
+    ctx.strokeStyle = "#EBD49A"; ctx.lineWidth = 1.6;
+    ctx.strokeRect(surukle.x0, surukle.y0, surukle.x-surukle.x0, surukle.y-surukle.y0);
+    ctx.setLineDash([]);
+  }
+}
+window.addEventListener("resize", ()=>{ boyutla(); ciziver(); });
+
+/* ══════════ etkileşim ══════════ */
+let surukle = null;
+function nokta(ev){
+  const r = tuval.getBoundingClientRect();
+  return {x:(ev.clientX - r.left) * (ciz.w / r.width),
+          y:(ev.clientY - r.top)  * (ciz.h / r.height)};
+}
+function icerdeMi(x, y){
+  const f = fotolar[aktif], e = f.elips;
+  const dx = (x - e.cx*ciz.w)/Math.max(1, e.rx*ciz.w);
+  const dy = (y - e.cy*ciz.h)/Math.max(1, e.ry*ciz.h);
+  return dx*dx + dy*dy <= 1;
+}
+
+tuval.addEventListener("pointerdown", ev=>{
+  const f = fotolar[aktif]; if(!f) return;
+  const p = nokta(ev);
+  try{ tuval.setPointerCapture(ev.pointerId); }catch(e){}
+  const e = f.elips;
+  const cx = e.cx*ciz.w, cy = e.cy*ciz.h, rx = e.rx*ciz.w, ry = e.ry*ciz.h;
+
+  if(mod === "fincan"){
+    if(Math.hypot(p.x-(cx+rx), p.y-cy) < 26) surukle = {mod:"rx"};
+    else if(Math.hypot(p.x-cx, p.y-(cy+ry)) < 26) surukle = {mod:"ry"};
+    else surukle = {mod:"tasi", dx:p.x-cx, dy:p.y-cy};
+  } else {
+    if(!icerdeMi(p.x, p.y)){ toast("Halkanın dışına çizilmez"); return; }
+    surukle = {mod:"kutu", x0:p.x, y0:p.y, x:p.x, y:p.y};
+  }
+});
+
+tuval.addEventListener("pointermove", ev=>{
+  if(!surukle) return;
+  const f = fotolar[aktif], p = nokta(ev), e = f.elips;
+  if(surukle.mod === "rx")      e.rx = Math.max(0.04, Math.min(0.62, (p.x - e.cx*ciz.w)/ciz.w));
+  else if(surukle.mod === "ry") e.ry = Math.max(0.04, Math.min(0.62, (p.y - e.cy*ciz.h)/ciz.h));
+  else if(surukle.mod === "tasi"){
+    e.cx = (p.x - surukle.dx)/ciz.w;
+    e.cy = (p.y - surukle.dy)/ciz.h;
+  } else { surukle.x = p.x; surukle.y = p.y; }
+  ciziver();
+});
+
+for(const olay of ["pointerup","pointercancel","pointerleave"])
+  tuval.addEventListener(olay, ()=>{
+    if(surukle && surukle.mod === "kutu"){
+      const x0 = Math.min(surukle.x0, surukle.x), x1 = Math.max(surukle.x0, surukle.x);
+      const y0 = Math.min(surukle.y0, surukle.y), y1 = Math.max(surukle.y0, surukle.y);
+      surukle = null;
+      if(x1-x0 > 12 && y1-y0 > 12) sorAc([x0/ciz.w, y0/ciz.h, x1/ciz.w, y1/ciz.h]);
+      else ciziver();
+      return;
+    }
+    surukle = null;
+  });
+
+/* ══════════ kip ve kulp ══════════ */
+function modAyar(m){
+  mod = m;
+  document.getElementById("mod-fincan").setAttribute("aria-pressed", String(m === "fincan"));
+  document.getElementById("mod-sekil").setAttribute("aria-pressed", String(m === "sekil"));
+  document.getElementById("durum").innerHTML = !fotolar.length
+    ? "Önce bir fotoğraf ekle."
+    : (m === "fincan"
+       ? "<b>Çerçeve kipi.</b> Halkayı fincanın ağzına oturt. Bitince şekil kipine geç."
+       : "<b>Şekil kipi.</b> Gördüğün şeklin üstüne parmağınla kutu çiz, sonra adını yaz. Aynı lekede birden fazla şekil işaretleyebilirsin.");
+  ciziver();
+}
+document.getElementById("mod-fincan").addEventListener("click", ()=>modAyar("fincan"));
+document.getElementById("mod-sekil").addEventListener("click", ()=>modAyar("sekil"));
+document.getElementById("geri-al").addEventListener("click", ()=>{
+  const f = fotolar[aktif];
+  if(!f || !f.sekiller.length){ toast("Silinecek şekil yok"); return; }
+  f.sekiller.pop(); listeYaz(); ciziver(); ciktiYaz();
+});
+document.querySelectorAll("#kulp button").forEach(b=>b.addEventListener("click", ()=>{
+  kulp = b.dataset.k;
+  document.querySelectorAll("#kulp button").forEach(x=>x.setAttribute("aria-pressed", String(x === b)));
+  ciziver(); ciktiYaz();
+}));
+
+/* ══════════ şekil sorma ══════════ */
+let bekleyenKutu = null;
+const sorKutu = document.getElementById("sor");
+function sorAc(kutu){
+  bekleyenKutu = kutu;
+  document.getElementById("sor-ad").value = "";
+  document.getElementById("sor-not").value = "";
+  sorKutu.classList.add("on");
+  setTimeout(()=>document.getElementById("sor-ad").focus(), 60);
+  ciziver();
+}
+function sorKapat(){ sorKutu.classList.remove("on"); bekleyenKutu = null; ciziver(); }
+document.getElementById("oner").innerHTML =
+  ONERI.map(o=>'<button type="button">'+o+"</button>").join("");
+document.querySelectorAll("#oner button").forEach(b=>b.addEventListener("click", ()=>{
+  document.getElementById("sor-ad").value = b.textContent;
+}));
+document.getElementById("sor-ok").addEventListener("click", ()=>{
+  const ad = document.getElementById("sor-ad").value.trim();
+  if(!ad){ toast("Bir isim yaz"); return; }
+  fotolar[aktif].sekiller.push({
+    ad, not: document.getElementById("sor-not").value.trim(),
+    kutu: bekleyenKutu.map(v=>Math.round(v*1000)/1000)
+  });
+  sorKapat(); listeYaz(); ciktiYaz();
+});
+document.getElementById("sor-iptal").addEventListener("click", sorKapat);
+document.getElementById("sor-ad").addEventListener("keydown", e=>{
+  if(e.key === "Enter") document.getElementById("sor-ok").click();
+});
+
+/* ══════════ liste ══════════ */
+function bolge(kutu, e){
+  const mx = (kutu[0]+kutu[2])/2, my = (kutu[1]+kutu[3])/2;
+  const dx = (mx - e.cx)/Math.max(1e-6, e.rx), dy = (my - e.cy)/Math.max(1e-6, e.ry);
+  const r = Math.sqrt(dx*dx + dy*dy);
+  const yer = r > 0.68 ? "ağza yakın" : r > 0.33 ? "ortada" : "dipte";
+  const hAci = {sag:0, ust:-90, sol:180, alt:90}[kulp];
+  let a = Math.atan2(dy, dx)*180/Math.PI - hAci;
+  while(a > 180) a -= 360; while(a <= -180) a += 360;
+  const t = Math.abs(a) < 52 ? "kulp tarafı" : Math.abs(a) > 128 ? "kulbun karşısı" : "yan taraf";
+  return yer + " · " + t;
+}
+function listeYaz(){
+  const f = fotolar[aktif];
+  const l = document.getElementById("liste");
+  if(!f || !f.sekiller.length){ l.innerHTML = ""; return; }
+  l.innerHTML = f.sekiller.map((s,i)=>{
+    const a = anlam(s.ad);
+    return '<div class="kayit"><div><b>'+(i+1)+". "+kacir(s.ad)+"</b>" +
+      (a ? '<span class="anlam">'+kacir(a)+"</span>"
+         : '<span class="anlam uyari">Bu şekli sözlükte bulamadım, anlamını ben araştıracağım.</span>') +
+      (s.not ? '<span class="anlam">Notun: '+kacir(s.not)+"</span>" : "") +
+      '<span class="yer">'+kacir(bolge(s.kutu, f.elips))+"</span></div>" +
+      '<button type="button" data-sil="'+i+'">sil</button></div>';
+  }).join("");
+  l.querySelectorAll("[data-sil]").forEach(b=>b.addEventListener("click", ()=>{
+    f.sekiller.splice(Number(b.dataset.sil), 1); listeYaz(); ciziver(); ciktiYaz();
+  }));
+}
+const kacir = s => String(s==null?"":s).split("&").join("&amp;").split("<").join("&lt;").split(">").join("&gt;");
+
+/* ══════════ çıktı ══════════ */
+function etiketler(){
+  return {
+    surum: 1,
+    tarih: new Date().toISOString().slice(0,10),
+    kulp,
+    genelNot: document.getElementById("genel").value.trim(),
+    fotolar: fotolar.map(f=>({
+      dosya: f.ad,
+      en: f.img.width, boy: f.img.height,
+      elips: {cx:+f.elips.cx.toFixed(3), cy:+f.elips.cy.toFixed(3),
+              rx:+f.elips.rx.toFixed(3), ry:+f.elips.ry.toFixed(3)},
+      sekiller: f.sekiller.map(s=>({
+        ad: s.ad,
+        kutu: s.kutu,
+        bolge: bolge(s.kutu, f.elips),
+        not: s.not || "",
+        bilinenAnlam: anlam(s.ad) || null
+      }))
+    }))
+  };
+}
+function ciktiYaz(){
+  document.getElementById("cikti").value = JSON.stringify(etiketler(), null, 2);
+}
+document.getElementById("genel").addEventListener("input", ciktiYaz);
+
+document.getElementById("b-kopya").addEventListener("click", ()=>{
+  if(!fotolar.length){ toast("Önce fotoğraf ekle"); return; }
+  navigator.clipboard.writeText(JSON.stringify(etiketler(), null, 2))
+    .then(()=>toast("Etiketler kopyalandı"), ()=>toast("Kopyalanamadı"));
+});
+document.getElementById("b-indir").addEventListener("click", ()=>{
+  if(!fotolar.length){ toast("Önce fotoğraf ekle"); return; }
+  indir(new Blob([JSON.stringify(etiketler(), null, 2)], {type:"application/json"}),
+        "fincan-etiket-" + Date.now() + ".json");
+});
+document.getElementById("b-resim").addEventListener("click", ()=>{
+  const f = fotolar[aktif];
+  if(!f){ toast("Önce fotoğraf ekle"); return; }
+  const c = document.createElement("canvas");
+  const en = Math.min(1100, f.img.width);
+  const s = en / f.img.width;
+  c.width = en; c.height = Math.round(f.img.height*s);
+  const x = c.getContext("2d");
+  x.drawImage(f.img, 0, 0, c.width, c.height);
+  const e = f.elips;
+  const cx = e.cx*c.width, cy = e.cy*c.height, rx = e.rx*c.width, ry = e.ry*c.height;
+  x.save();
+  x.fillStyle = "rgba(10,5,8,.66)";
+  x.beginPath(); x.rect(0,0,c.width,c.height);
+  x.ellipse(cx, cy, rx, ry, 0, 0, Math.PI*2, true); x.fill("evenodd");
+  x.restore();
+  x.strokeStyle = "#EBD49A"; x.lineWidth = 3;
+  x.beginPath(); x.ellipse(cx, cy, rx, ry, 0, 0, Math.PI*2); x.stroke();
+  f.sekiller.forEach((sk,i)=>{
+    const x0 = sk.kutu[0]*c.width, y0 = sk.kutu[1]*c.height;
+    const x1 = sk.kutu[2]*c.width, y1 = sk.kutu[3]*c.height;
+    x.strokeStyle = "#FF6B6B"; x.lineWidth = 3;
+    x.strokeRect(x0, y0, x1-x0, y1-y0);
+    const yazi = (i+1) + ". " + sk.ad;
+    x.font = "bold 20px sans-serif";
+    const g = x.measureText(yazi).width + 16;
+    x.fillStyle = "#FF6B6B";
+    x.fillRect(x0, Math.max(0, y0-28), g, 27);
+    x.fillStyle = "#fff";
+    x.fillText(yazi, x0+8, Math.max(20, y0-8));
+  });
+  c.toBlob(b=>indir(b, "fincan-isaretli-" + (aktif+1) + ".png"), "image/png");
+});
+
+function indir(blob, ad){
+  try{
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = ad;
+    document.body.appendChild(a); a.click();
+    setTimeout(()=>{ URL.revokeObjectURL(a.href); a.remove(); }, 2000);
+    toast("İndirildi");
+  }catch(e){ toast("İndirilemedi"); }
+}
+
+modAyar("fincan");
+ciktiYaz();
+</script>
