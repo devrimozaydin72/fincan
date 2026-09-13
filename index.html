@@ -1721,6 +1721,9 @@ p.dokum ? "CİHAZIN ÖLÇTÜĞÜ LEKELER\nUygulama fincandaki telve kümelerini 
 "- Bir ize bir türlü ad bulamıyorsan en yakın duran şeyi seç ve onu KESİN söyle. Bu bir faldır; kimse laboratuvar raporu beklemiyor.",
 "- 'Bir şeye benzetemedim' demek yasak. Her izin bir adı olacak.",
 "- Sözlükte bir sembole benziyorsa onun sembolü olduğunu açıkça söyle: 'bu bir anahtar', 'burada bir yüzük var'. 'Bana anahtar gibi geldi' deme.",
+"- İnsanda en yoğun duran duygulara dokun: kararsızlık, pişmanlık, çekingenlik, heyecan, korku, telaş, suçluluk, özlem, inat, bekleme yorgunluğu. Falın en çok tuttuğu yer burasıdır. Birini seç ve KESİN söyle: 'Kararsızsın', 'İçinde bir pişmanlık var', 'Telaşlısın'. 'Olabilir' deme.",
+"- Ara sıra, her falda değil, şunu da söyle: kişi iyi kalplidir ama herkes onun kadar temiz kalpli değildir. 'Herkesi kendin gibi dürüst düşünme', 'iyiliğini kullanan biri var' gibi. Suçlayıcı değil koruyucu bir tonda.",
+"- Aynı cümleyi iki kez kurma. Aynı duyguyu anlatırken bile kelimelerini değiştir; okuyan tekrar hissetmesin.",
 "- KESİN KONUŞ. \"Tahminim\", \"bence\", \"sanırım\", \"olabilir\", \"gibi görünüyor\" YASAK. Falcı tereddüt etmez: \"gelecek\", \"olacak\", \"çıkacak\", \"göreceksin\" de. Tek bir cümlede bile tereddüt kullanma.",
 "- Okuma sırası şu: önce fincanın genel akışına bak, sonra bölgelere, en son tek tek şekillere. Tek bir şekle takılıp kalma.",
 "- Kişiye \"sen\" diye hitap et. Adı: " + p.ad + ". Adını falda topu topu iki üç kez kullan, her cümlede değil.",
@@ -1884,6 +1887,9 @@ p.dokum ? "MARKS THE DEVICE MEASURED\nThe app has already measured the clusters 
 "- If a mark resists naming, pick the nearest thing and state it as fact. This is a fortune; nobody expects a laboratory report.",
 "- Saying you could not liken it is banned. Every mark gets a name.",
 "- If it resembles a symbol in the dictionary, say plainly that it is that symbol: this is a key, there is a ring here. Not it felt like a key to me.",
+"- Touch the feelings that sit heaviest in people: indecision, regret, shyness, excitement, fear, haste, guilt, longing, stubbornness, the fatigue of waiting. This is where a reading lands hardest. Pick one and state it DEFINITELY. Never perhaps.",
+"- Now and then, not every time, say this too: the person is good-hearted but not everyone is as clean-hearted as they are. Protective in tone, never accusing.",
+"- Never build the same sentence twice. Even for the same feeling, change the words; the reader must not feel repetition.",
 "- SPEAK WITH CERTAINTY. \"My guess\", \"I think\", \"perhaps\", \"it seems\" are BANNED. A reader does not hesitate: say \"it will come\", \"you will see\", \"it happens\". Not one hedge anywhere.",
 "- Read in this order: the overall flow of the cup first, then its regions, then individual shapes last. Never fixate on a single shape.",
 "- Address the person directly. Their name: " + p.ad + ". Use the name two or three times in the whole reading, not in every sentence.",
@@ -2660,6 +2666,99 @@ PACK.en.cevreKonusuyor = [
   "An acquaintance held you up as an example to someone else lately. You do not know it.",
   "Someone far away said your name and hesitated over whether to call.",
   "There are people saying you have changed, {ad}. They mean it kindly."
+];
+
+PACK.tr.duyguParca = [
+ {ac:["Kararsızsın {ad}.","İçin bir türlü rahat etmiyor, karar veremiyorsun.","Bir konuda gidip geliyorsun.","Aklın bir türlü bir yere varmıyor."],
+  orta:["Bir meseleyi sabah başka, akşam başka düşünüyorsun.","Aynı konuyu kaç kere tarttın, hep aynı yere geldin.","İki seçeneği de defalarca çevirdin kafanda.","Karar verdim dediğin gün ertesi sabah yine başa döndün."],
+  son:["Seni yoran seçmek değil, seçememek.","İki yol da kötü değil; mesele birine razı olmak.","Hangisini seçersen seç, o gün rahatlayacaksın.","Fincan diyor ki yanlış seçenek yok, sadece seçilmemiş bir seçenek var."]},
+
+ {ac:["İçinde bir pişmanlık var {ad}.","Bir şeye pişmansın ve kimseye söylemedin.","Geride bıraktığın bir şey seni hâlâ yokluyor."],
+  orta:["Söylemediğin bir söz ya da yapmadığın bir hareket için kendini yiyorsun.","Zamanında susmayı seçtin ve o susmayı hâlâ taşıyorsun.","Bir fırsatı elinle kaçırdığını düşünüyorsun."],
+  son:["O kadar büyük değildi; karşı taraf çoktan unuttu.","Kendini affet, bu yük senin değil.","Bir telefonla kapanacak bir mesele bu, inan."]},
+
+ {ac:["Çekiniyorsun.","İsteyeceğin bir şey var ama ağzını açmıyorsun {ad}.","Bir soruyu sormaya bir türlü cesaret edemiyorsun."],
+  orta:["Reddedilmekten korkuyorsun.","Yük olurum diye düşünüyorsun.","Karşındaki ne der diye tartıyorsun, kendi isteğini en sona koyuyorsun."],
+  son:["Fincan diyor ki isteseydin verilecekti.","Sorduğun gün cevabın evet olacak.","O kapı kapalı değil, sen çalmıyorsun."]},
+
+ {ac:["Bir heyecan taşıyorsun ve kimseye söylemiyorsun.","İçinde saklı bir sevinç var {ad}.","Bir şeyi dört gözle bekliyorsun ama belli etmiyorsun."],
+  orta:["İçine attıkça büyüyor.","Bozulur diye korkuyorsun, o yüzden sessizsin.","Sevinmeye erken diyorsun ama gözlerin gülüyor."],
+  son:["Paylaşsan yarıya iner, yine de söylemeyeceksin, biliyorum.","Bu sefer bozulmayacak, rahat ol.","Sevinmekte geç kalma, hakkın."]},
+
+ {ac:["Bir korkun var {ad}.","İçinde adını koymadığın bir tedirginlik var.","Bir şeyin tekrar olmasından korkuyorsun."],
+  orta:["Bu korku geçmişte yaşadığın bir şeyden geliyor.","Bir kere yandığın için ikinci kez elini uzatmıyorsun.","Kötü ihtimali düşünüp kendini hazırlıyorsun."],
+  son:["Bugünle ilgisi yok ama bugünü zehirliyor.","Aynı şey olmayacak; şartlar da sen de değiştin.","Korktuğun şey olmayacak, fincan bunu açıkça söylüyor."]},
+
+ {ac:["Telaşlısın.","Acele ediyorsun {ad}.","Kendini sıkıştırıyorsun."],
+  orta:["Aslında acele etmen gereken bir şey yok, saati sen kurmuşsun.","Herkes yetişiyor da sen geç kalıyorsun sanıyorsun.","Bir an önce bitsin diye hızlı davranıyorsun."],
+  son:["Yavaşlatırsan işler daha hızlı yürüyecek.","Kimse seninle yarışmıyor.","Acele ettiğin iş geç, sabrettiğin iş erken bitecek."]},
+
+ {ac:["Kendini suçlu hissediyorsun.","İçinde bir vicdan sızısı var {ad}.","Bir konuda kendini yargılıyorsun."],
+  orta:["Başkasının yapması gereken bir şeyi yapmadın diye.","Yeterince yapamadığını düşünüyorsun.","Hayır demek zorunda kaldığın için."],
+  son:["Bunda hiç haklı değilsin.","Elinden geleni yaptın, fazlası senin işin değildi.","Bu suçluluk sana ait değil, bırak."]},
+
+ {ac:["İçinde bir özlem var.","Birini ya da bir dönemi özlüyorsun {ad}.","Aklına sık sık eski bir zaman geliyor."],
+  orta:["Kimi özlediğini kendin de tam bilmiyorsun.","O günlerin kolaylığını arıyorsun aslında.","Bir sesi, bir kokuyu hatırlayıp duruyorsun."],
+  son:["Özlemek kayıp değil; o bağ hâlâ duruyor demek.","Aradığın şey geri gelecek, başka kılıkta.","Bir haber alacaksın ve içine su serpilecek."]},
+
+ {ac:["İnat ediyorsun {ad}.","Bir konuda diretiyorsun.","Geri adım atmamak için diş sıkıyorsun."],
+  orta:["Haklı olduğun bir konuda haklılığını kanıtlamaya çalışmaktan yoruldun.","Kimse sana hak vermiyor diye daha da sıkı tutunuyorsun.","Bırakırsan kaybetmiş sayılacağını düşünüyorsun."],
+  son:["Bırakmak kaybetmek değil.","Haklısın ve haklı kalacaksın, kanıtlamana gerek yok.","O yükü indirdiğin gün rahatlayacaksın."]},
+
+ {ac:["Beklemekten sıkıldın.","Bir cevabı uzun zamandır bekliyorsun {ad}.","Sabrın incelmiş durumda."],
+  orta:["Her gün bakıyorsun, her gün aynı.","Ne olacağını bilmemek olacak şeyden daha çok yoruyor seni.","Ertelendikçe umudun azalıyor."],
+  son:["Beklediğin şey pişiyor, bozulmuyor.","Cevap yolda; gecikmesi olumsuz değil, ciddiye alınmasından.","Bu bekleyiş biterken iki haber birden gelecek."]}
+];
+
+PACK.tr.saflikParca = [
+ {ac:["Sen iyi kalplisin {ad}.","Kalbin temiz, bu fincanda açıkça görünüyor.","İyi niyetli birisin, bu iyi bir şey."],
+  orta:["Ama herkes senin kadar temiz kalpli değil.","Ama herkesi kendin gibi dürüst düşünme.","Ama iyiliğini kullanmak isteyen de var."],
+  son:["Kötü niyetle söylemiyorum, sadece gözünü açık tut.","Yazılı olmayan sözlere fazla güvenme.","Vermeden önce bir kere daha düşün, o kadar."]},
+ {ac:["Sen kırmamak için susuyorsun.","Tartışma çıkmasın diye geri çekiliyorsun {ad}.","Hep sen anlayış gösteriyorsun."],
+  orta:["Karşındaki bunu hak sanmaya başladı.","Bu sessizlik onay gibi anlaşılıyor.","Herkes senin anlayışını sınırsız sanıyor."],
+  son:["Bir kere konuşsan yeter.","Sınırını çizmek kırmak değildir.","Hakkını istemen kimseyi kaybettirmez."]}
+];
+
+/* İngilizce karşılıkları */
+PACK.en.duyguParca = [
+ {ac:["You are undecided, {ad}.","Your mind will not settle.","You keep going back and forth on something."],
+  orta:["You think one thing in the morning and another by evening.","You have weighed the same matter over and over.","You have turned both options in your head a dozen times."],
+  son:["What tires you is not choosing, it is being unable to choose.","Neither road is bad; the point is settling on one.","Whichever you pick, you will feel lighter that day."]},
+ {ac:["There is a regret inside you, {ad}.","You are sorry about something and have told nobody.","Something you left behind still nudges at you."],
+  orta:["A word you did not say or a move you did not make eats at you.","You chose silence at the time and you still carry it.","You believe you let a chance slip."],
+  son:["It was not that large; the other side forgot long ago.","Forgive yourself; this weight is not yours.","One phone call would close this."]},
+ {ac:["You are holding back.","There is something you want to ask, {ad}, and you keep quiet.","You cannot bring yourself to ask a question."],
+  orta:["You are afraid of a no.","You think you would be a burden.","You weigh what they might say and put your own wish last."],
+  son:["The cup says it would have been given.","The day you ask, the answer is yes.","That door is not shut; you are not knocking."]},
+ {ac:["You carry an excitement and tell nobody.","There is a hidden gladness in you, {ad}.","You are waiting eagerly and hiding it."],
+  orta:["It grows the more you swallow it.","You fear it will spoil, so you stay quiet.","You say it is too early to be happy, but your eyes are smiling."],
+  son:["Sharing would halve it, and you still will not share it.","It will not spoil this time.","Do not be late to your own joy; you have earned it."]},
+ {ac:["You have a fear, {ad}.","There is an unease in you you have not named.","You are afraid something will happen again."],
+  orta:["It comes from something in the past.","Burned once, you will not reach out twice.","You rehearse the worst to prepare yourself."],
+  son:["It has nothing to do with today, yet it poisons today.","The same thing will not happen; you have changed and so have the circumstances.","What you fear will not come; the cup says so plainly."]},
+ {ac:["You are in a hurry.","You are rushing, {ad}.","You keep pressing yourself."],
+  orta:["Nothing actually demands speed; you set that clock yourself.","You think everyone is keeping up and you are behind.","You move fast just to have it over with."],
+  son:["Slow it down and things will move faster.","Nobody is racing you.","What you rush finishes late; what you wait for finishes early."]},
+ {ac:["You feel guilty.","There is a sting of conscience in you, {ad}.","You are judging yourself over something."],
+  orta:["Because you did not do what somebody else should have done.","Because you think you did not do enough.","Because you had to say no."],
+  son:["You are not the least bit at fault.","You did what you could; the rest was never yours.","This guilt does not belong to you. Put it down."]},
+ {ac:["There is a longing in you.","You miss someone, or a time, {ad}.","An old season keeps coming back to you."],
+  orta:["You are not sure yourself who you miss.","What you really want back is how easy it was.","A voice, a smell, keeps returning."],
+  son:["Longing is not loss; it means the bond still stands.","What you look for returns, in another shape.","News will come and settle you."]},
+ {ac:["You are being stubborn, {ad}.","You are digging your heels in.","You are clenching your teeth to avoid stepping back."],
+  orta:["You are worn out proving you are right about something you are already right about.","Nobody agrees with you, so you hold on harder.","You think letting go means losing."],
+  son:["Letting go is not losing.","You are right and will stay right without proving it.","The day you put it down you will breathe."]},
+ {ac:["You are tired of waiting.","You have waited a long time for an answer, {ad}.","Your patience has worn thin."],
+  orta:["You check every day and every day is the same.","Not knowing tires you more than the thing itself.","Each delay takes a little hope."],
+  son:["What you wait for is ripening, not spoiling.","The answer is on its way; the delay is seriousness, not refusal.","As this wait ends, two pieces of news arrive at once."]}
+];
+PACK.en.saflikParca = [
+ {ac:["You are good-hearted, {ad}.","Your heart is clean; it shows in this cup.","You mean well, and that is a fine thing."],
+  orta:["But not everyone is as clean-hearted as you.","But do not assume everyone is as honest as you are.","But there are people who will use your kindness."],
+  son:["I do not say it unkindly; just keep your eyes open.","Do not lean too hard on unwritten promises.","Think once more before you give. That is all."]},
+ {ac:["You stay quiet to avoid hurting someone.","You step back to keep the peace, {ad}.","You are always the one who understands."],
+  orta:["They have started to take it as their due.","Your silence is read as agreement.","Everyone assumes your patience is bottomless."],
+  son:["One conversation would settle it.","Drawing a line is not the same as hurting someone.","Asking for your share loses you nobody."]}
 ];
 
 /* ══════════════════ HUKUKİ METİNLER ══════════════════
@@ -5137,31 +5236,45 @@ function yerAdi(T, bolge, yon){
 const cogul = l => Array.isArray(l) ? l : [l];
 
 /* uyarı ve iltifat: her fala değil, ara sıra ve en fazla birer tane */
+/* Parçalardan cümle kur. Hazır cümle havuzundan çekersek iki
+   fincanda aynı cümle çıkıyor; böyle kurunca her duygu için
+   onlarca ayrı cümle oluyor.                                     */
+function parcaliCumle(havuz){
+  if(!havuz || !havuz.length) return "";
+  const s = pick(havuz);
+  return [pick(s.ac), pick(s.orta), pick(s.son)].filter(Boolean).join(" ");
+}
+
+/* Fal metninin arasına serpiştirilen kişisel cümleler. Hepsini birden
+   koyarsak sayfa ek cümleyle dolar; dengeli bir karışım seçiyoruz. */
 function serpistir(sayfalar, T){
   const sym = sayfalar.filter(p => p.kind === "sym");
   if(!sym.length) return;
-  /* Ruh hâli ve çevrenin konuşması: falın en çok tutan iki yanı.
-     Her falda birer tane, farklı sayfalara.                      */
-  if(T.ruhHali && T.ruhHali.length){
-    const p = sym[Math.floor(rnd()*sym.length) % sym.length];
-    p.body.push(nm(pick(T.ruhHali)));
-    p.ruhVar = true;
-  }
-  if(T.cevreKonusuyor && T.cevreKonusuyor.length){
-    const aday = sym.filter(p => !p.ruhVar);
+
+  const bosSayfa = () => {
+    const aday = sym.filter(p => !p.ekli);
     const liste = aday.length ? aday : sym;
-    liste[Math.floor(rnd()*liste.length) % liste.length].body.push(nm(pick(T.cevreKonusuyor)));
+    const p = liste[Math.floor(rnd()*liste.length) % liste.length];
+    p.ekli = true;
+    return p;
+  };
+  const koy = metin => { if(metin) bosSayfa().body.push(nm(metin)); };
+
+  koy(parcaliCumle(T.duyguParca));                  // her falda bir duygu
+  if(T.ruhHali && T.ruhHali.length) koy(pick(T.ruhHali));
+
+  /* gerisi dönüşümlü: aynı fal iki kere aynı karışımı vermesin */
+  const yedek = [];
+  if(T.saflikParca && T.saflikParca.length) yedek.push(() => parcaliCumle(T.saflikParca));
+  if(T.cevreKonusuyor && T.cevreKonusuyor.length) yedek.push(() => pick(T.cevreKonusuyor));
+  if(T.iltifatlar && T.iltifatlar.length) yedek.push(() => pick(T.iltifatlar));
+  if(T.uyarilar && T.uyarilar.length) yedek.push(() => pick(T.uyarilar));
+  for(let i=yedek.length-1; i>0; i--){
+    const j = Math.floor(rnd()*(i+1)) % (i+1);
+    const t = yedek[i]; yedek[i] = yedek[j]; yedek[j] = t;
   }
-  if(rnd() < 0.72 && T.uyarilar && T.uyarilar.length){
-    const p = sym[Math.floor(rnd()*sym.length) % sym.length];
-    p.body.push(nm(pick(T.uyarilar)));
-    p.uyariVar = true;
-  }
-  if(rnd() < 0.55 && T.iltifatlar && T.iltifatlar.length){
-    const aday = sym.filter(p => !p.uyariVar);
-    const p = (aday.length ? aday : sym)[Math.floor(rnd()*(aday.length||sym.length)) % (aday.length||sym.length)];
-    p.body.push(nm(pick(T.iltifatlar)));
-  }
+  if(yedek[0]) koy(yedek[0]());
+  if(yedek[1]) koy(yedek[1]());
 }
 
 function kapanisSayfasi(T, hikaye, kapanisMetni, ozet){
