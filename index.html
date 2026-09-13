@@ -5372,18 +5372,29 @@ document.getElementById("b-veri-kopya").addEventListener("click", ()=>{
   );
 });
 
-document.getElementById("b-veri-indir").addEventListener("click", ()=>{
+document.getElementById("b-veri-indir").addEventListener("click", async ()=>{
   const m = veriMetni();
   if(!m){ toast(P().ui.veriYok); return; }
+  const ad = "fincan-ornek-" + Date.now() + ".json";
+
+  /* claude.ai görüntüleyicisinde sıradan indirme bağlantısı çalışmaz;
+     dosyayı kullanıcıya oranın kendi indirme yolundan veriyoruz.     */
+  try{
+    if(window.claude && typeof window.claude.use === "function"){
+      const d = await window.claude.use("downloads");
+      if(d){ await d.save({filename:ad, data:m}); return; }
+    }
+  }catch(err){ /* reddedildi ya da yok: alttaki yola düş */ }
+
   try{
     const b = new Blob([m], {type:"application/json"});
     const a = document.createElement("a");
     a.href = URL.createObjectURL(b);
-    a.download = "fincan-ornek-" + Date.now() + ".json";
+    a.download = ad;
     document.body.appendChild(a);
     a.click();
     setTimeout(()=>{ URL.revokeObjectURL(a.href); a.remove(); }, 2000);
-  }catch(e){ toast(P().ui.copyFail); }
+  }catch(err){ toast(P().ui.copyFail); }
 });
 
 /* ══════════════════ 8. ÖRNEK FİNCAN ══════════════════ */
