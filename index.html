@@ -121,6 +121,8 @@
   }
   .langbar button:hover{color:var(--gold-soft);}
   .langbar button[aria-pressed=true]{background:var(--gold);color:#20110A;font-weight:500;}
+  .langbar .sesbtn{font-size:14px;padding:5px 10px;line-height:1;}
+  .langbar .sesbtn[aria-pressed=false]{opacity:.5;}
   .langbar[hidden]{display:none !important;}
 
   /* dil seçimi */
@@ -459,6 +461,7 @@
 </style>
 
 <div class="langbar" id="langbar" hidden>
+  <button class="lang sesbtn" type="button" id="b-ses-ust" aria-pressed="false" title="">&#9834;</button>
   <button class="lang" type="button" data-l="tr" aria-pressed="true">TR</button>
   <button class="lang" type="button" data-l="en" aria-pressed="false">EN</button>
 </div>
@@ -1679,15 +1682,17 @@ PACK.tr.aiSoru = function(p){
 "3) AYNI LEKEDE BİRDEN FAZLA ŞEKİL OLABİLİR. Bir kütlenin içinde hem bir fil hem bir insan bulabilirsin; bunlar birbiriyle çelişmez, ikisini de yaz. Şeklin bütünsel olması gerekmiyor. İki ayrı şekil aynı lekenin iki ayrı köşesindeyse kutuları da ayrı ayrı, sadece o köşeyi saracak şekilde ver.",
 "4) Yine de görmediğin şeyi söyleme. Bir bölgede gerçekten hiçbir şeye benzeyen bir kenar yoksa orayı \"kesin\": false yap ve durduğu yerden oku. Ama bunu kolay yol olarak kullanma: falın çoğunluğu adı konmuş şekil olmalı, isimsiz iz en fazla bir tane.",
 "5) Harf ya da rakam aramak ZORUNDA DEĞİLSİN. Telvede gerçekten bir harfe veya rakama benzeyen net bir iz yoksa \"harf\": null ve \"sayi\": null yaz. Her fala harf sıkıştırma.",
-"6) Her şekil için o izin fotoğraftaki yerini \"kutu\": [x0,y0,x1,y1] olarak ver. Değerler 0 ile 1 arası; 0,0 sol üst, 1,1 sağ alt. Kutu gerçekten o izi çevrelesin: uygulama bu kutuyu fotoğrafın üstünde işaretleyip kullanıcıya 'işte tam burada gördüm' diye gösterecek. Yanlış kutu, yanlış falla aynı şeydir.",
+"6) HER ŞEKİL İÇİN KUTU ZORUNLUDUR. Kutusuz şekil yazma; uygulama o sayfada hiçbir yeri işaretleyemez ve kullanıcı neye baktığını göremez. Her şekil için o izin fotoğraftaki yerini \"kutu\": [x0,y0,x1,y1] olarak ver. Değerler 0 ile 1 arası; 0,0 sol üst, 1,1 sağ alt. Kutu gerçekten o izi çevrelesin: uygulama bu kutuyu fotoğrafın üstünde işaretleyip kullanıcıya 'işte tam burada gördüm' diye gösterecek. Yanlış kutu, yanlış falla aynı şeydir.",
 "7) \"foto\" alanına o izi hangi fotoğrafta gördüğünü yaz (1'den " + p.foto + "'e).",
 "",
-p.gecmis ? "BU KİŞİNİN ÖNCEKİ FALLARI\nAynı kişi daha önce de fincan açtırdı. Tarih ve o gün çıkan şekiller:\n" + p.gecmis + "\nBir iki cümlede buna gönderme yap: 'geçen sefer şunu konuşmuştuk, bugün biraz farklı duruyor' gibi. Aynı şekil yine çıktıysa konunun sürdüğünü söyle, çıkmadıysa kapandığını.\n" : "",
+p.gecmis ? "BU KİŞİNİN ÖNCEKİ FALLARI\nAynı kişi daha önce de fincan açtırdı. Eskiden yeniye, o fallarda çıkan şekiller:\n" + p.gecmis + "\nBir iki cümlede buna gönderme yap: 'geçen baktığımız fincanda şunu konuşmuştuk, bugün biraz farklı duruyor' gibi. ASLA tarih ya da ay adı söyleme; 'eylülde', 'geçen ay' deme, yalnızca 'geçen sefer', 'önceki fincanında' de. Aynı şekil yine çıktıysa konunun sürdüğünü söyle, çıkmadıysa kapandığını.\n" : "",
 sozlukIstem() ,
 p.parca ? "CİHAZIN LEKELERİN İÇİNDE BULDUĞU FİGÜRLER\nUygulama kütlelerin kenarında pencere gezdirip siluet aradı ve aşağıdakileri buldu. Bunlar sana başlangıç noktası: o kutuya bak, gerçekten benziyorsa adını koy ve kutusunu kullan. Benzemiyorsa kendi bulduğun şekli yaz, listeye mahkûm değilsin.\n" + p.parca + "\n" : "",
 p.dokum ? "CİHAZIN ÖLÇTÜĞÜ LEKELER\nUygulama fincandaki telve kümelerini zaten ölçtü. Aşağıdaki liste sana yol göstersin: konuştuğun izleri mümkün olduğunca bu kümelerden seç ve kutularını buradan al, böylece işaretleme fotoğrafın üstüne tam oturur. Ölçüm gördüğünle çelişiyorsa kendi gözüne güven.\n" + p.dokum + "\nKoyuluk 10'a yakınsa iz koyu ve ağır, 3'e yakınsa silik demektir. Uzunluk oranı 1'e yakınsa yuvarlak, 3'ten büyükse uzun bir izdir.\n" : "",
 "",
 "ŞEKİLLER NEREDE OLUR (gerçek fal okumalarından öğrenildi)",
+"- BEYAZ KURALI: Yorumun KOYU telve üstüne kurulur. Tertemiz beyaz alanları şekil diye okuma. Beyaz bir yeri ancak ETRAFI TELVEYLE ÇEVRİLİYSE, yani koyuluğun ortasında kalmış bir boşluksa oku. Fincanın boş yarısı, temiz duvarı, parlayan dibi asla yorumlanmaz.",
+"- Çok küçük ve silik izleri şekil sayma. Kullanıcı fincanına bakıp göremeyeceği kadar ufak bir lekeye ad verme; gözle net seçilen izleri konuş.",
 "- Kalın kütlenin İÇİ değil, KENARI konuşur. Kütlenin dış hattındaki çıkıntılar ve girintiler figür verir.",
 "- Fincan duvarındaki ince kahverengi izler en verimli yerdir: bir insan, bir hayvan, bir yazı çoğu zaman oradadır.",
 "- Telvenin bıraktığı BEYAZ boşluklar da şekil verir. Koyunun arasındaki temiz bir parça da bir figürdür.",
@@ -1846,15 +1851,17 @@ PACK.en.aiSoru = function(p){
 "3) ONE MASS CAN HOLD SEVERAL SHAPES. Inside a single mass you may find both an elephant and a person; they do not contradict each other, so write both. A shape need not account for the whole mass. If two shapes sit in two different corners of the same mass, give each its own box enclosing only that corner.",
 "4) Still, never claim what you do not see. If a region truly has no edge resembling anything, set \"kesin\": false and read it by position. But do not use that as the easy way out: most of the reading should be named shapes, with at most one unnamed mark.",
 "5) You are NOT required to find a letter or a number. If no mark clearly resembles one, write \"harf\": null and \"sayi\": null.",
-"6) For every shape give its location as \"kutu\": [x0,y0,x1,y1], values from 0 to 1, 0,0 top-left, 1,1 bottom-right. The box must actually enclose that mark: the app draws it on the photograph to show the person exactly where you saw it. A wrong box is as bad as a wrong reading.",
+"6) A BOX IS REQUIRED FOR EVERY SHAPE. Never write a shape without one; the app then marks nothing on that page. For every shape give its location as \"kutu\": [x0,y0,x1,y1], values from 0 to 1, 0,0 top-left, 1,1 bottom-right. The box must actually enclose that mark: the app draws it on the photograph to show the person exactly where you saw it. A wrong box is as bad as a wrong reading.",
 "7) Put the photograph index in \"foto\" (1 to " + p.foto + ").",
 "",
-p.gecmis ? "THIS PERSON'S EARLIER READINGS\nThey have had cups read before. Dates and the shapes that came up:\n" + p.gecmis + "\nRefer to it in a sentence or two: we spoke of this last time, today it sits differently. If the same shape returns, say the matter continues; if it is gone, say it closed.\n" : "",
+p.gecmis ? "THIS PERSON'S EARLIER READINGS\nThey have had cups read before. Shapes from those readings, oldest first:\n" + p.gecmis + "\nRefer to it in a sentence or two: we spoke of this last time, today it sits differently. If the same shape returns, say the matter continues; if it is gone, say it closed.\n" : "",
 sozlukIstem() ,
 p.parca ? "FIGURES THE DEVICE FOUND INSIDE THE MASSES\nThe app slid windows along the edges of the masses looking for silhouettes and found these. Treat them as starting points: look at that box, and if it genuinely resembles the thing, name it and use its box. If it does not, write the shape you see instead; you are not bound to this list.\n" + p.parca + "\n" : "",
 p.dokum ? "MARKS THE DEVICE MEASURED\nThe app has already measured the clusters of grounds in this cup. Use the list below: wherever you can, pick the marks you talk about from these clusters and take their boxes from here, so the highlight lands exactly on the mark. If a measurement contradicts what you see, trust your eyes.\n" + p.dokum + "\nA darkness near 10 means a heavy, dark mark; near 3 means faint. An elongation near 1 is round; above 3 is a long mark.\n" : "",
 "",
 "WHERE SHAPES ARE (learned from real readings)",
+"- WHITE RULE: build the reading on the DARK grounds. Never read a clean white area as a shape. Read a white spot ONLY when it is SURROUNDED BY GROUNDS, that is a gap left inside the darkness. The empty half of the cup, the clean wall and the shiny bottom are never interpreted.",
+"- Do not count tiny faint marks as shapes. Never name a mark too small for the person to find in their own cup; speak about marks the eye picks out.",
 "- The INSIDE of a thick mass says nothing; its EDGE speaks. Bulges and bays along the outline give figures.",
 "- The thin brown marks on the cup wall are the richest ground: a person, an animal, a script is usually there.",
 "- The WHITE gaps the grounds leave are shapes too. A clean piece inside the dark is a figure as much as the dark is.",
@@ -2835,6 +2842,22 @@ PACK.tr.ui.sesAc = "Müziği aç";
 PACK.tr.ui.sesKapat = "Müziği kapat";
 PACK.en.ui.sesAc = "Turn music on";
 PACK.en.ui.sesKapat = "Turn music off";
+
+/* Geçmiş fal cümlelerinde tarih geçmez: "geçen baktığımız fincanda" denir. */
+PACK.tr.gecmisBag = [
+  "Geçen baktığımız fincanda {onceki} çıkmıştı, hatırlıyor musun? Bugün biraz farklı duruyor.",
+  "Önceki fincanında {onceki} vardı. İzi hâlâ duruyor ama yumuşamış.",
+  "Geçen sefer {onceki} konuşmuştuk. Bugün aynı yerde yine bir şey var, demek konu kapanmamış.",
+  "Bir önceki fincanında {onceki} görmüştüm; bugünkü onun devamı gibi.",
+  "Geçen baktığımızda {onceki} vardı, bu sefer tablo biraz değişmiş."
+];
+PACK.en.gecmisBag = [
+  "In the cup we read last time a {onceki} came up, remember? Today it sits a little differently.",
+  "Your previous cup had a {onceki}. Its trace is still here, but softer.",
+  "Last time we spoke of a {onceki}. Something sits in the same place today, so the matter is not closed.",
+  "I saw a {onceki} in your previous cup; today's looks like its continuation.",
+  "When we last looked there was a {onceki}; the picture has shifted a little now."
+];
 
 /* ══════════════════ HUKUKİ METİNLER ══════════════════
    App Store başvurusunda Apple bir gizlilik politikası bağlantısı ister.
@@ -5155,10 +5178,12 @@ function kutuyuLekeyeBagla(shot, kb){
   }
   if(en) return en;
 
-  /* Gerçek bir leke bulunamadıysa HİÇBİR ŞEY çizmiyoruz. Eskiden
-     oraya bir elips uydurup işaretliyordu; olmayan şeyi göstermek
-     yanlış göstermekten de beterdir.                             */
-  return null;
+  /* Gerçek leke bulunamadı: yapay zekânın verdiği kutuyu aynen
+     çiziyoruz. Bu uydurma değil, onun "şurada gördüm" dediği yer.
+     İşaretsiz sayfa bırakmıyoruz.                                 */
+  return {kutuMod:true, shot:shot,
+          x0:Math.min(wx0,wx1), y0:Math.min(wy0,wy1),
+          bw:Math.max(8, Math.abs(wx1-wx0)), bh:Math.max(8, Math.abs(wy1-wy0))};
 }
 
 /* ══════════════════ FİNCAN MÜZİĞİ ══════════════════
@@ -5179,16 +5204,38 @@ const SES_KOK = 293.66;                 // re
 const SES_SEKIZLIK = 0.165;             // bir sekizlik: canlı ama koşmayan
 const SES_AKSAK = [2, 2, 2, 3];         // 9/8 aksak: 2+2+2+3
 
-/* Dört ölçülük ezgi. Her ölçü dokuz sekizlik.
-   [derece, sekizlik-başlangıç, sekizlik-süre]                       */
-const SES_EZGI = [
+/* ── ESER ──
+   Aynı dört ölçüyü döndürmek bıktırıyordu. Artık üç ayrı bölüm var
+   (A: ana ezgi, B: tiz cevap, C: pes gezinti) ve bunlar bir eser
+   dizilişiyle çalınıyor. Her tekrarda süslemeler değiştiği için
+   aynı bölüm bile ikinci kez aynı duyulmuyor.
+   Bir tur yaklaşık üç dakika sürüyor.                             */
+const SES_A = [
   [[4,0,2],[3,2,1],[4,3,1],[5,4,2],[4,6,1],[3,7,2]],
   [[2,0,2],[1,2,2],[0,4,2],[1,6,1],[2,7,2]],
   [[4,0,1],[5,1,1],[7,2,2],[6,4,2],[5,6,3]],
   [[4,0,2],[2,2,2],[1,4,2],[0,6,3]]
 ];
-/* Ölçü başına akor kökü */
-const SES_KOKLER = [0, 3, 4, 0];
+const SES_B = [
+  [[7,0,2],[8,2,1],[7,3,1],[6,4,2],[5,6,3]],
+  [[6,0,1],[5,1,1],[4,2,2],[5,4,1],[6,5,1],[7,6,3]],
+  [[8,0,2],[7,2,2],[5,4,2],[4,6,3]],
+  [[5,0,1],[4,1,1],[3,2,2],[2,4,2],[4,6,3]]
+];
+const SES_C = [
+  [[0,0,3],[1,3,1],[2,4,2],[1,6,3]],
+  [[-3,0,2],[-2,2,2],[0,4,2],[1,6,3]],
+  [[2,0,2],[1,2,1],[0,3,1],[-1,4,2],[0,6,3]],
+  [[0,0,4],[2,4,2],[0,6,3]]
+];
+const SES_D = [
+  [[0,0,1],[2,1,1],[4,2,1],[5,3,1],[4,4,2],[2,6,3]],
+  [[4,0,1],[5,1,1],[7,2,1],[8,3,1],[7,4,2],[5,6,3]],
+  [[7,0,2],[5,2,1],[4,3,1],[2,4,2],[1,6,3]],
+  [[2,0,1],[1,1,1],[0,2,2],[1,4,1],[2,5,1],[0,6,3]]
+];
+const SES_BOLUM = [SES_A, SES_B, SES_A, SES_C, SES_D, SES_B, SES_C, SES_D, SES_A, SES_D];
+const SES_BOLUM_KOK = [[0,3,4,0],[4,2,3,0],[0,3,4,0],[0,5,3,0],[0,4,2,0],[4,2,3,0],[0,5,3,0],[0,4,2,0],[0,3,4,0],[0,4,2,0]];
 
 function sesFrekans(derece, oktav){
   const d = ((derece % 7) + 7) % 7;
@@ -5308,8 +5355,12 @@ function sesVurus(baslangic, kalin){
 
 /* bir ölçü: ezgi, bas ve aksak vuruşlar */
 function sesOlcuKur(baslangic, no){
-  const ezgi = SES_EZGI[no % SES_EZGI.length];
-  const kok = SES_KOKLER[no % SES_KOKLER.length];
+  const bolumNo = Math.floor(no/4) % SES_BOLUM.length;
+  const bolum = SES_BOLUM[bolumNo];
+  const ezgi = bolum[no % 4];
+  const kok = SES_BOLUM_KOK[bolumNo][no % 4];
+  /* her turda süsleme başkalaşsın diye tur sayısı */
+  const tur = Math.floor(no / (SES_BOLUM.length*4));
 
   /* ezgiyi NEY çalar: uzun, nefesli, vibratolu */
   for(const [derece, bas, sure] of ezgi)
@@ -5319,8 +5370,13 @@ function sesOlcuKur(baslangic, no){
   /* KANUN eşlik eder: neyin altında çırpılan kısa notalar */
   for(const [derece, bas, sure] of ezgi){
     sesCirp(sesFrekans(derece, 0), baslangic + bas*SES_SEKIZLIK, 0.30, 0.040);
-    if(sure >= 2)
-      sesCirp(sesFrekans(derece + 2, 0), baslangic + (bas+1)*SES_SEKIZLIK, 0.26, 0.028);
+    if(sure >= 2){
+      /* tur ilerledikçe süsleme aralığı değişir: aynı bölüm aynı duyulmaz */
+      const suslu = [2, 4, -2, 3, 5, 1, -3, 2][(tur + bolumNo) % 8];
+      sesCirp(sesFrekans(derece + suslu, 0), baslangic + (bas+1)*SES_SEKIZLIK, 0.26, 0.028);
+    }
+    if(sure >= 3 && (tur % 2) === 1)
+      sesCirp(sesFrekans(derece + 1, 1), baslangic + (bas+2)*SES_SEKIZLIK, 0.20, 0.022);
   }
   /* bas: ölçü başı ve altıncı sekizlik */
   sesCirp(sesFrekans(kok, -1), baslangic, SES_SEKIZLIK*3.2, 0.065);
@@ -5331,6 +5387,8 @@ function sesOlcuKur(baslangic, no){
   for(let i=0;i<SES_AKSAK.length;i++){
     sesVurus(baslangic + k*SES_SEKIZLIK, i === 0 || i === 3);
     if(SES_AKSAK[i] === 3) sesVurus(baslangic + (k+2)*SES_SEKIZLIK, false);
+    /* tek turlarda araya ek tokat: usul tekdüze durmasın */
+    if((tur % 2) === 1 && i === 1) sesVurus(baslangic + (k+1)*SES_SEKIZLIK, false);
     k += SES_AKSAK[i];
   }
   return 9 * SES_SEKIZLIK;
@@ -5385,7 +5443,10 @@ function sesIster(){
 }
 
 function sesDugmeYaz(){
-  const d = document.getElementById("b-ses");
+  for(const kimlik of ["b-ses", "b-ses-ust"]) sesDugmeBir(kimlik);
+}
+function sesDugmeBir(kimlik){
+  const d = document.getElementById(kimlik);
   if(!d) return;
   d.setAttribute("aria-pressed", String(sesAcik));
   d.textContent = sesAcik ? "♫" : "♪";
@@ -5451,7 +5512,9 @@ function analyzeShot(img, url, elips){
   cup = c;
 
   const seg = segment(g, wk.w, wk.h, c);
-  const minA = Math.max(40, Math.round(c.area*0.0018));
+  /* Çok küçük izler fotoğrafta zaten net görünmez; okunursa
+     kullanıcı fincanına bakıp bulamaz. Alt sınırı yükselttik. */
+  const minA = Math.max(90, Math.round(c.area*0.0045));
 
   let koyular = components(seg.mask, wk.w, wk.h, minA)
                   .map(pts => buildBlob(pts, wk.w, 0))
@@ -5461,7 +5524,7 @@ function analyzeShot(img, url, elips){
   /* orta tonlu izler: duvara yapışmış soluk çizgiler, kenar bulaşmaları.
      Fal okurken en çok konuşulan izler bunlar.                        */
   const ortaMask = segmentOrta(g, wk.w, wk.h, c, seg.mask);
-  const ortalar = components(ortaMask, wk.w, wk.h, Math.max(28, Math.round(c.area*0.0011)))
+  const ortalar = components(ortaMask, wk.w, wk.h, Math.max(70, Math.round(c.area*0.0035)))
                     .map(pts => buildBlob(pts, wk.w, 0))
                     .filter(b => b.area < c.area*0.34);
   ortalar.forEach(b => { b.ton = "orta"; });
@@ -5477,7 +5540,7 @@ function analyzeShot(img, url, elips){
   }
   let aklar = components(erode(ak, wk.w, wk.h, 2), wk.w, wk.h, Math.max(70, minA))
                 .map(pts => buildBlob(pts, wk.w, 0))
-                .filter(b => b.area > c.area*0.004 && b.area < c.area*0.05)
+                .filter(b => b.area > c.area*0.006 && b.area < c.area*0.045)
                 .filter(b => cevrili(b, seg.mask, wk.w, wk.h));
 
   const shot = {work:wk, gray:g, cup:c, frac:seg.frac, url:url, img:img,
@@ -5569,7 +5632,9 @@ function gecmisSembol(){
 function gecmisMetni(){
   const h = gecmisOku();
   if(!h.length) return "";
-  return h.map(k => k.t + ": " + (k.s || []).join(", ")).join(" | ");
+  /* Tarih vermiyoruz: "eylülde şunu demiştik" tuhaf duruyor.
+     Sadece hangi şekillerin çıktığını, eskiden yeniye sıralıyoruz. */
+  return h.map(k => (k.s || []).join(", ")).filter(Boolean).join(" || ");
 }
 
 /* ══════════════════ SAYFALARI KUR ══════════════════ */
@@ -5671,7 +5736,7 @@ function buildPagesAI(v){
       gordugum: s.gordugum ? nm(s.gordugum) : "",
       ogret: s.ogret ? nm(s.ogret) : (T.ogretZon[s.bolge] + " " + T.ogretYan[s.yon]),
       tahmin: s.tahmin ? nm(s.tahmin) : "",
-      kanit: (b && !b.kaba) ? {grid:gridOf(b).m, ad:T.kanitSekil} : null,
+      kanit: (b && !b.kutuMod) ? {grid:gridOf(b).m, ad:T.kanitSekil} : null,
       body: [nm(s.yorum)]
     });
   });
@@ -5690,7 +5755,7 @@ function buildPagesAI(v){
       kicker:T.alanKicker, title:vurgu(cap(a.baslik)),
       where: T.alanAd[a.alan] || "",
       ogret: a.dayanak ? nm(T.dayanakOn + " " + a.dayanak) : "",
-      kanit: (b && !b.kaba) ? {grid:gridOf(b).m, ad:T.kanitSekil} : null,
+      kanit: (b && !b.kutuMod) ? {grid:gridOf(b).m, ad:T.kanitSekil} : null,
       body:[nm(a.metin)]
     });
   }
@@ -5714,7 +5779,7 @@ function buildPagesAI(v){
       kind:"sym", blobs: b ? [b] : [], shot:sh, kicker:T.harfKicker,
       title:T.harfTitle(v.harf.deger), where:T.genel,
       ogret: v.harf.ogret ? nm(v.harf.ogret) : "",
-      kanit: (b && !b.kaba) ? {grid:gridOf(b).m, ad:T.kanitSekil} : null,
+      kanit: (b && !b.kutuMod) ? {grid:gridOf(b).m, ad:T.kanitSekil} : null,
       body:[nm(v.harf.yorum), nm(T.harfSon)]
     });
   }
@@ -5725,7 +5790,7 @@ function buildPagesAI(v){
       kind:"sym", blobs: b ? [b] : [], shot:sh, kicker:T.sayiKicker,
       title:T.sayiTitle(v.sayi.deger), where:T.genel,
       ogret: v.sayi.ogret ? nm(v.sayi.ogret) : "",
-      kanit: (b && !b.kaba) ? {grid:gridOf(b).m, ad:T.kanitSekil} : null,
+      kanit: (b && !b.kutuMod) ? {grid:gridOf(b).m, ad:T.kanitSekil} : null,
       body:[nm(v.sayi.yorum), nm(T.sayiSon(v.sayi.deger))]
     });
   }
@@ -5881,7 +5946,7 @@ function buildPages(){
   }
   let akSay = 0;
   for(const t of beyaz){
-    if(akSay >= 4) break;
+    if(akSay >= 2) break;
     if(akGrup.get(t.sym) !== t) continue;
     const s = T.symAk[t.sym];
     if(!s) continue;
@@ -6011,7 +6076,7 @@ function draw(){
      telve düzgün sınır vermez, çizince yanlış yerde duruyormuş gibi
      görünür. Kutu "şuraya bak" demek için yeter.                   */
   const marks = p.blobs.map(b => {
-    const pay = Math.max(10, Math.min(b.bw, b.bh)*0.22*tf.s + 8);
+    const pay = b.kutuMod ? 4 : Math.max(10, Math.min(b.bw, b.bh)*0.22*tf.s + 8);
     return {
       b,
       x: b.x0*tf.s + tf.tx - pay,
@@ -6881,11 +6946,11 @@ document.getElementById("b-veri-indir").addEventListener("click", async ()=>{
 });
 
 /* müzik düğmesi */
-const sesDug = document.getElementById("b-ses");
-if(sesDug){
-  sesDug.addEventListener("click", sesCevir);
-  sesDugmeYaz();
+for(const kimlik of ["b-ses", "b-ses-ust"]){
+  const d = document.getElementById(kimlik);
+  if(d) d.addEventListener("click", sesCevir);
 }
+sesDugmeYaz();
 
 /* ══════════════════ 8. ÖRNEK FİNCAN ══════════════════ */
 
