@@ -227,6 +227,14 @@
     box-shadow:0 4px 18px rgba(0,0,0,.5);
   }
   .stage .lbl.show{opacity:1;}
+  .stage .sesdug{
+    position:absolute;right:10px;bottom:10px;width:34px;height:34px;border-radius:50%;
+    border:1px solid var(--gold-dim);background:rgba(10,5,8,.6);color:var(--gold-soft);
+    font-size:15px;cursor:pointer;display:grid;place-items:center;padding:0;
+    backdrop-filter:blur(4px);transition:all .2s ease;
+  }
+  .stage .sesdug:hover{border-color:var(--gold);background:rgba(10,5,8,.85);}
+  .stage .sesdug[aria-pressed=true]{color:var(--gold);border-color:var(--gold-dim);}
   .stage .corner{
     position:absolute;font-family:var(--ui);font-size:9.5px;letter-spacing:.22em;
     text-transform:uppercase;color:var(--gold);bottom:12px;left:14px;pointer-events:none;
@@ -627,6 +635,7 @@
           <canvas id="cPhoto"></canvas>
           <canvas id="cVeil"></canvas>
           <div class="corner" id="corner"></div>
+          <button class="sesdug" type="button" id="b-ses" aria-pressed="false">&#9834;</button>
         </div>
       </div>
       <div class="txt">
@@ -826,7 +835,7 @@ tr:{
   sonGiris:"{ad}, fincanını baştan sona okudum. Şimdi hepsini birbirine bağlayayım.",
   sonBaglar:k=>"Bana anlattığı hikâye şu: "+k+".",
   sonKapanis:"Fincan tek tek şekillerden değil, şekillerin sırasından konuşur. Seninkinde bir gidiş var ve o gidiş tıkalı değil. Gerisi senin ne kadar üstüne gideceğine bakar {ad}.",
-  sonUyari:"Telve her seferinde başka düşer. Aynı fincanı ikinci kez okutmak, aynı soruyu iki kere sormak gibidir.",
+  sonUyari:"",
 
   cokFoto:n=>"Fincanı elimde çevire çevire baktım, her yanını gördüm.",
   tekrar:n=>"Bu iz fincanın birkaç yerinde birden duruyor {ad}. Fincanda tekrar eden şey, o konunun altını çizer.",
@@ -1086,7 +1095,7 @@ en:{
   sonGiris:"{ad}, I have read your cup from beginning to end. Now let me tie it all together.",
   sonBaglar:k=>"The story it told me is this: "+k+".",
   sonKapanis:"A cup speaks through the order of its shapes, not through any one of them. Yours has a direction, and that direction is not blocked. The rest depends on how hard you push, {ad}.",
-  sonUyari:"The grounds fall differently every time. Reading the same cup twice is like asking the same question twice.",
+  sonUyari:"",
 
   cokFoto:n=>"I read "+n+" photos together. If I see the same thing in more than one frame, I will say so.",
   tekrar:n=>"I saw this in "+n+" separate photos, {ad}. Something that repeats in the cup underlines its subject.",
@@ -1673,6 +1682,7 @@ PACK.tr.aiSoru = function(p){
 "6) Her şekil için o izin fotoğraftaki yerini \"kutu\": [x0,y0,x1,y1] olarak ver. Değerler 0 ile 1 arası; 0,0 sol üst, 1,1 sağ alt. Kutu gerçekten o izi çevrelesin: uygulama bu kutuyu fotoğrafın üstünde işaretleyip kullanıcıya 'işte tam burada gördüm' diye gösterecek. Yanlış kutu, yanlış falla aynı şeydir.",
 "7) \"foto\" alanına o izi hangi fotoğrafta gördüğünü yaz (1'den " + p.foto + "'e).",
 "",
+p.gecmis ? "BU KİŞİNİN ÖNCEKİ FALLARI\nAynı kişi daha önce de fincan açtırdı. Tarih ve o gün çıkan şekiller:\n" + p.gecmis + "\nBir iki cümlede buna gönderme yap: 'geçen sefer şunu konuşmuştuk, bugün biraz farklı duruyor' gibi. Aynı şekil yine çıktıysa konunun sürdüğünü söyle, çıkmadıysa kapandığını.\n" : "",
 sozlukIstem() ,
 p.parca ? "CİHAZIN LEKELERİN İÇİNDE BULDUĞU FİGÜRLER\nUygulama kütlelerin kenarında pencere gezdirip siluet aradı ve aşağıdakileri buldu. Bunlar sana başlangıç noktası: o kutuya bak, gerçekten benziyorsa adını koy ve kutusunu kullan. Benzemiyorsa kendi bulduğun şekli yaz, listeye mahkûm değilsin.\n" + p.parca + "\n" : "",
 p.dokum ? "CİHAZIN ÖLÇTÜĞÜ LEKELER\nUygulama fincandaki telve kümelerini zaten ölçtü. Aşağıdaki liste sana yol göstersin: konuştuğun izleri mümkün olduğunca bu kümelerden seç ve kutularını buradan al, böylece işaretleme fotoğrafın üstüne tam oturur. Ölçüm gördüğünle çelişiyorsa kendi gözüne güven.\n" + p.dokum + "\nKoyuluk 10'a yakınsa iz koyu ve ağır, 3'e yakınsa silik demektir. Uzunluk oranı 1'e yakınsa yuvarlak, 3'ten büyükse uzun bir izdir.\n" : "",
@@ -1707,7 +1717,7 @@ p.dokum ? "CİHAZIN ÖLÇTÜĞÜ LEKELER\nUygulama fincandaki telve kümelerini 
 "- Somut örnek ver. 'Yeni bir kapı açılıyor' yetmez; 'yeni bir iş mi, yeni bir ev mi, yoksa gelin gibi bir haber mi, ona bakalım' de.",
 "- Ara sıra soru sor: 'Aklında bir taşınma var mı?', 'Bu aralar biriyle mi küstün?' Cevap bekleme, sorunun kendisi insanı içine çeker.",
 "- Şekilleri birbirine bağla. Bir öncekine gönderme yap: 'Demin şu kuşu gördük ya, işte bu onun devamı.'",
-"- Kapanışta kişiyi iyi hissettir. Gerçeği eğip bükme ama son sözü umutla bağla.",
+"- Kapanışta kişiyi iyi hissettir ve YARINA DAVET ET: 'yarın bir daha bakalım, gelişmeleri beraber inceleyelim' gibi. Sonra sağlık ve mutluluk dile. Kapanışı asla 'bir daha bakmaya gerek yok' anlamına gelecek şekilde bitirme.",
 "",
 "ÜSLUP: EN ÖNEMLİ KISIM",
 "- YAPAMADIĞINI ANLATMA. 'Harf çıkmadı', 'benzetemedim', 'uydurmayayım', 'göremedim' gibi cümleler YASAK. Bir şey yoksa ondan hiç söz etme; falcı eksiğini duyurmaz.",
@@ -1839,6 +1849,7 @@ PACK.en.aiSoru = function(p){
 "6) For every shape give its location as \"kutu\": [x0,y0,x1,y1], values from 0 to 1, 0,0 top-left, 1,1 bottom-right. The box must actually enclose that mark: the app draws it on the photograph to show the person exactly where you saw it. A wrong box is as bad as a wrong reading.",
 "7) Put the photograph index in \"foto\" (1 to " + p.foto + ").",
 "",
+p.gecmis ? "THIS PERSON'S EARLIER READINGS\nThey have had cups read before. Dates and the shapes that came up:\n" + p.gecmis + "\nRefer to it in a sentence or two: we spoke of this last time, today it sits differently. If the same shape returns, say the matter continues; if it is gone, say it closed.\n" : "",
 sozlukIstem() ,
 p.parca ? "FIGURES THE DEVICE FOUND INSIDE THE MASSES\nThe app slid windows along the edges of the masses looking for silhouettes and found these. Treat them as starting points: look at that box, and if it genuinely resembles the thing, name it and use its box. If it does not, write the shape you see instead; you are not bound to this list.\n" + p.parca + "\n" : "",
 p.dokum ? "MARKS THE DEVICE MEASURED\nThe app has already measured the clusters of grounds in this cup. Use the list below: wherever you can, pick the marks you talk about from these clusters and take their boxes from here, so the highlight lands exactly on the mark. If a measurement contradicts what you see, trust your eyes.\n" + p.dokum + "\nA darkness near 10 means a heavy, dark mark; near 3 means faint. An elongation near 1 is round; above 3 is a long mark.\n" : "",
@@ -1873,7 +1884,7 @@ p.dokum ? "MARKS THE DEVICE MEASURED\nThe app has already measured the clusters 
 "- Give concrete examples. A new door opens is not enough; say is it a new job, a new house, or news of a wedding, let us see.",
 "- Ask a question now and then: Is a move on your mind? Did you fall out with someone lately? Expect no answer; the question itself pulls the reader in.",
 "- Tie the shapes together. Refer back: remember that bird we saw, this is its continuation.",
-"- Close by making them feel good. Do not bend the truth, but end on hope.",
+"- Close by making them feel good and INVITE THEM BACK TOMORROW: let us look again tomorrow and follow what changes. Then wish them health and happiness. Never end in a way that suggests there is no point looking again.",
 "",
 "VOICE: THE MOST IMPORTANT PART",
 "- NEVER ANNOUNCE WHAT YOU COULD NOT DO. Sentences like 'no letter appeared', 'I could not liken it', 'I will not invent', 'I could not see' are BANNED. If something is absent, say nothing about it; a reader does not advertise gaps.",
@@ -2410,7 +2421,7 @@ PACK.tr.nasil = [
   {b:"7. Falı bir hikâyeye bağla", p:[
     "Tek tek şekiller saymak fal değildir. Fincan, şekillerin sırasından konuşur.",
     "Kenardan dibe doğru oku ve gördüklerini bir cümlede birbirine bağla. 'Şu oluyor, sonra şu, en sonunda şu' diyebiliyorsan fincanı okumuşsun demektir.",
-    "Son olarak: telve her seferinde başka düşer. Aynı fincanı iki kez okutmak, aynı soruyu iki kere sormak gibidir."
+    "Son olarak: telve her defasında başka düşer. Bu yüzden fal bir kerelik değildir; yarın açacağın fincan bugünkünün devamını anlatır."
   ]}
 ];
 
@@ -2450,7 +2461,7 @@ PACK.en.nasil = [
   {b:"7. Tie the reading into one story", p:[
     "Listing shapes one by one is not a reading. A cup speaks through the order of its shapes.",
     "Read from the rim toward the bottom and join what you saw into one sentence. If you can say this happens, then this, and finally this, you have read the cup.",
-    "One last thing: the grounds fall differently every time. Having the same cup read twice is like asking the same question twice."
+    "One last thing: the grounds fall differently every time. A reading is never a one-off; tomorrow's cup tells you what came next."
   ]}
 ];
 
@@ -2760,6 +2771,70 @@ PACK.en.saflikParca = [
   orta:["They have started to take it as their due.","Your silence is read as agreement.","Everyone assumes your patience is bottomless."],
   son:["One conversation would settle it.","Drawing a line is not the same as hurting someone.","Asking for your share loses you nobody."]}
 ];
+
+/* Kapanış. Eskiden "aynı fincanı ikinci kez okutmak aynı soruyu iki
+   kere sormak gibidir" diye bitiyordu; bu insanı bir daha gelmekten
+   alıkoyar. Artık yarına davet ediyoruz.                           */
+PACK.tr.yarinGel = [
+  "Telve her defasında başka düşer {ad}. Yarın bir daha bakalım, gelişmeleri beraber inceleyelim.",
+  "Fincan her gün başka konuşur. Yarın bir kahve daha iç, bakalım bu izler nereye varmış.",
+  "Bu fincan bugünü anlattı. Yarınki fincan bunun devamını anlatacak, merak ediyorum.",
+  "Telve akmaya devam ediyor {ad}. Yarın yine bak, değişeni ben de görmek isterim.",
+  "Her fincan bir günün hikâyesidir. Yarın yeni bir sayfa açarız."
+];
+PACK.en.yarinGel = [
+  "The grounds fall differently every time, {ad}. Let us look again tomorrow and follow how things move.",
+  "A cup speaks differently each day. Have another coffee tomorrow and we will see where these marks went.",
+  "This cup told today. Tomorrow's cup will tell what came next, and I am curious.",
+  "The grounds keep running, {ad}. Look again tomorrow; I would like to see what changed too.",
+  "Every cup is one day's story. Tomorrow we open a new page."
+];
+
+PACK.tr.dilek = [
+  "Sağlıkla, mutlulukla kal {ad}.",
+  "Ağzın tatlı, yüzün gülsün.",
+  "Sağlığın yerinde olsun, gerisi gelir.",
+  "Gönlün ferah, sofran bereketli olsun.",
+  "Sağlıkla kal, huzurun eksilmesin."
+];
+PACK.en.dilek = [
+  "Stay well and happy, {ad}.",
+  "May your days be sweet and your face bright.",
+  "Keep your health; the rest follows.",
+  "May your heart be light and your table full.",
+  "Stay well, and may your peace hold."
+];
+
+PACK.tr.mujde = "Her şey çok güzel olacak!";
+PACK.en.mujde = "Everything is going to be wonderful!";
+
+/* Daha önce fal bakılmışsa kurulan bağ cümleleri. */
+PACK.tr.gecmisBag = [
+  "Geçen sefer {onceki} çıkmıştı, hatırlıyor musun? Bugün fincan biraz farklı duruyor.",
+  "Son baktığımızda {onceki} vardı. Bugün onun izi hâlâ var ama yumuşamış.",
+  "Daha önce {onceki} demiştik. Bugün aynı yerde yine bir şey var, demek konu kapanmamış.",
+  "Bir önceki fincanında {onceki} görmüştüm. Bugünkü onun devamı gibi.",
+  "Geçen fincanda {onceki} konuşmuştuk; bu sefer tablo biraz değişmiş."
+];
+PACK.en.gecmisBag = [
+  "Last time a {onceki} came up, remember? Today the cup sits a little differently.",
+  "When we last looked there was a {onceki}. Its trace is still here, but softer.",
+  "We spoke of a {onceki} before. Something sits in the same place today, so the matter is not closed.",
+  "I saw a {onceki} in your previous cup. Today's looks like its continuation.",
+  "We talked about a {onceki} last time; the picture has shifted a little now."
+];
+PACK.tr.gecmisIlk = "Bugün ilk kez bakıyorum fincanına {ad}. Bundan sonrasını karşılaştırarak okuyacağım.";
+PACK.en.gecmisIlk = "This is the first cup of yours I have read, {ad}. From now on I will read by comparing.";
+
+PACK.tr.sembolAnlam = (ad, anlam, ornek) =>
+  "Fal dilinde " + ad + " şu demektir: " + anlam.toLocaleLowerCase("tr").replace(/\.$/, "") + ". " + ornek;
+PACK.en.sembolAnlam = (ad, anlam, ornek) =>
+  "In a reading, " + ad + " means this: " + anlam.toLowerCase().replace(/\.$/, "") + ". " + ornek;
+
+PACK.tr.ui.sesAc = "Müziği aç";
+PACK.tr.ui.sesKapat = "Müziği kapat";
+PACK.en.ui.sesAc = "Turn music on";
+PACK.en.ui.sesKapat = "Turn music off";
 
 /* ══════════════════ HUKUKİ METİNLER ══════════════════
    App Store başvurusunda Apple bir gizlilik politikası bağlantısı ister.
@@ -5086,6 +5161,139 @@ function kutuyuLekeyeBagla(shot, kb){
   return null;
 }
 
+/* ══════════════════ FİNCAN MÜZİĞİ ══════════════════
+   Hazır parça kullanmıyoruz: telif derdi olmasın diye müziği
+   tarayıcı kendisi üretiyor. Hicaz dizisinden yumuşak bir ped ve
+   arada düşen tek tek notalar. Ses çok kısık, okumanın önüne
+   geçmez. Kullanıcı isterse tek dokunuşla susturur.               */
+
+let sesBaglam = null, sesAna = null, sesZaman = 0, sesAcik = false;
+
+/* Hicaz benzeri dizi: kahve falına yakışan, doğulu ve yumuşak */
+const SES_DIZI = [0, 1, 4, 5, 7, 8, 11];
+const SES_KOK = 146.83;                       // re
+
+function sesFrekans(derece, oktav){
+  const n = SES_DIZI[((derece % 7) + 7) % 7] + 12*(oktav || 0);
+  return SES_KOK * Math.pow(2, n/12);
+}
+
+function sesKur(){
+  if(sesBaglam) return true;
+  const AC = window.AudioContext || window.webkitAudioContext;
+  if(!AC) return false;
+  try{
+    sesBaglam = new AC();
+    sesAna = sesBaglam.createGain();
+    sesAna.gain.value = 0;
+    /* keskinliği al, oda hissi ver */
+    const suz = sesBaglam.createBiquadFilter();
+    suz.type = "lowpass";
+    suz.frequency.value = 1500;
+    sesAna.connect(suz);
+    suz.connect(sesBaglam.destination);
+    return true;
+  }catch(e){ sesBaglam = null; return false; }
+}
+
+/* tek nota: yumuşak giriş, uzun sönüş */
+function sesNota(frekans, baslangic, sure, seviye, tip){
+  const o = sesBaglam.createOscillator();
+  const g = sesBaglam.createGain();
+  o.type = tip || "sine";
+  o.frequency.value = frekans;
+  g.gain.setValueAtTime(0.0001, baslangic);
+  g.gain.exponentialRampToValueAtTime(seviye, baslangic + sure*0.25);
+  g.gain.exponentialRampToValueAtTime(0.0001, baslangic + sure);
+  o.connect(g); g.connect(sesAna);
+  o.start(baslangic);
+  o.stop(baslangic + sure + 0.1);
+}
+
+/* sürekli akan zemin sesi */
+function sesPed(baslangic){
+  for(const [derece, okt] of [[0,-1],[4,-1],[0,0]]){
+    const o = sesBaglam.createOscillator();
+    const g = sesBaglam.createGain();
+    o.type = "triangle";
+    o.frequency.value = sesFrekans(derece, okt);
+    /* hafif dalgalanma: tek düze durmasın */
+    const lfo = sesBaglam.createOscillator();
+    const lfoG = sesBaglam.createGain();
+    lfo.frequency.value = 0.07 + Math.random()*0.05;
+    lfoG.gain.value = 0.6;
+    lfo.connect(lfoG); lfoG.connect(o.frequency);
+    lfo.start(baslangic);
+    g.gain.setValueAtTime(0.0001, baslangic);
+    g.gain.exponentialRampToValueAtTime(0.045, baslangic + 6);
+    o.connect(g); g.connect(sesAna);
+    o.start(baslangic);
+    sesPed._parcalar = (sesPed._parcalar || []).concat([o, lfo]);
+  }
+}
+
+/* önümüzdeki birkaç saniyeyi doldur; döngü hep ileriyi besler */
+function sesBesle(){
+  if(!sesAcik || !sesBaglam) return;
+  const simdi = sesBaglam.currentTime;
+  if(sesZaman < simdi + 0.4) sesZaman = simdi + 0.4;
+  while(sesZaman < simdi + 4){
+    const derece = SES_DIZI.length > 0 ? Math.floor(Math.random()*5) : 0;
+    const okt = Math.random() < 0.35 ? 1 : 0;
+    sesNota(sesFrekans(derece, okt), sesZaman, 2.6 + Math.random()*1.6, 0.035, "sine");
+    if(Math.random() < 0.4)
+      sesNota(sesFrekans(derece + 2, okt), sesZaman + 0.35, 2.2, 0.022, "sine");
+    sesZaman += 1.6 + Math.random()*1.8;
+  }
+}
+
+function sesBaslat(){
+  if(sesAcik) return;
+  if(!sesKur()) return;
+  if(sesBaglam.state === "suspended") sesBaglam.resume();
+  sesAcik = true;
+  const t = sesBaglam.currentTime;
+  sesZaman = t + 0.3;
+  sesPed(t);
+  sesAna.gain.cancelScheduledValues(t);
+  sesAna.gain.setValueAtTime(0.0001, t);
+  sesAna.gain.exponentialRampToValueAtTime(0.55, t + 4);
+  sesBesle();
+  sesBaslat._saat = setInterval(sesBesle, 1800);
+  try{ localStorage.setItem("fincan-ses", "1"); }catch(e){}
+  sesDugmeYaz();
+}
+
+function sesDurdur(){
+  if(!sesAcik || !sesBaglam) { sesDugmeYaz(); return; }
+  sesAcik = false;
+  clearInterval(sesBaslat._saat);
+  const t = sesBaglam.currentTime;
+  sesAna.gain.cancelScheduledValues(t);
+  sesAna.gain.setValueAtTime(sesAna.gain.value, t);
+  sesAna.gain.exponentialRampToValueAtTime(0.0001, t + 1.2);
+  setTimeout(()=>{
+    for(const p of (sesPed._parcalar || [])){ try{ p.stop(); }catch(e){} }
+    sesPed._parcalar = [];
+  }, 1500);
+  try{ localStorage.setItem("fincan-ses", "0"); }catch(e){}
+  sesDugmeYaz();
+}
+
+function sesCevir(){ sesAcik ? sesDurdur() : sesBaslat(); }
+
+function sesIster(){
+  try{ return localStorage.getItem("fincan-ses") !== "0"; }catch(e){ return true; }
+}
+
+function sesDugmeYaz(){
+  const d = document.getElementById("b-ses");
+  if(!d) return;
+  d.setAttribute("aria-pressed", String(sesAcik));
+  d.textContent = sesAcik ? "♪" : "♪̸";
+  d.title = sesAcik ? (P().ui.sesKapat || "") : (P().ui.sesAc || "");
+}
+
 /* ══════════════════ FOTOĞRAF KALİTESİ ══════════════════ */
 
 function quality(shot){
@@ -5227,6 +5435,43 @@ function vurgu(ad){
 function cap(s){ return s.charAt(0).toLocaleUpperCase(P().loc) + s.slice(1); }
 function shotIx(sh){ return shots.indexOf(sh); }
 
+/* ══════════════════ GEÇMİŞ FALLAR ══════════════════
+   Aynı telefonda aynı adla gelen kişinin önceki fallarını hatırlıyoruz.
+   Böylece "geçen sefer şunu konuşmuştuk, bugün biraz farklı" diyebiliyoruz.
+   Hiçbir yere gönderilmez, yalnızca cihazda durur.                  */
+function gecmisAnahtar(){
+  return "fincan-gecmis-" + (KULLANICI_ADI || "misafir").toLocaleLowerCase("tr");
+}
+function gecmisOku(){
+  try{
+    const h = JSON.parse(localStorage.getItem(gecmisAnahtar()) || "[]");
+    return Array.isArray(h) ? h.slice(-6) : [];
+  }catch(e){ return []; }
+}
+function gecmisYaz(semboller, baslik){
+  try{
+    const h = gecmisOku();
+    h.push({t:new Date().toISOString().slice(0,10),
+            s:(semboller || []).slice(0,6), b:baslik || ""});
+    localStorage.setItem(gecmisAnahtar(), JSON.stringify(h.slice(-6)));
+  }catch(e){}
+}
+/* Önceki fallarda en çok geçen sembol: bağ cümlesi bunun üstüne kurulur */
+function gecmisSembol(){
+  const h = gecmisOku();
+  if(!h.length) return null;
+  const say = {};
+  for(const k of h) for(const s of (k.s || [])) say[s] = (say[s] || 0) + 1;
+  let en = null, enN = 0;
+  for(const s in say) if(say[s] > enN){ enN = say[s]; en = s; }
+  return en;
+}
+function gecmisMetni(){
+  const h = gecmisOku();
+  if(!h.length) return "";
+  return h.map(k => k.t + ": " + (k.s || []).join(", ")).join(" | ");
+}
+
 /* ══════════════════ SAYFALARI KUR ══════════════════ */
 
 function yerAdi(T, bolge, yon){
@@ -5288,7 +5533,10 @@ function kapanisSayfasi(T, hikaye, kapanisMetni, ozet){
   if(zincir) body.push(T.sonBaglar(zincir));
   body.push(nm(kapanisMetni || T.sonKapanis));
   if(shots.length < 3) body.push(nm(T.eksikFoto[shots.length] || T.eksikFoto[1]));
-  body.push(T.sonUyari);
+  /* Yarına davet, sonra dilek. Ara sıra da müjde. */
+  body.push(nm(pick(T.yarinGel)));
+  const kutlama = rnd() < 0.2 ? " " + T.mujde : "";
+  body.push(nm(pick(T.dilek)) + kutlama);
   return {kind:"son", blobs:[], shot:shots[0], kicker:T.sonSayfa, title:T.sonTitle,
           where:T.ozet, body, liste:ozet};
 }
@@ -5303,6 +5551,9 @@ function buildPagesAI(v){
   const k = T.kapak[v.yogunluk] || T.kapak.denge;
   const kapakBody = [nm(v.giris || (k.alt ? pick(k.alt) : k.a))];
   kapakBody.push(nm(shots.length >= 3 ? T.tamFoto : (T.eksikFoto[shots.length] || T.eksikFoto[1])));
+  const oncekiAi = gecmisSembol();
+  if(oncekiAi && T.gecmisBag)
+    kapakBody.push(nm(pick(T.gecmisBag).split("{onceki}").join(oncekiAi)));
   pages.push({kind:"kapak", blobs:[], shot:shots[0], kicker:T.ord[1] + T.ordSuffix,
               title: v.baslik ? vurgu(cap(v.baslik)) : k.t, where:T.genel, body:kapakBody});
 
@@ -5396,7 +5647,7 @@ function buildPages(){
   const tagged = [];
   for(const sh of shots) for(const b of sh.blobs){
     const c = b.ak ? classifyAk(b) : classify(b);
-    tagged.push({b, sh, ak:!!b.ak, sym:c.sym, guven:c.guven, kanit:c.kanit, neden:c.neden,
+    tagged.push({b, sh, ak:!!b.ak, sym:c.sym, guven:c.guven, kanit:c.kanit, neden:c.neden, gorunen:c.gorunen,
                  pos:place(b), rel:b.area/Math.max(1, sh.cup.area)});
   }
 
@@ -5428,7 +5679,14 @@ function buildPages(){
   const frac = shots.reduce((s,x)=>s+x.frac,0)/shots.length;
   const k = T.kapak[frac > 0.30 ? "yogun" : frac < 0.16 ? "acik" : "denge"];
   const kapakBody = [nm(k.alt ? pick(k.alt) : k.a), nm(k.b(koyu.length + beyaz.length))];
+  const oncekiSembol = gecmisSembol();
+  if(oncekiSembol && T.gecmisBag)
+    kapakBody.push(nm(pick(T.gecmisBag).split("{onceki}").join(oncekiSembol)));
+  else if(T.gecmisIlk) kapakBody.push(nm(T.gecmisIlk));
   kapakBody.push(nm(shots.length >= 3 ? T.tamFoto : (T.eksikFoto[shots.length] || T.eksikFoto[1])));
+  const oncekiAi = gecmisSembol();
+  if(oncekiAi && T.gecmisBag)
+    kapakBody.push(nm(pick(T.gecmisBag).split("{onceki}").join(oncekiAi)));
   pages.push({kind:"kapak", blobs:[], shot:shots[0], kicker:T.ord[1] + T.ordSuffix,
               title:k.t, where:T.genel, body:kapakBody});
 
@@ -5480,6 +5738,9 @@ function buildPages(){
     oncekiAd = String(s.ad).toLocaleLowerCase(T.loc);
     if(extra) extra.forEach(e => body.push(nm(e)));
     hikaye.push(s.hikaye);
+    /* Sözlükteki anlamı da söyle: "bu sembol şu demektir". */
+    const soz = (typeof sembolCoz === "function") ? sembolCoz(t.gorunen || s.ad) : null;
+    if(soz && T.sembolAnlam) body.push(nm(T.sembolAnlam(soz.ad, soz.anlam, soz.ornek)));
     const kanit = t.kanit
       ? {grid:t.kanit.grid, templ:t.kanit.templ, n:t.kanit.n,
          ad:s.ad, skor:t.kanit.skor}
@@ -6184,7 +6445,8 @@ async function falAc(){
           kulp: T.yonAd[handle] || handle,
           eksik: cvs.length < 3,
           dokum: dokumMetni(dokum, T),
-          parca: parcaMetni(parcalar)
+          parca: parcaMetni(parcalar),
+          gecmis: gecmisMetni()
         });
         sonSoru = soru;
         const ham = await Promise.race([
@@ -6206,6 +6468,8 @@ async function falAc(){
     sizeStage();
     showPage(0);
     if(!rafId) loop();
+    gecmisKaydet();
+    if(sesIster()) sesBaslat(); else sesDugmeYaz();
   }catch(err){
     console.error(err);
     sonAiVeri = null;
@@ -6220,6 +6484,14 @@ async function falAc(){
     }
   }
 }
+function gecmisKaydet(){
+  const adlar = pages.filter(p => p.kind === "sym")
+                     .map(p => p.title.replace(/<[^>]+>/g, "").toLocaleLowerCase(P().loc))
+                     .filter(Boolean);
+  const kapak = pages.length ? pages[0].title.replace(/<[^>]+>/g, "") : "";
+  gecmisYaz(adlar, kapak);
+}
+
 document.getElementById("b-open").addEventListener("click", falAc);
 
 function reset(){
@@ -6507,6 +6779,13 @@ document.getElementById("b-veri-indir").addEventListener("click", async ()=>{
     setTimeout(()=>{ URL.revokeObjectURL(a.href); a.remove(); }, 2000);
   }catch(err){ toast(P().ui.copyFail); }
 });
+
+/* müzik düğmesi */
+const sesDug = document.getElementById("b-ses");
+if(sesDug){
+  sesDug.addEventListener("click", sesCevir);
+  sesDugmeYaz();
+}
 
 /* ══════════════════ 8. ÖRNEK FİNCAN ══════════════════ */
 
