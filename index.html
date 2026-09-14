@@ -211,6 +211,8 @@
   .spin .arc{fill:none;stroke:var(--gold);stroke-width:1.4;stroke-linecap:round;transform-origin:52px 52px;animation:turn 2.4s linear infinite;}
   @keyframes turn{to{transform:rotate(360deg);}}
   .ritual-line{font-family:var(--display);font-style:italic;font-size:22px;color:var(--ink-2);margin:0;min-height:1.6em;}
+  .ritual-kalan{font-family:var(--ui);font-size:12px;letter-spacing:.2em;text-transform:uppercase;
+    color:var(--gold);margin:14px 0 0;font-variant-numeric:tabular-nums;min-height:1.4em;}
 
   /* okuma */
   #scr-read .shell{padding-block:18px 0;}
@@ -626,6 +628,7 @@
       <path class="arc" d="M52 8a44 44 0 0 1 40 26"/>
     </svg>
     <p class="ritual-line" id="ritual-line"></p>
+    <p class="ritual-kalan" id="ritual-kalan"></p>
   </div>
 </section>
 
