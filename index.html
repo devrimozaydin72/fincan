@@ -2873,6 +2873,44 @@ PACK.en.gecmisBag = [
   "When we last looked there was a {onceki}; the picture has shifted a little now."
 ];
 
+/* Ritüel yazıları. Karıştırılıp sırayla gösterilir, tekrar etmez. */
+PACK.tr.ritual = [
+  "Fincan açılıyor…",
+  "Telveye bakıyorum…",
+  "Fincanın ağzından başlıyorum…",
+  "Kenardaki izleri okuyorum…",
+  "Ortaya iniyorum…",
+  "Dibe bakıyorum…",
+  "Kulbun tarafını inceliyorum…",
+  "Karşı tarafa geçiyorum…",
+  "Fincanı çeviriyorum…",
+  "Şekiller belirginleşiyor…",
+  "İzleri birbirine bağlıyorum…",
+  "Bütününe bakıyorum…",
+  "Sözlüğe danışıyorum…",
+  "Falını topluyorum…"
+];
+PACK.en.ritual = [
+  "Opening the cup…",
+  "Looking into the grounds…",
+  "Starting at the rim…",
+  "Reading the marks at the edge…",
+  "Moving to the middle…",
+  "Looking at the bottom…",
+  "Studying the handle side…",
+  "Crossing to the far side…",
+  "Turning the cup…",
+  "The shapes are coming clear…",
+  "Tying the marks together…",
+  "Taking in the whole…",
+  "Consulting the symbols…",
+  "Gathering your reading…"
+];
+PACK.tr.ui.kalanSure = n => "Yaklaşık " + n + " saniye";
+PACK.en.ui.kalanSure = n => "About " + n + " seconds";
+PACK.tr.ui.nerdeyseBitti = "Neredeyse bitti…";
+PACK.en.ui.nerdeyseBitti = "Almost done…";
+
 /* ══════════════════ HUKUKİ METİNLER ══════════════════
    App Store başvurusunda Apple bir gizlilik politikası bağlantısı ister.
    Aşağıdaki metinler hem uygulama içinde gösterilir hem de ayrıca
@@ -6680,11 +6718,32 @@ async function falAc(){
   const T = P();
   go("ritual");
   const line = document.getElementById("ritual-line");
-  const RL = T.ritual;
+  /* Yazılar tekrar etmesin: listeyi karıştırıp sırayla tüketiyoruz.
+     Bitince son yazıda kalır, başa dönüp aynı şeyi yazmaz.        */
+  const RL = (T.ritual || []).slice();
+  for(let q=RL.length-1; q>0; q--){
+    const w = Math.floor(Math.random()*(q+1));
+    const t = RL[q]; RL[q] = RL[w]; RL[w] = t;
+  }
   let i = 0;
-  line.textContent = RL[0];
-  const tick = setInterval(()=>{ i = (i+1)%RL.length; line.textContent = RL[i]; }, 1700);
-  const enAz = new Promise(r => setTimeout(r, 2200));
+  line.textContent = RL[0] || "";
+  const tick = setInterval(()=>{
+    if(i < RL.length - 1) line.textContent = RL[++i];
+  }, 2600);
+
+  /* Geri sayım: kullanıcı ne kadar bekleyeceğini görsün. */
+  const kalanEl = document.getElementById("ritual-kalan");
+  const tahmin = aiMumkun() ? 45 : 4;
+  let kalan = tahmin;
+  const yazKalan = () => {
+    if(!kalanEl) return;
+    kalanEl.textContent = kalan > 0
+      ? (T.ui.kalanSure ? T.ui.kalanSure(kalan) : kalan + " sn")
+      : (T.ui.nerdeyseBitti || "");
+  };
+  yazKalan();
+  const sayac = setInterval(()=>{ if(kalan > 0) kalan--; yazKalan(); }, 1000);
+  const enAz = new Promise(r => setTimeout(r, aiMumkun() ? 2600 : 2200));
 
   let veri = null;
   /* Ölçüm dökümünü her hâlükârda çıkarıyoruz: yapay zekâ kapalıyken de
@@ -6730,6 +6789,8 @@ async function falAc(){
 
   await enAz;
   clearInterval(tick);
+  clearInterval(sayac);
+  if(kalanEl) kalanEl.textContent = "";
   try{
     sonAiVeri = veri;
     if(!(veri && buildPagesAI(veri))){ sonAiVeri = null; buildPages(); }
