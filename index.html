@@ -5162,19 +5162,34 @@ function kutuyuLekeyeBagla(shot, kb){
 }
 
 /* ══════════════════ FİNCAN MÜZİĞİ ══════════════════
-   Hazır parça kullanmıyoruz: telif derdi olmasın diye müziği
-   tarayıcı kendisi üretiyor. Hicaz dizisinden yumuşak bir ped ve
-   arada düşen tek tek notalar. Ses çok kısık, okumanın önüne
-   geçmez. Kullanıcı isterse tek dokunuşla susturur.               */
+   Hazır parça kullanmıyoruz: telifli bir eseri uygulamaya koymak
+   App Store'da sorun çıkarır. Müzik burada tarayıcıda besteleniyor,
+   yani tamamen bize ait.
+   Tarz: yavaş, hüzünlü, nostaljik bir Türk ezgisi. Nihavend dizisi,
+   tek bir üflemeli sesi taklit eden yumuşak melodi, altında sakin
+   bir arpej ve derin bir zemin. Ezgi bitince başa döner.          */
 
-let sesBaglam = null, sesAna = null, sesZaman = 0, sesAcik = false;
+let sesBaglam = null, sesAna = null, sesAcik = false;
+let sesSira = 0, sesAdim = 0;
 
-/* Hicaz benzeri dizi: kahve falına yakışan, doğulu ve yumuşak */
-const SES_DIZI = [0, 1, 4, 5, 7, 8, 11];
-const SES_KOK = 146.83;                       // re
+const SES_DIZI = [0, 2, 3, 5, 7, 8, 10];      // nihavend (doğal minör)
+const SES_KOK = 220.00;                        // la
+const SES_VURUS = 1.0;                         // bir vuruş: yavaş, ağır
+
+/* Ezgi: derece ve süre. Dört cümle; yükselir, sonra yerine oturur. */
+const SES_EZGI = [
+  [4,1.5],[3,0.5],[2,1],[0,1],[2,2],[-1,1],[0,3],
+  [7,1.5],[6,0.5],[5,1],[4,1],[5,2],[4,1],[3,3],
+  [4,1],[5,1],[7,2],[5,1],[4,1],[3,2],[2,3],[4,1],
+  [0,1],[2,1],[3,2],[2,1],[0,1],[-2,2],[0,4]
+];
+/* Altta dönen akor kökleri: i - VI - III - VII */
+const SES_KOK_SIRA = [0, 5, 2, 6];
 
 function sesFrekans(derece, oktav){
-  const n = SES_DIZI[((derece % 7) + 7) % 7] + 12*(oktav || 0);
+  const d = ((derece % 7) + 7) % 7;
+  const kaydir = Math.floor(derece / 7);
+  const n = SES_DIZI[d] + 12*(kaydir + (oktav || 0));
   return SES_KOK * Math.pow(2, n/12);
 }
 
@@ -5185,65 +5200,82 @@ function sesKur(){
   try{
     sesBaglam = new AC();
     sesAna = sesBaglam.createGain();
-    sesAna.gain.value = 0;
-    /* keskinliği al, oda hissi ver */
+    sesAna.gain.value = 0.0001;
+
+    /* yumuşatma */
     const suz = sesBaglam.createBiquadFilter();
     suz.type = "lowpass";
-    suz.frequency.value = 1500;
+    suz.frequency.value = 2200;
+
+    /* gecikme: oda hissi, ezgi yalnız kalmasın */
+    const gec = sesBaglam.createDelay(1.0);
+    gec.delayTime.value = 0.42;
+    const geri = sesBaglam.createGain();
+    geri.gain.value = 0.26;
+    const gecSes = sesBaglam.createGain();
+    gecSes.gain.value = 0.32;
+
     sesAna.connect(suz);
     suz.connect(sesBaglam.destination);
+    suz.connect(gec);
+    gec.connect(geri); geri.connect(gec);
+    gec.connect(gecSes); gecSes.connect(sesBaglam.destination);
     return true;
   }catch(e){ sesBaglam = null; return false; }
 }
 
-/* tek nota: yumuşak giriş, uzun sönüş */
+/* üflemeli sesi andıran yumuşak nota */
 function sesNota(frekans, baslangic, sure, seviye, tip){
+  if(!sesBaglam) return;
   const o = sesBaglam.createOscillator();
   const g = sesBaglam.createGain();
   o.type = tip || "sine";
-  o.frequency.value = frekans;
+  o.frequency.setValueAtTime(frekans*0.995, baslangic);
+  o.frequency.linearRampToValueAtTime(frekans, baslangic + 0.12);
   g.gain.setValueAtTime(0.0001, baslangic);
-  g.gain.exponentialRampToValueAtTime(seviye, baslangic + sure*0.25);
+  g.gain.exponentialRampToValueAtTime(seviye, baslangic + Math.min(0.35, sure*0.3));
   g.gain.exponentialRampToValueAtTime(0.0001, baslangic + sure);
   o.connect(g); g.connect(sesAna);
   o.start(baslangic);
-  o.stop(baslangic + sure + 0.1);
+  o.stop(baslangic + sure + 0.15);
 }
 
-/* sürekli akan zemin sesi */
-function sesPed(baslangic){
-  for(const [derece, okt] of [[0,-1],[4,-1],[0,0]]){
-    const o = sesBaglam.createOscillator();
-    const g = sesBaglam.createGain();
-    o.type = "triangle";
-    o.frequency.value = sesFrekans(derece, okt);
-    /* hafif dalgalanma: tek düze durmasın */
-    const lfo = sesBaglam.createOscillator();
-    const lfoG = sesBaglam.createGain();
-    lfo.frequency.value = 0.07 + Math.random()*0.05;
-    lfoG.gain.value = 0.6;
-    lfo.connect(lfoG); lfoG.connect(o.frequency);
-    lfo.start(baslangic);
-    g.gain.setValueAtTime(0.0001, baslangic);
-    g.gain.exponentialRampToValueAtTime(0.045, baslangic + 6);
-    o.connect(g); g.connect(sesAna);
-    o.start(baslangic);
-    sesPed._parcalar = (sesPed._parcalar || []).concat([o, lfo]);
+/* bir ölçüyü planla: ezginin sıradaki notası, altında arpej ve kök */
+function sesOlcuKur(baslangic, indeks){
+  const nota = SES_EZGI[indeks % SES_EZGI.length];
+  const sure = nota[1] * SES_VURUS;
+
+  /* ezgi */
+  sesNota(sesFrekans(nota[0], 1), baslangic, sure*0.92, 0.085, "sine");
+  /* bir oktav alttan hafif eşlik: ney kalınlığı hissi */
+  sesNota(sesFrekans(nota[0], 0), baslangic + 0.04, sure*0.8, 0.030, "triangle");
+
+  /* akor kökü, dört ölçüde bir değişir */
+  const kok = SES_KOK_SIRA[Math.floor(indeks/7) % SES_KOK_SIRA.length];
+  sesNota(sesFrekans(kok, -1), baslangic, sure*1.1, 0.055, "triangle");
+
+  /* sakin arpej: her vuruşta bir nokta */
+  const adet = Math.max(1, Math.round(nota[1]));
+  for(let i=0;i<adet;i++){
+    if(Math.random() < 0.45) continue;
+    const derece = kok + (i % 2 === 0 ? 2 : 4);
+    sesNota(sesFrekans(derece, 0), baslangic + i*SES_VURUS + 0.25,
+            SES_VURUS*0.9, 0.018, "sine");
   }
+  return sure;
 }
 
-/* önümüzdeki birkaç saniyeyi doldur; döngü hep ileriyi besler */
+/* ileriyi doldur; ezgi bitince kendiliğinden başa döner */
 function sesBesle(){
   if(!sesAcik || !sesBaglam) return;
   const simdi = sesBaglam.currentTime;
-  if(sesZaman < simdi + 0.4) sesZaman = simdi + 0.4;
-  while(sesZaman < simdi + 4){
-    const derece = SES_DIZI.length > 0 ? Math.floor(Math.random()*5) : 0;
-    const okt = Math.random() < 0.35 ? 1 : 0;
-    sesNota(sesFrekans(derece, okt), sesZaman, 2.6 + Math.random()*1.6, 0.035, "sine");
-    if(Math.random() < 0.4)
-      sesNota(sesFrekans(derece + 2, okt), sesZaman + 0.35, 2.2, 0.022, "sine");
-    sesZaman += 1.6 + Math.random()*1.8;
+  if(sesSira < simdi + 0.3) sesSira = simdi + 0.3;
+  let guard = 0;
+  while(sesSira < simdi + 6 && guard++ < 24){
+    sesSira += sesOlcuKur(sesSira, sesAdim);
+    sesAdim++;
+    /* ezgi bir tur bitti: kısa bir nefes payı, sonra baştan */
+    if(sesAdim % SES_EZGI.length === 0) sesSira += SES_VURUS*1.5;
   }
 }
 
@@ -5253,29 +5285,26 @@ function sesBaslat(){
   if(sesBaglam.state === "suspended") sesBaglam.resume();
   sesAcik = true;
   const t = sesBaglam.currentTime;
-  sesZaman = t + 0.3;
-  sesPed(t);
+  sesSira = t + 0.4;
   sesAna.gain.cancelScheduledValues(t);
   sesAna.gain.setValueAtTime(0.0001, t);
-  sesAna.gain.exponentialRampToValueAtTime(0.55, t + 4);
+  sesAna.gain.exponentialRampToValueAtTime(0.5, t + 3.5);
   sesBesle();
-  sesBaslat._saat = setInterval(sesBesle, 1800);
+  clearInterval(sesBaslat._saat);
+  sesBaslat._saat = setInterval(sesBesle, 2000);
   try{ localStorage.setItem("fincan-ses", "1"); }catch(e){}
   sesDugmeYaz();
 }
 
 function sesDurdur(){
-  if(!sesAcik || !sesBaglam) { sesDugmeYaz(); return; }
   sesAcik = false;
   clearInterval(sesBaslat._saat);
-  const t = sesBaglam.currentTime;
-  sesAna.gain.cancelScheduledValues(t);
-  sesAna.gain.setValueAtTime(sesAna.gain.value, t);
-  sesAna.gain.exponentialRampToValueAtTime(0.0001, t + 1.2);
-  setTimeout(()=>{
-    for(const p of (sesPed._parcalar || [])){ try{ p.stop(); }catch(e){} }
-    sesPed._parcalar = [];
-  }, 1500);
+  if(sesBaglam && sesAna){
+    const t = sesBaglam.currentTime;
+    sesAna.gain.cancelScheduledValues(t);
+    sesAna.gain.setValueAtTime(sesAna.gain.value, t);
+    sesAna.gain.exponentialRampToValueAtTime(0.0001, t + 1.0);
+  }
   try{ localStorage.setItem("fincan-ses", "0"); }catch(e){}
   sesDugmeYaz();
 }
@@ -5290,8 +5319,10 @@ function sesDugmeYaz(){
   const d = document.getElementById("b-ses");
   if(!d) return;
   d.setAttribute("aria-pressed", String(sesAcik));
-  d.textContent = sesAcik ? "♪" : "♪̸";
-  d.title = sesAcik ? (P().ui.sesKapat || "") : (P().ui.sesAc || "");
+  d.textContent = sesAcik ? "♫" : "♪";
+  d.style.opacity = sesAcik ? "1" : ".55";
+  const T = (typeof P === "function") ? P().ui : null;
+  if(T) d.title = sesAcik ? (T.sesKapat || "") : (T.sesAc || "");
 }
 
 /* ══════════════════ FOTOĞRAF KALİTESİ ══════════════════ */
