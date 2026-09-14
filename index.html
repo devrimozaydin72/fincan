@@ -206,6 +206,21 @@
 
   /* ritüel */
   #scr-ritual .shell{padding-block:80px;text-align:center;min-height:70vh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:26px;}
+  /* Ritüelde söylenen yer fotoğrafın üstünde gösterilir: "dibe
+     bakıyorum" derken halka fincanın dibine iner. Fotoğraf tepeden
+     çekildiği için ağız dıştaki halka, dip ortadaki noktadır.     */
+  .ritual-goz{position:relative;width:min(58vw,228px);aspect-ratio:1;border-radius:50%;
+    overflow:hidden;border:1px solid var(--gold-dim);box-shadow:0 12px 44px rgba(0,0,0,.30);}
+  .ritual-foto{position:absolute;inset:0;background-size:cover;background-position:center;}
+  .ritual-goz.bos .ritual-foto{background:radial-gradient(circle at 50% 42%,#31241a,#160f0a);}
+  .ritual-isaret{position:absolute;inset:0;width:100%;height:100%;}
+  .ritual-halka{fill:rgba(214,168,86,.12);stroke:var(--gold);stroke-width:.9;
+    transition:cx .85s cubic-bezier(.4,0,.2,1),cy .85s cubic-bezier(.4,0,.2,1),r .85s cubic-bezier(.4,0,.2,1);}
+  .ritual-tara{position:absolute;left:0;right:0;top:-36%;height:36%;pointer-events:none;
+    background:linear-gradient(180deg,transparent,rgba(214,168,86,.20),transparent);
+    animation:tara 3.4s ease-in-out infinite;}
+  @keyframes tara{0%{top:-36%}100%{top:100%}}
+  @media (prefers-reduced-motion:reduce){.ritual-tara{animation:none;opacity:0;}}
   .spin{width:104px;height:104px;}
   .spin circle{fill:none;stroke:var(--gold-dim);stroke-width:1;}
   .spin .arc{fill:none;stroke:var(--gold);stroke-width:1.4;stroke-linecap:round;transform-origin:52px 52px;animation:turn 2.4s linear infinite;}
@@ -623,10 +638,13 @@
 <!-- ═══════════ RİTÜEL ═══════════ -->
 <section class="screen" id="scr-ritual">
   <div class="shell">
-    <svg class="spin" viewBox="0 0 104 104" aria-hidden="true">
-      <circle cx="52" cy="52" r="44"/><circle cx="52" cy="52" r="34" opacity=".5"/>
-      <path class="arc" d="M52 8a44 44 0 0 1 40 26"/>
-    </svg>
+    <div class="ritual-goz bos" id="ritual-goz">
+      <div class="ritual-foto" id="ritual-foto"></div>
+      <div class="ritual-tara"></div>
+      <svg class="ritual-isaret" viewBox="0 0 100 100" aria-hidden="true">
+        <circle class="ritual-halka" id="ritual-halka" cx="50" cy="50" r="47"/>
+      </svg>
+    </div>
     <p class="ritual-line" id="ritual-line"></p>
     <p class="ritual-kalan" id="ritual-kalan"></p>
   </div>
@@ -1695,11 +1713,19 @@ p.dokum ? "CİHAZIN ÖLÇTÜĞÜ LEKELER\nUygulama fincandaki telve kümelerini 
 "",
 "ŞEKİLLER NEREDE OLUR (gerçek fal okumalarından öğrenildi)",
 "",
+"- Daha önce baktığın falı falın İÇİNDE YALNIZ BİR KERE an, o da girişte. Sonraki sayfalarda bir daha geçen sefere dönme; her cümlede karşılaştırma yapmak falı bugünden koparır.",
 "FİNCANIN HER YANINA BAK",
 "- Şekilleri fincanın AYNI KÖŞESİNDEN seçme. Ağza yakın bölgeden, ortadan ve dipten; kulp tarafından, karşısından ve yanlarından ayrı ayrı şekiller bul. Fincan bir bütündür, tek bir noktayı deşmek fal değildir.",
 "- AYNI LEKEYE İKİ AYRI AD VERME. Bir izi bir kere adlandırırsın ve bir daha ona dönmezsin. İki şeklin kutuları çakışıyorsa biri fazladır.",
 "- Yorumlanmadık belirgin bir telve kümesi bırakma. Gözle seçilen her koyu kütle için bir söz söyle; birini atlarsan kullanıcı 'ya şuradaki ne' diye sorar.",
 "- KOMŞUYA BAK. Bir şekli adlandırdıktan sonra hemen yanında, altında ya da üstünde ne olduğuna bak ve ikisini birleştir: 'kuşun hemen altında bir yol var, demek haber bir yolculukla gelecek', 'kalbin üstünde bir yüzük duruyor, bu duygu söze dönüyor'. Fincan böyle konuşur; şekilleri tek tek saymak fal değildir.",
+"FOTOĞRAF TEPEDEN ÇEKİLDİ",
+"- Fincana YUKARIDAN bakıyorsun. Ağız kenarı yuvarlak bir çember olarak görünür, duvarlar yassılmış, dip ortada kalır. Bu bakış açısı izleri uzatıp düzleştirir.",
+"- Bu yüzden 'düz çizgi', 'açıklık', 'boşluk', 'şerit', 'gölge', 'leke' gibi şeyler YAZMA. Bunlar şekil değildir, tepeden bakışın yarattığı yanılsamadır ve kullanıcıya hiçbir şey anlatmaz.",
+"- Fincanın ağız çemberini, kenarın gölgesini, porselenin parlamasını ve kahvenin yüzeydeki halkasını şekil sanma. Bunlar fincanın kendisidir.",
+"- Adını koyduğun her şey BİR NESNE olmalı: kuş, el, yüzük, ağaç, yol, kalp, balık, insan, kapı… 'Uzunca bir iz' bir ad değildir.",
+"- BELİRGİN OLANA BAK. Gözle hemen seçilen koyu, büyük izleri oku. Zor görülen, silik, ufak izleri bulmaya çalışma; kolay görülen bir sürü iz dururken zor olanı kovalamak falı zayıflatır. Cihazın listesinde EN BELİRGİN diye işaretlenen izle başla.",
+"- Silik izlere ASLA şekil deme. Bir iz fotoğrafta zor seçiliyorsa kullanıcı da seçemez.",
 "- TELVE OLMAYAN YERE ŞEKİL YAZMA. Gösterdiğin kutunun içinde gerçekten koyu telve olmalı. Boş porselene, parlamaya, gölgeye ad verme. Uygulama her kutuyu ölçüyor ve içinde telve yoksa o şekli hiç göstermiyor; boşa yazmış olursun.",
 "- BEYAZ KURALI: Yorumun KOYU telve üstüne kurulur. Tertemiz beyaz alanları şekil diye okuma. Beyaz bir yeri ancak ETRAFI TELVEYLE ÇEVRİLİYSE, yani koyuluğun ortasında kalmış bir boşluksa oku. Fincanın boş yarısı, temiz duvarı, parlayan dibi asla yorumlanmaz.",
 "- Çok küçük ve silik izleri şekil sayma. Kullanıcı fincanına bakıp göremeyeceği kadar ufak bir lekeye ad verme; gözle net seçilen izleri konuş.",
@@ -1718,7 +1744,7 @@ p.dokum ? "CİHAZIN ÖLÇTÜĞÜ LEKELER\nUygulama fincandaki telve kümelerini 
 "- Kulbun karşısı (\"karsi\"): dışarısı, uzaklar, yabancılar, gelen şeyler.",
 "- Arada kalan (\"yan\"): hem kişi hem bir başkası.",
 "- Telvenin kalınlığı konunun ağırlığıdır. Duvardan aşağı inen ince çizgiler haber, telefon, görüşme diye okunur. Kenardaki küçük dağınık benekler ufak ufak gelen para ya da haberdir.",
-"- Telvenin bıraktığı temiz beyaz boşluklar da okunur ve genelde iyiye yorulur: açıklık, ferahlama, çıkış yolu. Koyuluğun hemen yanındaki geniş beyaz alan 'sıkışıklığın ardından ferahlama' demektir.",
+"- Beyaz yerlerden yalnız BİR TANESİNİ, o da telvenin ortasında kalmış küçük ve dört yanı koyuyla çevrili bir boşluksa okuyabilirsin. Geniş boş alanlar, kenardaki beyazlık ve uzun beyaz şeritler fincanın boş duvarıdır; oraya asla bir şey yazma.",
 "Bu fincanda kulp şu yönde: " + p.kulp + ". Bölge ve yön alanlarını buna göre doldur.",
 "",
 "",
@@ -1871,11 +1897,19 @@ p.dokum ? "MARKS THE DEVICE MEASURED\nThe app has already measured the clusters 
 "",
 "WHERE SHAPES ARE (learned from real readings)",
 "",
+"- Mention the earlier reading ONCE only, in the opening. Never return to it on later pages; comparing in every sentence pulls the reading away from today.",
 "LOOK AT EVERY PART OF THE CUP",
 "- Do not take all your shapes from the SAME CORNER. Find shapes near the rim, in the middle and at the bottom; on the handle side, opposite it and at the sides. The cup is a whole; digging at one spot is not a reading.",
 "- NEVER GIVE ONE MARK TWO NAMES. You name a mark once and never return to it. If two shapes have overlapping boxes, one of them is redundant.",
 "- Leave no clear cluster of grounds uncommented. Say something about every dark mass the eye picks out; skip one and the reader asks what about that one there.",
 "- LOOK AT THE NEIGHBOUR. After naming a shape, look at what sits beside, below or above it and join the two: there is a road right under the bird, so the news arrives with a journey; a ring sits above the heart, so this feeling turns into a spoken promise. That is how a cup speaks; listing shapes one by one is not a reading.",
+"THE PHOTOGRAPH IS TAKEN FROM ABOVE",
+"- You are looking DOWN into the cup. The rim reads as a circle, the walls are foreshortened, the bottom sits in the middle. This angle stretches and flattens the marks.",
+"- So never write things like straight line, opening, gap, band, shadow or stain. Those are not shapes, they are artefacts of the overhead view and they tell the reader nothing.",
+"- Do not mistake the rim circle, the shadow at the edge, the shine on the porcelain or the ring the coffee left for a shape. Those are the cup itself.",
+"- Everything you name must be AN OBJECT: a bird, a hand, a ring, a tree, a road, a heart, a fish, a person, a door. A longish mark is not a name.",
+"- GO FOR WHAT IS OBVIOUS. Read the dark, large marks the eye picks out at once. Do not hunt for faint or tiny ones; chasing the hard mark while easy ones sit there weakens the reading. Start with the one the device marks EN BELİRGİN.",
+"- NEVER call a faint mark a shape. If a mark is hard to make out in the photograph, the reader cannot make it out either.",
 "- NEVER PLACE A SHAPE WHERE THERE ARE NO GROUNDS. The box you give must actually contain dark grounds. Do not name bare porcelain, a highlight or a shadow. The app measures every box and drops any shape whose box holds no grounds, so it would be wasted.",
 "- WHITE RULE: build the reading on the DARK grounds. Never read a clean white area as a shape. Read a white spot ONLY when it is SURROUNDED BY GROUNDS, that is a gap left inside the darkness. The empty half of the cup, the clean wall and the shiny bottom are never interpreted.",
 "- Do not count tiny faint marks as shapes. Never name a mark too small for the person to find in their own cup; speak about marks the eye picks out.",
@@ -2882,37 +2916,233 @@ PACK.tr.ritual = [
   "Telveye bakıyorum…",
   "Fincanın ağzından başlıyorum…",
   "Kenardaki izleri okuyorum…",
+  "Telvenin en koyulaştığı yeri buldum…",
   "Ortaya iniyorum…",
   "Dibe bakıyorum…",
+  "Dipteki izi tartıyorum…",
   "Kulbun tarafını inceliyorum…",
   "Karşı tarafa geçiyorum…",
   "Fincanı çeviriyorum…",
+  "Şu kümeye yakından bakıyorum…",
+  "Buradaki iz bir şeye benziyor…",
   "Şekiller belirginleşiyor…",
   "İzleri birbirine bağlıyorum…",
   "Bütününe bakıyorum…",
-  "Sözlüğe danışıyorum…",
   "Falını topluyorum…"
+];
+/* Her satırın fincanda gösterdiği yer. Fotoğraf tepeden çekildiği
+   için ağız dıştaki halka, dip ortadaki noktadır.               */
+PACK.tr.ritualBolge = [
+  "hepsi","hepsi","kenar","kenar","orta","orta","dip","dip","kulp",
+  "karsi","sag","sag","sol","sol","orta","hepsi","hepsi"
 ];
 PACK.en.ritual = [
   "Opening the cup…",
   "Looking into the grounds…",
   "Starting at the rim…",
   "Reading the marks at the edge…",
+  "Finding where the grounds run darkest…",
   "Moving to the middle…",
   "Looking at the bottom…",
+  "Weighing the mark at the bottom…",
   "Studying the handle side…",
   "Crossing to the far side…",
   "Turning the cup…",
+  "Taking a closer look at this cluster…",
+  "This mark is starting to look like something…",
   "The shapes are coming clear…",
   "Tying the marks together…",
   "Taking in the whole…",
-  "Consulting the symbols…",
   "Gathering your reading…"
+];
+PACK.en.ritualBolge = [
+  "hepsi","hepsi","kenar","kenar","orta","orta","dip","dip","kulp",
+  "karsi","sag","sag","sol","sol","orta","hepsi","hepsi"
 ];
 PACK.tr.ui.kalanSure = n => "Yaklaşık " + n + " saniye";
 PACK.en.ui.kalanSure = n => "About " + n + " seconds";
 PACK.tr.ui.nerdeyseBitti = "Neredeyse bitti…";
 PACK.en.ui.nerdeyseBitti = "Almost done…";
+
+
+/* ── Tarif çözümleyicisinin bulduğu ama metni olmayan gerçek
+      nesneler. Bunlar eskiden "Gölge" diye yazılıyordu; oysa el
+      de insan da kapı da falın en eski işaretlerindendir.    ── */
+PACK.tr.sym.el = {
+  ad:"El",
+  hikaye:"sana uzanan bir yardım eli",
+  ogret:"El fincanda yardımdır. Parmakları açıksa yardım sana gelir, toplu duruyorsa yardım senden istenir. Ağza yakın el yakın bir insanın elidir.",
+  ana:["Şurada bir el var {ad}. Parmakları ayrılmış, sana doğru açılmış. Fincanda el her zaman yardımdır.",
+       "Burada beş yöne ayrılan uçlarıyla bir el duruyor. Bu işaret yalnız kalmayacağını söyler; biri uzanacak."],
+  tahmin:["Bir işini tek başına halletmeye çalışırken biri araya girecek ve sen şaşıracaksın.",
+          "Yakında senden bir yardım isteyecekler ve sen yapabileceğinden fazlasını yapacaksın."],
+  zon:{kenar:"El ağza yakın, bu yardım günler içinde geliyor.",
+       orta:"El ortada, birkaç hafta içinde.",
+       dip:"El dipte, o yardım sana çoktan yapıldı ama farkına varmadın."},
+  yan:{yakin:"El senin tarafında, yardım eden yakının.",
+       karsi:"El karşı tarafta, yardım beklemediğin birinden.",
+       yan:"El yanda, yardım yakın çevrenden."}
+};
+PACK.tr.sym.insan = {
+  ad:"İnsan",
+  hikaye:"hayatına giren ya da girmek üzere olan biri",
+  ogret:"İnsan şekli fincanın en konuşkan işaretidir. Kulba yakınsa tanıdık biridir, karşı taraftaysa henüz tanışmadığın biri. Başı belirgin çıkmışsa o kişi kararlıdır.",
+  ana:["Bu bir insan {ad}. Bir baş, iki yana açılan kollar. Fincanda insan hep bir kişiyi anlatır.",
+       "Şurada duran şekil bir insana benziyor. Telve böyle düştüğünde biri hayatına giriyor demektir."],
+  tahmin:["Bu kişiyi aslında tanıyorsun ama yakın saymıyorsun. Yakında sayacaksın.",
+          "Bu kişi bir konuda senin adına konuşacak ve sen bunu sonradan duyacaksın."],
+  zon:{kenar:"İnsan ağza yakın, bu kişi bu günlerde görünecek.",
+       orta:"İnsan ortada, birkaç hafta içinde.",
+       dip:"İnsan dipte, bu kişi eskiden beri hayatında."},
+  yan:{yakin:"İnsan senin tarafında, tanıdığın biri.",
+       karsi:"İnsan karşı tarafta, yeni tanışacaksın.",
+       yan:"İnsan yanda, ortak bir tanıdık üzerinden."}
+};
+PACK.tr.sym.kopek = {
+  ad:"Köpek",
+  hikaye:"zor gününde yanında duracak sadık biri",
+  ogret:"Köpek fincanda sadakattir. Dört ayağı belirginse dostluk sağlamdır; başı sana dönükse o kişi seni bekliyordur.",
+  ana:["Şurada bir köpek var {ad}. Dört yöne ayrılan uçlarıyla duruyor. Fincanda köpek sadık dosttur.",
+       "Bu şekil bir köpek. Telve böyle düştüğünde etrafında güvenebileceğin biri var demektir."],
+  tahmin:["Kimseye söylemediğin bir konuyu birine açacaksın ve pişman olmayacaksın.",
+          "Uzun zamandır aramayan biri seni arayacak ve sen ona hâlâ kızgın olmadığını anlayacaksın."],
+  zon:{kenar:"Köpek ağza yakın, bu dostluk şu günlerde belli olacak.",
+       orta:"Köpek ortada, birkaç hafta içinde.",
+       dip:"Köpek dipte, bu dostluk eski ve sağlam."},
+  yan:{yakin:"Köpek senin tarafında, bu kişi çok yakının.",
+       karsi:"Köpek karşı tarafta, uzaktan biri.",
+       yan:"Köpek yanda, yakın çevrenden biri."}
+};
+PACK.tr.sym.kaplumbaga = {
+  ad:"Kaplumbağa",
+  hikaye:"yavaş ilerleyen ama sağlam biten bir iş",
+  ogret:"Kaplumbağa sabırdır. Kabuğu toplu, ayakları kısa çıkar. Fincanda göründüğü yerdeki iş acele etmeyi kaldırmaz.",
+  ana:["Şurada bir kaplumbağa duruyor {ad}. Toplu bir gövde, iki yanında kısa çıkıntılar. Fincanda bu sabır demektir.",
+       "Bu şekil kaplumbağa. Acele ettiğin bir işin beklediğinden geç ama daha sağlam biteceğini söyler."],
+  tahmin:["Bir işin gecikecek ve sen sinirleneceksin. Sonra gecikmesi iyi olmuş diyeceksin.",
+          "Hızlı halledilsin diye zorladığın bir konuyu bırakacaksın ve kendiliğinden yoluna girecek."],
+  zon:{kenar:"Kaplumbağa ağza yakın, bekleyiş kısa sürecek.",
+       orta:"Kaplumbağa ortada, birkaç aya yayılıyor.",
+       dip:"Kaplumbağa dipte, bu iş uzun zamandır sürünüyor."},
+  yan:{yakin:"Kaplumbağa senin tarafında, sabrı sen göstereceksin.",
+       karsi:"Kaplumbağa karşı tarafta, gecikme karşı taraftan.",
+       yan:"Kaplumbağa yanda, iş yakın çevrenle ilgili."}
+};
+PACK.tr.sym.kapi = {
+  ad:"Kapı",
+  hikaye:"önünde açılan bir imkân",
+  ogret:"Kapı fincanda fırsattır. Dik durur, iki yanı düzgündür. Aralığı genişse fırsat açıktır; dar kalmışsa zorlamak gerekir.",
+  ana:["Şuradaki şekil bir kapı {ad}. Dik duruyor, iki yanı düzgün. Fincanda kapı önündeki imkândır.",
+       "Bu bir kapı. Telve böyle düştüğünde bir yol sana açılıyor demektir; girmek sana kalmış."],
+  tahmin:["Bir teklif alacaksın ve ilk anda 'bana göre değil' diyeceksin. Sonra düşüneceksin.",
+          "Kapattığını sandığın bir konu yeniden önüne gelecek, bu sefer şartları daha iyi olacak."],
+  zon:{kenar:"Kapı ağza yakın, fırsat şu günlerde.",
+       orta:"Kapı ortada, birkaç hafta içinde.",
+       dip:"Kapı dipte, o fırsat bir kere geldi ve hâlâ kapanmadı."},
+  yan:{yakin:"Kapı senin tarafında, fırsat doğrudan sana.",
+       karsi:"Kapı karşı tarafta, fırsatı biri getiriyor.",
+       yan:"Kapı yanda, fırsat yakın çevrenden."}
+};
+PACK.tr.sym.sahil = {
+  ad:"Sahil",
+  hikaye:"uzun bir uğraşın sonunun görünmesi",
+  ogret:"Sahil varıştır. Kenarı girintili çıkıntılı, kıyı gibi uzanır. Fincanda göründüğü yerde bir uğraş sona yaklaşıyordur.",
+  ana:["Şurada kıyı gibi girintili çıkıntılı bir kenar var {ad}. Fincanda bu sahildir: uğraştığın şeyin sonu göründü.",
+       "Bu bir sahil. Telve böyle düştüğünde uzun süredir taşıdığın bir yük yere iniyor demektir."],
+  tahmin:["Bittiğine inanamadığın bir konu bitecek ve sen bir süre boşlukta hissedeceksin. Geçer.",
+          "Bir işin son adımında zorlanacaksın ama tam o adımda biri sana yardım edecek."],
+  zon:{kenar:"Sahil ağza yakın, varış çok yakın.",
+       orta:"Sahil ortada, birkaç haftaya.",
+       dip:"Sahil dipte, aslında çoktan vardın."},
+  yan:{yakin:"Sahil senin tarafında, uğraş senin.",
+       karsi:"Sahil karşı tarafta, sonucu karşı taraf getiriyor.",
+       yan:"Sahil yanda, yakın çevrenle birlikte."}
+};
+
+PACK.en.sym.el = {
+  ad:"The Hand", hikaye:"a helping hand reaching towards you",
+  ogret:"A hand in the cup means help. Open fingers mean help comes to you; a closed hand means help is asked of you.",
+  ana:["There is a hand here, {ad}, fingers apart, opening towards you. In a cup a hand is always help.",
+       "Five points spread out here make a hand. This mark says you will not be left on your own."],
+  tahmin:["You will be handling something alone and someone will step in, and it will surprise you.",
+          "Soon you will be asked for help and you will give more than you thought you could."],
+  zon:{kenar:"The hand is near the rim, so the help comes within days.",
+       orta:"The hand is in the middle, so within a few weeks.",
+       dip:"The hand is at the bottom; that help already came and you did not notice."},
+  yan:{yakin:"The hand is on your side, so the helper is close to you.",
+       karsi:"The hand is opposite, so help comes from someone unexpected.",
+       yan:"The hand is at the side, so help comes from those around you."}
+};
+PACK.en.sym.insan = {
+  ad:"The Person", hikaye:"someone entering your life",
+  ogret:"The human figure is the most talkative mark in the cup. Near the handle it is someone you know; opposite, someone you have yet to meet.",
+  ana:["This is a person, {ad}: a head and two arms opening out. A human figure always means one particular someone.",
+       "The shape standing here looks like a person. When the grounds fall this way, someone is coming into your life."],
+  tahmin:["You already know this person but do not count them as close. You will.",
+          "This person will speak on your behalf about something, and you will hear about it later."],
+  zon:{kenar:"Near the rim, so this person appears in the coming days.",
+       orta:"In the middle, so within a few weeks.",
+       dip:"At the bottom, so this person has been in your life a long time."},
+  yan:{yakin:"On your side, so it is someone you know.",
+       karsi:"Opposite, so you have yet to meet them.",
+       yan:"At the side, so it comes through a mutual acquaintance."}
+};
+PACK.en.sym.kopek = {
+  ad:"The Dog", hikaye:"someone loyal who will stand by you",
+  ogret:"The dog means loyalty. Four clear legs mean the friendship is solid; a head turned towards you means that person is waiting for you.",
+  ana:["There is a dog here, {ad}, standing on four spread points. In a cup a dog is a loyal friend.",
+       "This shape is a dog. When the grounds fall this way there is someone around you worth trusting."],
+  tahmin:["You will tell someone a thing you have told nobody, and you will not regret it.",
+          "Someone who stopped calling will call, and you will find you are not angry after all."],
+  zon:{kenar:"Near the rim, so this friendship shows itself in these days.",
+       orta:"In the middle, so within a few weeks.",
+       dip:"At the bottom, so this friendship is old and solid."},
+  yan:{yakin:"On your side, so this person is very close to you.",
+       karsi:"Opposite, so it is someone at a distance.",
+       yan:"At the side, so it is someone from your circle."}
+};
+PACK.en.sym.kaplumbaga = {
+  ad:"The Tortoise", hikaye:"slow work that ends solidly",
+  ogret:"The tortoise means patience: a compact body with short legs. Whatever it sits on will not bear hurrying.",
+  ana:["A tortoise sits here, {ad}: a compact body with short points on either side. In a cup this means patience.",
+       "This shape is a tortoise. It says the thing you are rushing will finish later than you hoped and stronger than you expected."],
+  tahmin:["Something of yours will be delayed and you will be annoyed. Later you will be glad it was.",
+          "You will let go of a matter you keep pushing, and it will sort itself out."],
+  zon:{kenar:"Near the rim, so the waiting will be short.",
+       orta:"In the middle, so it spreads over a few months.",
+       dip:"At the bottom, so this has been dragging on a long time."},
+  yan:{yakin:"On your side, so the patience is yours to find.",
+       karsi:"Opposite, so the delay comes from the other side.",
+       yan:"At the side, so it concerns those close to you."}
+};
+PACK.en.sym.kapi = {
+  ad:"The Door", hikaye:"an opening in front of you",
+  ogret:"The door means opportunity. It stands upright with straight sides. A wide gap means the chance is open; a narrow one means it must be pushed.",
+  ana:["The shape here is a door, {ad}: upright, straight on both sides. In a cup a door is the chance in front of you.",
+       "This is a door. When the grounds fall this way a way is opening; walking through it is up to you."],
+  tahmin:["You will get an offer and your first thought will be that it is not for you. Then you will think again.",
+          "Something you thought closed will come back, and on better terms this time."],
+  zon:{kenar:"Near the rim, so the chance is in these days.",
+       orta:"In the middle, so within a few weeks.",
+       dip:"At the bottom, so that chance came once and has not closed."},
+  yan:{yakin:"On your side, so the chance is directly yours.",
+       karsi:"Opposite, so someone brings it to you.",
+       yan:"At the side, so it comes through your circle."}
+};
+PACK.en.sym.sahil = {
+  ad:"The Shore", hikaye:"the end of a long effort coming into sight",
+  ogret:"The shore means arrival: an edge that runs in and out like a coastline. Where it appears, an effort is nearing its end.",
+  ana:["There is an edge here that runs in and out like a coast, {ad}. In a cup that is a shore: the end of your effort is in sight.",
+       "This is a shore. When the grounds fall this way a weight you have carried a long time is being set down."],
+  tahmin:["Something you could not believe would end will end, and you will feel oddly empty for a while. It passes.",
+          "You will struggle on the last step of a task, and on exactly that step someone will help you."],
+  zon:{kenar:"Near the rim, so the arrival is very close.",
+       orta:"In the middle, so within a few weeks.",
+       dip:"At the bottom, so you arrived some time ago."},
+  yan:{yakin:"On your side, so the effort is yours.",
+       karsi:"Opposite, so the other side brings the result.",
+       yan:"At the side, so it happens together with those around you."}
+};
 
 /* ══════════════════ HUKUKİ METİNLER ══════════════════
    App Store başvurusunda Apple bir gizlilik politikası bağlantısı ister.
@@ -3885,9 +4115,12 @@ const cupOf = b => (b && b.shot ? b.shot.cup : cup);
 
 /* telvenin bıraktığı boşluklar da okunur */
 function classifyAk(b){
+  /* Tepeden çekilen fotoğrafta uzun beyaz şeritler ve geniş boş
+     alanlar fincanın kendi duvarıdır, şekil değildir. Yalnız telvenin
+     ortasında kalan küçük, çevrili boşluk okunur.                  */
   const C = cupOf(b), rel = b.area / Math.max(1, C.area);
-  if(b.elong >= 2.8 && b.fill < 0.58) return {sym:"akYol", guven:0.60, kanit:null};
-  if(rel > 0.055) return {sym:"akAlan", guven:0.58, kanit:null};
+  if(rel > 0.045) return {sym:null, guven:0, kanit:null};
+  if(b.elong >= 2.6) return {sym:null, guven:0, kanit:null};
   return {sym:"akNokta", guven:0.55, kanit:null};
 }
 
@@ -3956,11 +4189,11 @@ function classify(b){
 /* tarif çözümleyicisinin verdiği ad → metin paketi anahtarı */
 const TARIF_SYM = {
   "yol":"yol", "yılan":"yilan", "kuş":"kus", "balık":"balik", "kalp":"kalp",
-  "ağaç":"agac", "dağ":"dag", "çiçek":"cicek", "yıldız":"yildiz", "el":"iz",
-  "kelebek":"kelebek", "köpek":"iz", "insan":"iz", "iki kişi":"zincir",
-  "kaplumbağa":"iz", "merdiven":"merdiven", "damla":"damla", "ok":"ok",
-  "tekne":"gemi", "yüzük":"yuzuk", "göz":"goz", "çift göz":"zincir",
-  "dolunay":"ay", "kapı":"iz", "sahil":"iz", "ada":"para", "bulut":"bulut"
+  "ağaç":"agac", "dağ":"dag", "çiçek":"cicek", "yıldız":"yildiz", "el":"el",
+  "kelebek":"kelebek", "köpek":"kopek", "insan":"insan", "iki kişi":"insan",
+  "kaplumbağa":"kaplumbaga", "merdiven":"merdiven", "damla":"damla", "ok":"ok",
+  "tekne":"gemi", "yüzük":"yuzuk", "göz":"goz", "çift göz":"goz",
+  "dolunay":"ay", "kapı":"kapi", "sahil":"sahil", "ada":"para", "bulut":"bulut"
 };
 
 /* silüet adı → metin paketindeki sembol anahtarı */
@@ -4525,7 +4758,7 @@ function sekliTarifle(b){
   if(h === 1) return {ad:"göz", guven:0.62, neden:"uzun ve ortası açık"};
 
   if(e >= 4.2) return {ad: b.straight > 0.80 ? "yol" : "yılan", guven:0.68,
-                       neden: b.straight > 0.80 ? "upuzun ve dümdüz gidiyor" : "upuzun ve kıvrıla kıvrıla gidiyor"};
+                       neden: b.straight > 0.80 ? "bir uçtan öbür uca uzanıp gidiyor" : "kıvrıla kıvrıla uzayıp gidiyor"};
   if(e >= 2.8 && t <= 2) return {ad:"tekne", guven:0.58, neden:"uzunca, altı düz üstü açık"};
 
   if(t >= 6) return {ad:"çiçek", guven:0.60, neden:"çevresine doğru açılan yaprakları var"};
@@ -4551,10 +4784,10 @@ function sekliTarifle(b){
 
   if(b.triangle) return {ad:"dağ", guven:0.60, neden:"eteği geniş, tepesi dar"};
   if(f > 0.80 && e < 1.25) return {ad:"dolunay", guven:0.58, neden:"yuvarlak ve dopdolu"};
-  if(f > 0.70 && dik) return {ad:"kapı", guven:0.55, neden:"dik duran, düzgün kenarlı bir alan"};
-  if(c >= 3) return {ad:"sahil", guven:0.56, neden:"kenarı girintili çıkıntılı"};
+  if(f > 0.70 && dik) return {ad:"kapı", guven:0.55, neden:"dik duran, iki yanı düzgün bir çerçeve gibi"};
+  if(c >= 3) return {ad:"sahil", guven:0.56, neden:"kıyı gibi girintili çıkıntılı bir kenarı var"};
   if(e < 1.3) return {ad:"ada", guven:0.54, neden:"tek başına duran yuvarlakça bir küme"};
-  return {ad:"bulut", guven:0.50, neden:"kenarları belirsiz, dağılmış"};
+  return {ad:"bulut", guven:0.50, neden:"toplu ama kenarları yumuşak, bir bulut gibi"};
 }
 
 /* ══════════════ HARF VE RAKAM EŞLEŞTİRME ══════════════
@@ -4578,7 +4811,6 @@ const STROKES = {
   "D":[[[0.18,0],[0.18,1]],[[0.18,0],[0.72,0.22],[0.72,0.78],[0.18,1]]],
   "E":[[[0.86,0],[0.16,0],[0.16,1],[0.86,1]],[[0.16,0.5],[0.68,0.5]]],
   "H":[[[0.16,0],[0.16,1]],[[0.84,0],[0.84,1]],[[0.16,0.5],[0.84,0.5]]],
-  "I":[[[0.5,0],[0.5,1]]],
   "K":[[[0.18,0],[0.18,1]],[[0.84,0],[0.2,0.52],[0.86,1]]],
   "L":[[[0.22,0],[0.22,1],[0.86,1]]],
   "M":[[[0.08,1],[0.08,0],[0.5,0.58],[0.92,0],[0.92,1]]],
@@ -4592,8 +4824,10 @@ const STROKES = {
   "V":[[[0.08,0],[0.5,1],[0.92,0]]],
   "Y":[[[0.1,0],[0.5,0.52],[0.9,0]],[[0.5,0.52],[0.5,1]]],
   "Z":[[[0.12,0],[0.88,0],[0.12,1],[0.88,1]]],
+  /* "1" ve "I" burada yok: ikisi de tek dik çizgidir ve tepeden
+     çekilen fotoğrafta fincan duvarındaki akıntı tam böyle
+     görünür. Her akıntıyı rakam saymak falı çürütüyordu.     */
   "0":[arcPts(0.5,0.5,0.36,0.48,0,Math.PI*2,26)],
-  "1":[[[0.3,0.18],[0.52,0],[0.52,1]]],
   "2":[[[0.14,0.22],[0.5,0],[0.86,0.26],[0.14,1],[0.88,1]]],
   "3":[[[0.14,0.1],[0.56,0],[0.82,0.24],[0.44,0.48]],[[0.44,0.48],[0.86,0.68],[0.6,1],[0.14,0.9]]],
   "4":[[[0.72,1],[0.72,0],[0.1,0.72],[0.92,0.72]]],
@@ -4880,9 +5114,22 @@ function lekeDokumu(shot, sira, T){
     }
     return n ? Math.max(1, Math.min(10, Math.round((255 - t/n)/25.5))) : 5;
   };
-  return shot.blobs
-    .filter(b => !b.ak)
-    .slice(0, 9)
+  /* Belirginlik: koyuluk çarpı büyüklük. Silik ve ufak izler sona
+     düşsün, hatta hiç gitmesin; falcı önce göze çarpanı okur.     */
+  const puanla = b => {
+    const k = koyuluk(b);
+    const alan = b.area/Math.max(1, C.area);
+    return k * Math.sqrt(alan);
+  };
+  const aday = shot.blobs.filter(b => !b.ak)
+    .map(b => ({b, puan: puanla(b) * (b.ton === "orta" ? 0.55 : 1)}))
+    .sort((x,y) => y.puan - x.puan);
+  /* en belirgine göre çok sönük kalanları hiç gönderme */
+  const enIyi = aday.length ? aday[0].puan : 0;
+  return aday
+    .filter(o => o.puan >= enIyi*0.28)
+    .slice(0, 8)
+    .map(o => o.b)
     .map(b => {
       const p = place(b);
       const nx = (b.cx - wx0)/Math.max(1, ww), ny = (b.cy - wy0)/Math.max(1, wh);
@@ -4929,6 +5176,7 @@ function dokumMetni(liste, T){
     + ", fincanın %" + d.yuzde + "'i, koyuluk " + d.koyu + "/10"
     + ", uzunluk oranı " + d.uzun
     + ", bölge: " + d.bolge + ", yön: " + d.yon
+    + (i === 0 ? "   <-- EN BELİRGİN" : "")
   ).join("\n");
 }
 
@@ -5178,7 +5426,7 @@ function aiTemizle(j, fotoSayisi){
     if(!s.kutu){ ayik.push(s); continue; }
     let cakisan = false;
     for(const v of ayik){
-      if(v.kutu && ortusme(s.kutu, v.kutu) > 0.45){ cakisan = true; break; }
+      if(v.kutu && ortusme(s.kutu, v.kutu) > 0.22){ cakisan = true; break; }
     }
     if(!cakisan) ayik.push(s);
     if(ayik.length >= 16) break;
@@ -5249,15 +5497,20 @@ function kutudaTelveVar(shot, kb){
   const y0 = Math.max(0, Math.floor(Math.min(wy0,wy1)));
   const y1 = Math.min(h-1, Math.ceil(Math.max(wy0,wy1)));
   if(x1 <= x0 || y1 <= y0) return false;
-  let toplam = 0, koyu = 0;
+  let toplam = 0, koyu = 0, ortaSay = 0;
   const orta = shot.ortaMask;
   for(let y=y0; y<=y1; y++) for(let x=x0; x<=x1; x++){
     const i = y*w + x;
     toplam++;
-    if(shot.koyuMask[i] || (orta && orta[i])) koyu++;
+    if(shot.koyuMask[i]) koyu++;
+    else if(orta && orta[i]) ortaSay++;
   }
-  /* kutunun en az altıda biri telve olmalı; boş porselen okunmaz */
-  return toplam > 0 && koyu/toplam >= 0.16;
+  if(!toplam) return false;
+  /* Kutunun en az üçte biri gerçek KOYU telve olmalı. Orta tonlu
+     silik izler tek başına yetmez; boş porselen hiç yetmez.       */
+  const koyuOran = koyu/toplam;
+  const hepsi = (koyu + ortaSay)/toplam;
+  return koyuOran >= 0.30 || (koyuOran >= 0.18 && hepsi >= 0.55);
 }
 
 function kutuyuLekeyeBagla(shot, kb){
@@ -5288,62 +5541,141 @@ function kutuyuLekeyeBagla(shot, kb){
           bw:Math.max(8, Math.abs(wx1-wx0)), bh:Math.max(8, Math.abs(wy1-wy0))};
 }
 
-/* ══════════════════ FİNCAN MÜZİĞİ ══════════════════
-   Hazır parça kullanmıyoruz: telifli eser App Store'da sorun çıkarır.
-   Müzik burada besteleniyor, tamamen bize ait.
+/* ══════════════════ FİNCAN MÜZİĞİ — OYNAK ÇİFTETELLİ ══════════════════
+   Hazır kayıt kullanmıyoruz: telifli eser App Store'da sorun çıkarır.
+   Parça burada, anonim oyun havası geleneğinin usulüyle besteleniyor.
 
-   Tarz: neşeli Türk sanat müziği havası. Hicaz makamı, 9/8 aksak usul
-   (2+2+2+3) — oyun havalarının o tanıdık aksak yürüyüşü. Kanun gibi
-   çırpılan kısa notalar, altında darbuka benzeri hafif bir vuruş.
-   Ezgi bitince başa döner.                                          */
+   Usul: ÇİFTETELLİ. 4/4, sekiz sekizlik:
+        1 DÜM   2 ka   3 TEK   4 ka   5 DÜM   6 DÜM   7 TEK   8 ka
+   Düğün çiftetellisinin o tanıdık, ayağa kaldıran yürüyüşü budur.
+
+   Uzunluk: on dört ayrı ezgi, altı ayrı makam, otuz dört bölümlük bir
+   diziliş. Bir tur dört buçuk dakikanın üstünde sürer ve tur dönünce
+   süslemeler değiştiği için aynı bölüm bile ikinci kez aynı duyulmaz.
+
+   Takım: klarnet (ezgi), kanun (çırpma ve tremolo), ud basları,
+   darbuka ve def zilleri.                                           */
 
 let sesBaglam = null, sesAna = null, sesAcik = false;
 let sesSira = 0, sesOlcu = 0;
+let sesSonPerde = 0;                    // klarnetin kaydırması için
 
-/* Hicaz: kahve falına ve sanat müziğine en yakışan makam */
-const SES_HICAZ = [0, 1, 4, 5, 7, 8, 11];
+/* ── makamlar ── */
+const SES_MAKAM = {
+  hicaz:    [0, 1, 4, 5, 7, 8, 11],
+  nihavend: [0, 2, 3, 5, 7, 8, 10],
+  rast:     [0, 2, 4, 5, 7, 9, 10],
+  kurdi:    [0, 1, 3, 5, 7, 8, 10],
+  nikriz:   [0, 2, 3, 6, 7, 9, 10],
+  huzzam:   [0, 1, 3, 4, 7, 8, 10]
+};
 const SES_KOK = 293.66;                 // re
-const SES_SEKIZLIK = 0.142;   // daha canlı             // bir sekizlik: canlı ama koşmayan
-const SES_AKSAK = [2, 2, 2, 3];         // 9/8 aksak: 2+2+2+3
+const SES_SEKIZLIK = 0.255;             // ölçü 2,04 sn ≈ 118 vuruş
+const SES_ADIM = 8;                     // çiftetelli: sekiz sekizlik
 
-/* ── ESER ──
-   Aynı dört ölçüyü döndürmek bıktırıyordu. Artık üç ayrı bölüm var
-   (A: ana ezgi, B: tiz cevap, C: pes gezinti) ve bunlar bir eser
-   dizilişiyle çalınıyor. Her tekrarda süslemeler değiştiği için
-   aynı bölüm bile ikinci kez aynı duyulmuyor.
-   Bir tur yaklaşık üç dakika sürüyor.                             */
-const SES_A = [
-  [[4,0,2],[3,2,1],[4,3,1],[5,4,2],[4,6,1],[3,7,2]],
-  [[2,0,2],[1,2,2],[0,4,2],[1,6,1],[2,7,2]],
-  [[4,0,1],[5,1,1],[7,2,2],[6,4,2],[5,6,3]],
-  [[4,0,2],[2,2,2],[1,4,2],[0,6,3]]
-];
-const SES_B = [
-  [[7,0,2],[8,2,1],[7,3,1],[6,4,2],[5,6,3]],
-  [[6,0,1],[5,1,1],[4,2,2],[5,4,1],[6,5,1],[7,6,3]],
-  [[8,0,2],[7,2,2],[5,4,2],[4,6,3]],
-  [[5,0,1],[4,1,1],[3,2,2],[2,4,2],[4,6,3]]
-];
-const SES_C = [
-  [[0,0,3],[1,3,1],[2,4,2],[1,6,3]],
-  [[-3,0,2],[-2,2,2],[0,4,2],[1,6,3]],
-  [[2,0,2],[1,2,1],[0,3,1],[-1,4,2],[0,6,3]],
-  [[0,0,4],[2,4,2],[0,6,3]]
-];
-const SES_D = [
-  [[0,0,1],[2,1,1],[4,2,1],[5,3,1],[4,4,2],[2,6,3]],
-  [[4,0,1],[5,1,1],[7,2,1],[8,3,1],[7,4,2],[5,6,3]],
-  [[7,0,2],[5,2,1],[4,3,1],[2,4,2],[1,6,3]],
-  [[2,0,1],[1,1,1],[0,2,2],[1,4,1],[2,5,1],[0,6,3]]
-];
-const SES_BOLUM = [SES_A, SES_B, SES_A, SES_C, SES_D, SES_B, SES_C, SES_D, SES_A, SES_D];
-const SES_BOLUM_KOK = [[0,3,4,0],[4,2,3,0],[0,3,4,0],[0,5,3,0],[0,4,2,0],[4,2,3,0],[0,5,3,0],[0,4,2,0],[0,3,4,0],[0,4,2,0]];
-
-function sesFrekans(derece, oktav){
-  const d = ((derece % 7) + 7) % 7;
-  const kaydir = Math.floor(derece / 7);
-  return SES_KOK * Math.pow(2, (SES_HICAZ[d] + 12*(kaydir + (oktav || 0)))/12);
+function sesPerde(derece, makam, goc){
+  const d = SES_MAKAM[makam] || SES_MAKAM.hicaz;
+  const i = ((derece % 7) + 7) % 7;
+  const o = Math.floor(derece / 7);
+  return SES_KOK * Math.pow(2, (d[i] + 12*o + (goc || 0))/12);
 }
+
+/* ── EZGİLER ──
+   Her ezgi dört ölçü, her ölçü [derece, kaçıncı sekizlik, kaç sekizlik].
+   Boş kalan sekizlikler suskundur; çiftetellinin oynaklığı o
+   susmalardan gelir, notayı üst üste yığmaktan değil.              */
+const SES_EZGI = [
+  /* 0 — giriş çağrısı */
+  [ [[4,0,1],[4,1,1],[3,2,1],[4,3,1],[5,4,2],[4,6,2]],
+    [[3,0,1],[4,1,1],[3,2,1],[2,3,1],[1,4,2],[0,6,2]],
+    [[4,0,1],[5,1,1],[6,2,1],[7,3,1],[6,4,2],[5,6,2]],
+    [[4,0,2],[3,2,1],[2,3,1],[1,4,1],[0,5,3]] ],
+  /* 1 — tiz cevap */
+  [ [[7,0,2],[6,2,1],[7,3,1],[8,4,2],[7,6,2]],
+    [[6,0,1],[7,1,1],[6,2,1],[5,3,1],[4,4,2],[5,6,2]],
+    [[7,0,1],[6,1,1],[5,2,1],[4,3,1],[3,4,2],[4,6,2]],
+    [[5,0,1],[4,1,1],[3,2,1],[2,3,1],[1,4,2],[0,6,2]] ],
+  /* 2 — çırpma: baştan sona kısa notalar */
+  [ [[0,0,1],[1,1,1],[0,2,1],[4,3,1],[1,4,1],[0,5,1],[1,6,1],[0,7,1]],
+    [[4,0,1],[5,1,1],[4,2,1],[3,3,1],[4,4,1],[5,5,1],[4,6,1],[3,7,1]],
+    [[7,0,1],[6,1,1],[5,2,1],[4,3,1],[5,4,1],[4,5,1],[3,6,1],[2,7,1]],
+    [[1,0,1],[0,1,1],[1,2,1],[4,3,1],[1,4,1],[0,5,3]] ],
+  /* 3 — NAKARAT: parçanın akılda kalan yüzü */
+  [ [[4,0,2],[5,2,1],[4,3,1],[3,4,2],[4,6,2]],
+    [[5,0,2],[7,2,2],[6,4,1],[5,5,1],[4,6,2]],
+    [[3,0,2],[4,2,1],[3,3,1],[2,4,2],[1,6,2]],
+    [[0,0,3],[1,3,1],[0,4,4]] ],
+  /* 4 — pes gezinti */
+  [ [[0,0,2],[-1,2,1],[0,3,1],[1,4,2],[2,6,2]],
+    [[1,0,1],[2,1,1],[3,2,1],[2,3,1],[1,4,2],[0,6,2]],
+    [[-2,0,2],[0,2,2],[1,4,1],[2,5,1],[3,6,2]],
+    [[2,0,1],[1,1,1],[0,2,2],[-1,4,1],[0,5,3]] ],
+  /* 5 — kıvrak sekme: araları boş, ayak vurulur */
+  [ [[4,0,1],[3,2,1],[4,3,1],[5,4,1],[4,6,2]],
+    [[2,0,1],[1,2,1],[2,3,1],[3,4,1],[2,6,2]],
+    [[5,0,1],[4,2,1],[5,3,1],[6,4,1],[5,6,2]],
+    [[3,0,1],[2,2,1],[1,3,1],[0,4,4]] ],
+  /* 6 — soru cevap */
+  [ [[1,0,1],[1,1,1],[1,2,2],[0,4,1],[1,5,1],[2,6,2]],
+    [[4,0,1],[4,1,1],[4,2,2],[3,4,1],[4,5,1],[5,6,2]],
+    [[7,0,1],[7,1,1],[7,2,2],[6,4,1],[5,5,1],[4,6,2]],
+    [[3,0,1],[2,1,1],[1,2,1],[0,3,1],[1,4,1],[0,5,3]] ],
+  /* 7 — uzun ezgi: nefes aldıran bölüm */
+  [ [[4,0,4],[5,4,2],[4,6,2]],
+    [[3,0,4],[2,4,2],[1,6,2]],
+    [[2,0,2],[3,2,2],[4,4,4]],
+    [[1,0,2],[0,2,2],[0,4,4]] ],
+  /* 8 — tırmanış */
+  [ [[0,0,1],[1,1,1],[2,2,1],[3,3,1],[4,4,2],[4,6,2]],
+    [[4,0,1],[5,1,1],[6,2,1],[7,3,1],[8,4,2],[8,6,2]],
+    [[8,0,1],[7,1,1],[6,2,1],[5,3,1],[4,4,2],[3,6,2]],
+    [[2,0,1],[1,1,1],[0,2,2],[0,4,4]] ],
+  /* 9 — oturaklı */
+  [ [[5,0,2],[4,2,2],[5,4,2],[7,6,2]],
+    [[6,0,2],[5,2,2],[4,4,4]],
+    [[3,0,2],[4,2,2],[3,4,2],[1,6,2]],
+    [[2,0,2],[1,2,2],[0,4,4]] ],
+  /* 10 — kıvrım */
+  [ [[4,0,1],[5,1,1],[4,2,1],[5,3,1],[4,4,1],[3,5,1],[4,6,2]],
+    [[1,0,1],[2,1,1],[1,2,1],[2,3,1],[1,4,1],[0,5,1],[1,6,2]],
+    [[5,0,1],[6,1,1],[5,2,1],[6,3,1],[5,4,1],[4,5,1],[5,6,2]],
+    [[4,0,1],[3,1,1],[2,2,1],[1,3,1],[0,4,4]] ],
+  /* 11 — coşku: en tiz yer */
+  [ [[8,0,1],[7,1,1],[8,2,1],[9,3,1],[8,4,2],[7,6,2]],
+    [[7,0,1],[6,1,1],[7,2,1],[8,3,1],[7,4,2],[6,6,2]],
+    [[5,0,1],[6,1,1],[7,2,1],[6,3,1],[5,4,2],[4,6,2]],
+    [[4,0,1],[3,1,1],[2,2,1],[1,3,1],[0,4,4]] ],
+  /* 12 — hafif ve seyrek */
+  [ [[0,0,2],[0,3,1],[1,4,1],[0,6,2]],
+    [[4,0,2],[4,3,1],[3,4,1],[4,6,2]],
+    [[5,0,2],[5,3,1],[4,4,1],[3,6,2]],
+    [[2,0,2],[1,3,1],[0,4,4]] ],
+  /* 13 — kapanış */
+  [ [[7,0,2],[6,2,1],[5,3,1],[4,4,2],[5,6,2]],
+    [[4,0,2],[3,2,1],[2,3,1],[1,4,2],[2,6,2]],
+    [[1,0,1],[2,1,1],[3,2,1],[4,3,1],[3,4,2],[2,6,2]],
+    [[1,0,2],[0,2,2],[0,4,4]] ]
+];
+
+/* ── DİZİLİŞ ──
+   [ezgi, makam, göçürme]. Nakarat (3) her makamda bir kez dönüyor;
+   arada makam değişince aynı nakarat bile yeni bir parça gibi
+   duyuluyor. Otuz dört bölüm, yüz otuz altı ölçü: 4 dk 37 sn.    */
+const SES_DIZI = [
+  [0,"hicaz",0],   [1,"hicaz",0],   [3,"hicaz",0],   [2,"hicaz",0],
+  [5,"hicaz",0],   [3,"hicaz",0],
+  [4,"nihavend",0],[6,"nihavend",0],[7,"nihavend",0],[10,"nihavend",0],
+  [3,"nihavend",0],
+  [8,"rast",-2],   [9,"rast",-2],   [12,"rast",-2],  [6,"rast",-2],
+  [3,"rast",-2],
+  [11,"kurdi",3],  [2,"kurdi",3],   [5,"kurdi",3],   [13,"kurdi",3],
+  [3,"kurdi",3],
+  [0,"nikriz",-4], [7,"nikriz",-4], [10,"nikriz",-4],[1,"nikriz",-4],
+  [3,"nikriz",-4],
+  [12,"huzzam",1], [8,"huzzam",1],  [4,"huzzam",1],  [11,"huzzam",1],
+  [9,"huzzam",1],  [13,"huzzam",1],
+  [3,"hicaz",0],   [13,"hicaz",0]
+];
 
 function sesKur(){
   if(sesBaglam) return true;
@@ -5356,13 +5688,13 @@ function sesKur(){
 
     const suz = sesBaglam.createBiquadFilter();
     suz.type = "lowpass";
-    suz.frequency.value = 3200;
+    suz.frequency.value = 5200;          // çiftetelli parlak olmalı
 
-    /* kısa gecikme: kanun tellerinin salon yankısı */
+    /* kısa gecikme: düğün salonunun yankısı */
     const gec = sesBaglam.createDelay(0.6);
-    gec.delayTime.value = 0.225;
-    const geri = sesBaglam.createGain(); geri.gain.value = 0.18;
-    const gecSes = sesBaglam.createGain(); gecSes.gain.value = 0.22;
+    gec.delayTime.value = 0.191;
+    const geri = sesBaglam.createGain(); geri.gain.value = 0.16;
+    const gecSes = sesBaglam.createGain(); gecSes.gain.value = 0.17;
 
     sesAna.connect(suz);
     suz.connect(sesBaglam.destination);
@@ -5373,146 +5705,228 @@ function sesKur(){
   }catch(e){ sesBaglam = null; return false; }
 }
 
-
-/* ── NEY ──
-   Nefesli ses: yumuşak giriş, hafif vibrato ve üstüne süzülmüş bir
-   hava gürültüsü. Ezgiyi ney çalar, kanun eşlik eder.            */
 let sesGurultu = null;
-function sesNefesTamponu(){
+function sesGurultuTamponu(){
   if(sesGurultu) return sesGurultu;
-  const n = Math.floor(sesBaglam.sampleRate * 1.2);
+  const n = Math.floor(sesBaglam.sampleRate * 1.5);
   const t = sesBaglam.createBuffer(1, n, sesBaglam.sampleRate);
   const d = t.getChannelData(0);
-  for(let i=0;i<n;i++) d[i] = (Math.random()*2 - 1) * 0.45;
+  for(let i=0;i<n;i++) d[i] = Math.random()*2 - 1;
   return (sesGurultu = t);
 }
-function sesNey(frekans, baslangic, sure, seviye){
-  if(!sesBaglam) return;
-  const o = sesBaglam.createOscillator();
-  const g = sesBaglam.createGain();
-  o.type = "sine";
-  o.frequency.setValueAtTime(frekans*0.985, baslangic);
-  o.frequency.linearRampToValueAtTime(frekans, baslangic + 0.09);
-
-  /* vibrato: neyin canlı duruşu */
-  const vib = sesBaglam.createOscillator();
-  const vibG = sesBaglam.createGain();
-  vib.frequency.value = 5.2 + Math.random()*0.8;
-  vibG.gain.setValueAtTime(0, baslangic);
-  vibG.gain.linearRampToValueAtTime(frekans*0.008, baslangic + sure*0.45);
-  vib.connect(vibG); vibG.connect(o.frequency);
-  vib.start(baslangic); vib.stop(baslangic + sure + 0.1);
-
-  g.gain.setValueAtTime(0.0001, baslangic);
-  g.gain.exponentialRampToValueAtTime(seviye, baslangic + Math.min(0.13, sure*0.3));
-  g.gain.setValueAtTime(seviye, baslangic + sure*0.72);
-  g.gain.exponentialRampToValueAtTime(0.0001, baslangic + sure);
-  o.connect(g); g.connect(sesAna);
-  o.start(baslangic); o.stop(baslangic + sure + 0.1);
-
-  /* üfleme havası */
+function sesGurultuCal(t, sure, tip, frekans, q, seviye){
   const k = sesBaglam.createBufferSource();
-  k.buffer = sesNefesTamponu();
-  const bp = sesBaglam.createBiquadFilter();
-  bp.type = "bandpass"; bp.frequency.value = frekans*2.1; bp.Q.value = 1.6;
-  const kg = sesBaglam.createGain();
-  kg.gain.setValueAtTime(0.0001, baslangic);
-  kg.gain.exponentialRampToValueAtTime(seviye*0.30, baslangic + 0.07);
-  kg.gain.exponentialRampToValueAtTime(0.0001, baslangic + sure*0.85);
-  k.connect(bp); bp.connect(kg); kg.connect(sesAna);
-  k.start(baslangic); k.stop(baslangic + sure + 0.1);
+  k.buffer = sesGurultuTamponu();
+  k.loop = true;
+  const f = sesBaglam.createBiquadFilter();
+  f.type = tip; f.frequency.value = frekans; f.Q.value = q;
+  const g = sesBaglam.createGain();
+  g.gain.setValueAtTime(seviye, t);
+  g.gain.exponentialRampToValueAtTime(0.0001, t + sure);
+  k.connect(f); f.connect(g); g.connect(sesAna);
+  k.start(t); k.stop(t + sure + 0.02);
 }
-/* kanun gibi çırpılan nota: ani giriş, hızlı sönüş */
-function sesCirp(frekans, baslangic, sure, seviye){
+
+/* ── KLARNET ──
+   Çiftetellinin asıl sesi. Kamıştan gelen o dolgun, hafif burunlu
+   tını: testere ile kare dalganın karışımı, tiz ucu kısılmış, üstüne
+   vibrato. Notadan notaya kaydırma (glissando) bu müziği Türk
+   yapan şeydir; ondan vazgeçmiyoruz.                              */
+function sesKlarnet(frekans, baslangic, sure, seviye, kaydirdan){
   if(!sesBaglam) return;
-  for(const [carp, pay] of [[1, 1], [2, 0.30], [3, 0.14]]){
+  const t = baslangic, s = Math.max(0.10, sure);
+
+  const o1 = sesBaglam.createOscillator(); o1.type = "sawtooth";
+  const o2 = sesBaglam.createOscillator(); o2.type = "square";
+  const kar = sesBaglam.createGain();  kar.gain.value = 0.55;
+  const kar2 = sesBaglam.createGain(); kar2.gain.value = 0.45;
+
+  const kay = (kaydirdan && kaydirdan > 20 &&
+               Math.abs(Math.log2(kaydirdan/frekans)) < 0.42) ? kaydirdan : 0;
+  for(const o of [o1, o2]){
+    if(kay){
+      o.frequency.setValueAtTime(kay, t);
+      o.frequency.exponentialRampToValueAtTime(frekans, t + Math.min(0.075, s*0.35));
+    } else o.frequency.setValueAtTime(frekans, t);
+  }
+  o2.detune.value = -4;
+
+  /* rezonanslı süzgeç: kamışın nefesle açılıp kapanması */
+  const f = sesBaglam.createBiquadFilter();
+  f.type = "lowpass"; f.Q.value = 7;
+  f.frequency.setValueAtTime(Math.min(7000, frekans*2.0), t);
+  f.frequency.linearRampToValueAtTime(Math.min(9000, frekans*4.6), t + 0.05);
+  f.frequency.exponentialRampToValueAtTime(Math.max(360, frekans*2.1), t + s);
+
+  /* vibrato: girişte yok, nota uzadıkça açılır */
+  const lfo = sesBaglam.createOscillator();
+  lfo.frequency.setValueAtTime(5.2, t);
+  lfo.frequency.linearRampToValueAtTime(6.4, t + s);
+  const lfoG = sesBaglam.createGain();
+  lfoG.gain.setValueAtTime(0, t);
+  lfoG.gain.linearRampToValueAtTime(frekans*0.016, t + Math.min(0.30, s));
+  lfo.connect(lfoG); lfoG.connect(o1.frequency); lfoG.connect(o2.frequency);
+
+  const g = sesBaglam.createGain();
+  g.gain.setValueAtTime(0.0001, t);
+  g.gain.exponentialRampToValueAtTime(seviye, t + 0.022);
+  g.gain.exponentialRampToValueAtTime(seviye*0.78, t + s*0.55);
+  g.gain.exponentialRampToValueAtTime(0.0001, t + s + 0.05);
+
+  o1.connect(kar); o2.connect(kar2);
+  kar.connect(f); kar2.connect(f);
+  f.connect(g); g.connect(sesAna);
+  o1.start(t); o2.start(t); lfo.start(t);
+  o1.stop(t + s + 0.08); o2.stop(t + s + 0.08); lfo.stop(t + s + 0.08);
+  /* nefes: kamışın hışırtısı */
+  sesGurultuCal(t, Math.min(0.09, s), "bandpass", frekans*2.4, 1.4, seviye*0.10);
+}
+
+/* ── KANUN ── tel çırpması: sert giriş, hızlı sönüm */
+function sesKanun(frekans, baslangic, seviye){
+  if(!sesBaglam) return;
+  const t = baslangic;
+  const kat = [[1, 1.00, 0.95], [2, 0.42, 0.52], [3, 0.20, 0.34],
+               [4.18, 0.10, 0.22], [5.4, 0.05, 0.15]];
+  for(const [carp, guc, sonum] of kat){
     const o = sesBaglam.createOscillator();
-    const g = sesBaglam.createGain();
     o.type = "triangle";
     o.frequency.value = frekans * carp;
-    const s = seviye * pay;
-    g.gain.setValueAtTime(0.0001, baslangic);
-    g.gain.exponentialRampToValueAtTime(s, baslangic + 0.012);
-    g.gain.exponentialRampToValueAtTime(0.0001, baslangic + sure);
+    o.detune.value = (carp === 1) ? 0 : 5;
+    const g = sesBaglam.createGain();
+    g.gain.setValueAtTime(0.0001, t);
+    g.gain.exponentialRampToValueAtTime(seviye*guc, t + 0.004);
+    g.gain.exponentialRampToValueAtTime(0.0001, t + sonum);
     o.connect(g); g.connect(sesAna);
-    o.start(baslangic);
-    o.stop(baslangic + sure + 0.05);
+    o.start(t); o.stop(t + sonum + 0.02);
   }
+  sesGurultuCal(t, 0.020, "highpass", 2600, 0.7, seviye*0.28);
 }
 
-/* darbuka hissi: düm kalın, tek ince */
-function sesVurus(baslangic, kalin){
+/* ── UD BASI ── ölçüyü ayakta tutan pes tel */
+function sesBas(frekans, baslangic, sure, seviye){
   if(!sesBaglam) return;
-  const o = sesBaglam.createOscillator();
+  const t = baslangic, s = Math.max(0.14, sure);
+  const o = sesBaglam.createOscillator(); o.type = "triangle";
+  o.frequency.value = frekans;
+  const alt = sesBaglam.createOscillator(); alt.type = "sine";
+  alt.frequency.value = frekans/2;
+  const f = sesBaglam.createBiquadFilter();
+  f.type = "lowpass"; f.frequency.value = frekans*3.4; f.Q.value = 2;
   const g = sesBaglam.createGain();
-  o.type = "sine";
-  o.frequency.setValueAtTime(kalin ? 150 : 320, baslangic);
-  o.frequency.exponentialRampToValueAtTime(kalin ? 55 : 180, baslangic + 0.09);
-  g.gain.setValueAtTime(kalin ? 0.085 : 0.035, baslangic);
-  g.gain.exponentialRampToValueAtTime(0.0001, baslangic + (kalin ? 0.20 : 0.10));
+  g.gain.setValueAtTime(0.0001, t);
+  g.gain.exponentialRampToValueAtTime(seviye, t + 0.012);
+  g.gain.exponentialRampToValueAtTime(0.0001, t + s);
+  o.connect(f); alt.connect(f); f.connect(g); g.connect(sesAna);
+  o.start(t); alt.start(t); o.stop(t + s + 0.03); alt.stop(t + s + 0.03);
+}
+
+/* ── DARBUKA ──
+   DÜM: göbeğe vurulur, pes ve yankılı. TEK: kenara, keskin ve tiz.
+   KA: sol elin hafif dokunuşu.                                   */
+function sesDum(baslangic, seviye){
+  if(!sesBaglam) return;
+  const t = baslangic;
+  const o = sesBaglam.createOscillator(); o.type = "sine";
+  o.frequency.setValueAtTime(178, t);
+  o.frequency.exponentialRampToValueAtTime(58, t + 0.10);
+  const g = sesBaglam.createGain();
+  g.gain.setValueAtTime(seviye, t);
+  g.gain.exponentialRampToValueAtTime(0.0001, t + 0.30);
   o.connect(g); g.connect(sesAna);
-  o.start(baslangic);
-  o.stop(baslangic + 0.3);
+  o.start(t); o.stop(t + 0.32);
+  sesGurultuCal(t, 0.035, "lowpass", 900, 0.9, seviye*0.55);
 }
-
-/* alkış: elle çırpma hissi, oyun havasının neşesi */
-function sesAlkis(baslangic, seviye){
+function sesTek(baslangic, seviye){
   if(!sesBaglam) return;
-  const k = sesBaglam.createBufferSource();
-  k.buffer = sesNefesTamponu();
-  const bp = sesBaglam.createBiquadFilter();
-  bp.type = "bandpass"; bp.frequency.value = 2100; bp.Q.value = 0.9;
+  const t = baslangic;
+  sesGurultuCal(t, 0.070, "bandpass", 1950, 1.6, seviye);
+  const o = sesBaglam.createOscillator(); o.type = "sine";
+  o.frequency.setValueAtTime(620, t);
+  o.frequency.exponentialRampToValueAtTime(300, t + 0.035);
   const g = sesBaglam.createGain();
-  g.gain.setValueAtTime(seviye, baslangic);
-  g.gain.exponentialRampToValueAtTime(0.0001, baslangic + 0.09);
-  k.connect(bp); bp.connect(g); g.connect(sesAna);
-  k.start(baslangic); k.stop(baslangic + 0.15);
+  g.gain.setValueAtTime(seviye*0.55, t);
+  g.gain.exponentialRampToValueAtTime(0.0001, t + 0.06);
+  o.connect(g); g.connect(sesAna);
+  o.start(t); o.stop(t + 0.08);
+}
+function sesKa(baslangic, seviye){
+  sesGurultuCal(baslangic, 0.040, "bandpass", 3100, 2.2, seviye);
+}
+/* ── DEF ZİLLERİ ── oynaklığı taşıyan asıl şey */
+function sesZil(baslangic, seviye){
+  if(!sesBaglam) return;
+  sesGurultuCal(baslangic, 0.11, "highpass", 6200, 0.8, seviye);
+  sesGurultuCal(baslangic + 0.012, 0.07, "bandpass", 9400, 1.2, seviye*0.7);
+}
+/* parmak yuvarlaması: ölçü sonlarını süsler */
+function sesYuvarla(baslangic, adet, aralik, seviye){
+  for(let i=0;i<adet;i++) sesKa(baslangic + i*aralik, seviye*(0.5 + i/adet*0.5));
 }
 
-/* bir ölçü: ezgi, bas ve aksak vuruşlar */
+/* ── BİR ÖLÇÜ ── */
 function sesOlcuKur(baslangic, no){
-  const bolumNo = Math.floor(no/4) % SES_BOLUM.length;
-  const bolum = SES_BOLUM[bolumNo];
-  const ezgi = bolum[no % 4];
-  const kok = SES_BOLUM_KOK[bolumNo][no % 4];
-  /* her turda süsleme başkalaşsın diye tur sayısı */
-  const tur = Math.floor(no / (SES_BOLUM.length*4));
+  const dizi = SES_DIZI[Math.floor(no/4) % SES_DIZI.length];
+  const [ezgiNo, makam, goc] = dizi;
+  const olcuNo = no % 4;
+  const olcu = SES_EZGI[ezgiNo][olcuNo];
+  const bolumNo = Math.floor(no/4) % SES_DIZI.length;
+  const tur = Math.floor(no / (SES_DIZI.length*4));
+  const S = SES_SEKIZLIK;
+  /* doku: her bölüm başka bir takımla çalınsın */
+  const doku = (bolumNo + tur) % 3;
 
-  /* ezgiyi NEY çalar: uzun, nefesli, vibratolu */
-  for(const [derece, bas, sure] of ezgi)
-    sesNey(sesFrekans(derece, 1), baslangic + bas*SES_SEKIZLIK,
-           Math.max(0.24, sure*SES_SEKIZLIK*1.02), 0.098);
+  /* ── ezgi ── */
+  for(const [derece, bas, sure] of olcu){
+    const t = baslangic + bas*S;
+    const f = sesPerde(derece, makam, goc);
+    const uz = sure*S*0.94;
 
-  /* KANUN eşlik eder: neyin altında çırpılan kısa notalar */
-  for(const [derece, bas, sure] of ezgi){
-    sesCirp(sesFrekans(derece, 0), baslangic + bas*SES_SEKIZLIK, 0.30, 0.040);
-    if(sure >= 2){
-      /* tur ilerledikçe süsleme aralığı değişir: aynı bölüm aynı duyulmaz */
-      const suslu = [2, 4, -2, 3, 5, 1, -3, 2][(tur + bolumNo) % 8];
-      sesCirp(sesFrekans(derece + suslu, 0), baslangic + (bas+1)*SES_SEKIZLIK, 0.26, 0.028);
+    if(doku !== 1){
+      sesKlarnet(f, t, uz, 0.105, sesSonPerde);
+      sesSonPerde = f;
     }
-    if(sure >= 3){
-      /* kanun tremolosu: uzun notayı boş bırakma, tel çırpsın */
+    if(doku !== 2 || sure >= 2){
+      /* kanun ezgiyi bir oktav pesten çırparak destekler */
+      sesKanun(sesPerde(derece - 7, makam, goc), t, doku === 1 ? 0.090 : 0.050);
+    }
+    /* uzun notayı boş bırakma: kanun tremolosu */
+    if(sure >= 3)
       for(let q=1; q<sure*2; q++)
-        sesCirp(sesFrekans(derece, 1), baslangic + (bas + q*0.5)*SES_SEKIZLIK, 0.14, 0.020);
+        sesKanun(f, t + q*0.5*S, 0.026);
+    /* kısa notalarda süsleme: her turda başka aralık */
+    else if(sure === 1 && ((bas + bolumNo) % 4) === 0){
+      const sus = [1, 2, -1, 1, 2, -2][(tur + bolumNo) % 6];
+      sesKanun(sesPerde(derece + sus, makam, goc), t + S*0.5, 0.022);
     }
   }
-  /* bas: ölçü başı ve altıncı sekizlik */
-  sesCirp(sesFrekans(kok, -1), baslangic, SES_SEKIZLIK*3.2, 0.065);
-  sesCirp(sesFrekans(kok + 4, -1), baslangic + 6*SES_SEKIZLIK, SES_SEKIZLIK*2.6, 0.045);
 
-  /* 2+2+2+3 aksak vuruşu */
-  let k = 0;
-  for(let i=0;i<SES_AKSAK.length;i++){
-    sesVurus(baslangic + k*SES_SEKIZLIK, i === 0 || i === 3);
-    if(SES_AKSAK[i] === 3) sesVurus(baslangic + (k+2)*SES_SEKIZLIK, false);
-    /* tek turlarda araya ek tokat: usul tekdüze durmasın */
-    if((tur % 2) === 1 && i === 1) sesVurus(baslangic + (k+1)*SES_SEKIZLIK, false);
-    /* 3. ve 7. sekizlikte alkış: neşeyi taşıyan asıl şey bu */
-    if(i === 1 || i === 3) sesAlkis(baslangic + k*SES_SEKIZLIK, 0.055);
-    k += SES_AKSAK[i];
+  /* ── ud basları: DÜM'lerin altına ── */
+  const kokDerece = [0, 0, 4, 0][olcuNo];
+  sesBas(sesPerde(kokDerece - 14, makam, goc), baslangic, S*2.4, 0.115);
+  sesBas(sesPerde(kokDerece - 14, makam, goc), baslangic + 4*S, S*1.6, 0.090);
+  sesBas(sesPerde(kokDerece - 10, makam, goc), baslangic + 5*S, S*1.4, 0.070);
+
+  /* ── ÇİFTETELLİ USULÜ ──
+     1 DÜM · 2 ka · 3 TEK · 4 ka · 5 DÜM · 6 DÜM · 7 TEK · 8 ka   */
+  sesDum(baslangic + 0*S, 0.30);
+  sesKa (baslangic + 1*S, 0.055);
+  sesTek(baslangic + 2*S, 0.135);
+  sesKa (baslangic + 3*S, 0.055);
+  sesDum(baslangic + 4*S, 0.27);
+  sesDum(baslangic + 5*S, 0.21);
+  sesTek(baslangic + 6*S, 0.135);
+  sesKa (baslangic + 7*S, 0.055);
+
+  /* def zilleri: her sekizliğin ortasında; bazı bölümlerde susar
+     ki geri geldiğinde parça yeniden canlansın                   */
+  if((bolumNo % 7) !== 5){
+    for(let i=0;i<8;i++) sesZil(baslangic + (i + 0.5)*S, i % 2 ? 0.030 : 0.042);
   }
-  return 9 * SES_SEKIZLIK;
+  /* dört ölçüde bir yuvarlama: bölüm değişiminin habercisi */
+  if(olcuNo === 3) sesYuvarla(baslangic + 6.5*S, 4, S*0.25, 0.075);
+
+  return SES_ADIM * S;
 }
 
 function sesBesle(){
@@ -5523,7 +5937,6 @@ function sesBesle(){
   while(sesSira < simdi + 3 && guard++ < 16){
     sesSira += sesOlcuKur(sesSira, sesOlcu);
     sesOlcu++;
-    /* dört ölçülük ezgi bitti, baştan */
   }
 }
 
@@ -5532,11 +5945,12 @@ function sesBaslat(){
   if(!sesKur()) return;
   if(sesBaglam.state === "suspended") sesBaglam.resume();
   sesAcik = true;
+  sesSonPerde = 0;
   const t = sesBaglam.currentTime;
   sesSira = t + 0.3;
   sesAna.gain.cancelScheduledValues(t);
   sesAna.gain.setValueAtTime(0.0001, t);
-  sesAna.gain.exponentialRampToValueAtTime(0.42, t + 2.2);
+  sesAna.gain.exponentialRampToValueAtTime(0.40, t + 1.6);
   sesBesle();
   clearInterval(sesBaslat._saat);
   sesBaslat._saat = setInterval(sesBesle, 1200);
@@ -5690,6 +6104,18 @@ function analyzeShot(img, url, elips){
   const oSirali = hepsi.filter(b => b.ton === "orta").sort((a,b)=>b.area-a.area).slice(0, 8);
   koyular = kSirali.concat(oSirali);
   aklar   = parcala(aklar, true).sort((a,b)=>b.area-a.area).slice(0, 6);
+
+  /* Her leke ne kadar koyu? Silik izi belirgin izden ayırmanın tek
+     dürüst yolu bu: ortalama griyi ölçüp 0-1 arasına indiriyoruz.  */
+  for(const b of koyular.concat(aklar)){
+    let t = 0, s = 0;
+    for(let y=0;y<b.bh;y++) for(let x=0;x<b.bw;x++){
+      if(!b.mask[y*b.bw+x]) continue;
+      const i = (b.y0+y)*wk.w + (b.x0+x);
+      if(i >= 0 && i < g.length){ t += g[i]; s++; }
+    }
+    b.karanlik = s ? (255 - t/s)/255 : 0;
+  }
 
   shot.blobs = koyular.concat(aklar);
 
@@ -5980,9 +6406,6 @@ function buildPages(){
     kapakBody.push(nm(pick(T.gecmisBag).split("{onceki}").join(oncekiSembol)));
   else if(T.gecmisIlk) kapakBody.push(nm(T.gecmisIlk));
   kapakBody.push(nm(shots.length >= 3 ? T.tamFoto : (T.eksikFoto[shots.length] || T.eksikFoto[1])));
-  const oncekiAi = gecmisSembol();
-  if(oncekiAi && T.gecmisBag)
-    kapakBody.push(nm(pick(T.gecmisBag).split("{onceki}").join(oncekiAi)));
   pages.push({kind:"kapak", blobs:[], shot:shots[0], kicker:T.ord[1] + T.ordSuffix,
               title:k.t, where:T.genel, body:kapakBody});
 
@@ -6053,6 +6476,25 @@ function buildPages(){
     });
   };
 
+  /* SİLİK İZE HİÇ GİRME.
+     İki süzgeç: en koyu izin yanında sönük kalanlar düşer, ve elde
+     yeterince net koyu iz varsa orta tonlu soluk izlere hiç
+     bakılmaz. Kullanıcının fotoğrafta zaten seçemediği bir ize ad
+     vermek falın inandırıcılığını tek başına bitiriyor.           */
+  if(koyu.length){
+    const enKoyu = koyu.reduce((m, t) => Math.max(m, t.b.karanlik || 0), 0.001);
+    const netler = koyu.filter(t => t.b.ton !== "orta").length;
+    for(let q=koyu.length-1; q>=0; q--){
+      const k = koyu[q].b.karanlik || 0;
+      const silik = k < enKoyu*0.55;
+      const soluk = koyu[q].b.ton === "orta" && netler >= 4;
+      if(silik || soluk) koyu.splice(q, 1);
+    }
+    /* hepsini elediysek en koyu üçünü geri al: fal boş kalmasın */
+    if(!koyu.length) koyu.push.apply(koyu, tagged.filter(t => !t.ak)
+      .sort((a,b)=>(b.b.karanlik||0)-(a.b.karanlik||0)).slice(0,3));
+  }
+
   /* Fincanın hep aynı köşesini okumayalım: seçilen lekeler
      birbirinden uzak olsun, farklı bölgelere dağılsın.           */
   const secilenler = [];
@@ -6092,7 +6534,8 @@ function buildPages(){
   }
   let akSay = 0;
   for(const t of beyaz){
-    if(akSay >= 2) break;
+    if(akSay >= 1) break;
+    if(t.sym !== "akNokta") continue;
     if(akGrup.get(t.sym) !== t) continue;
     const s = T.symAk[t.sym];
     if(!s) continue;
@@ -6716,22 +7159,59 @@ let sonAiVeri = null;
 let sonOlcum = null;   // eğitim verisi için son ölçüm dökümü
 let sonSoru = null;
 
+/* Fotoğraf TEPEDEN çekiliyor: fincanın ağzı dıştaki halka, dibi
+   ortadaki noktadır. Halkanın gideceği yerler buna göre.        */
+const RITUAL_BOLGE = {
+  hepsi: [50, 50, 47],
+  kenar: [50, 50, 44],
+  orta:  [50, 50, 27],
+  dip:   [50, 50, 13],
+  kulp:  [72, 50, 20],
+  karsi: [28, 50, 20],
+  sag:   [50, 28, 20],
+  sol:   [50, 72, 20]
+};
+
 async function falAc(){
   if(!shots.length){ toast(P().ui.needOne); return; }
   const T = P();
   go("ritual");
   const line = document.getElementById("ritual-line");
-  /* Yazılar tekrar etmesin: listeyi karıştırıp sırayla tüketiyoruz.
-     Bitince son yazıda kalır, başa dönüp aynı şeyi yazmaz.        */
-  const RL = (T.ritual || []).slice();
-  for(let q=RL.length-1; q>0; q--){
-    const w = Math.floor(Math.random()*(q+1));
-    const t = RL[q]; RL[q] = RL[w]; RL[w] = t;
+  /* Yazılar tekrar etmesin. Açılış ve kapanış yerinde durur, ortadaki
+     satırlar her falda başka sırayla gelir. Söylenen yer fotoğrafın
+     üstünde de gösterilir: dediğimiz şeyi görüyor.                */
+  const RLh = (T.ritual || []).slice();
+  const RZh = (T.ritualBolge || []).slice();
+  const dizin = RLh.map((_, q) => q);
+  for(let q=dizin.length-2; q>1; q--){
+    const w = 1 + Math.floor(Math.random()*q);
+    const t = dizin[q]; dizin[q] = dizin[w]; dizin[w] = t;
   }
+  const RL = dizin.map(q => RLh[q]);
+  const RZ = dizin.map(q => RZh[q] || "hepsi");
+
+  /* fincanı ritüel ekranına koy */
+  const goz = document.getElementById("ritual-goz");
+  const fotoEl = document.getElementById("ritual-foto");
+  if(goz && fotoEl && shots.length && shots[0].url){
+    fotoEl.style.backgroundImage = "url(" + shots[0].url + ")";
+    goz.classList.remove("bos");
+  } else if(goz) goz.classList.add("bos");
+
+  const halka = document.getElementById("ritual-halka");
+  const odakla = ad => {
+    if(!halka) return;
+    const B = RITUAL_BOLGE[ad] || RITUAL_BOLGE.hepsi;
+    halka.setAttribute("cx", B[0]);
+    halka.setAttribute("cy", B[1]);
+    halka.setAttribute("r",  B[2]);
+  };
+
   let i = 0;
   line.textContent = RL[0] || "";
+  odakla(RZ[0]);
   const tick = setInterval(()=>{
-    if(i < RL.length - 1) line.textContent = RL[++i];
+    if(i < RL.length - 1){ i++; line.textContent = RL[i]; odakla(RZ[i]); }
   }, 2600);
 
   /* Geri sayım: kullanıcı ne kadar bekleyeceğini görsün. */
