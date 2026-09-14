@@ -13,7 +13,7 @@
 
 const MODELLER = ["gemini-3.8-flash","gemini-3.6-flash","gemini-3.5-flash","gemini-flash-latest","gemini-2.5-flash"];
 
-const EN_UZUN_SORU   = 24000;      // karakter
+const EN_UZUN_SORU   = 60000;      // karakter
 const EN_BUYUK_GORSEL = 2800000;   // base64 karakter, yaklaşık 2 MB
 const EN_FAZLA_GORSEL = 3;
 
