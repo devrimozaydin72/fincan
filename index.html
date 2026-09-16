@@ -204,6 +204,15 @@
   .ask-sub{color:var(--ink-3);font-size:16px;margin:8px 0 0;}
   .sec-head{margin:44px 0 0;}
 
+  /* açık rıza */
+  #scr-riza .shell{padding-block:40px 60px;}
+  .riza-kutu{margin-top:22px;border:1px solid var(--gold-dim);border-radius:14px;
+    padding:20px 22px;background:rgba(214,168,86,.055);}
+  .riza-kutu p{margin:0 0 13px;color:var(--ink-2);font-size:15px;line-height:1.62;}
+  .riza-kutu p:last-child{margin-bottom:0;}
+  .riza-link{margin:22px 0 0;text-align:center;font-size:13px;}
+  .riza-link a{color:var(--gold);text-underline-offset:3px;}
+
   /* ritüel */
   #scr-ritual .shell{padding-block:80px;text-align:center;min-height:70vh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:26px;}
   /* Ritüelde söylenen yer fotoğrafın üstünde gösterilir: "dibe
@@ -628,6 +637,30 @@
       <button class="shutter" type="button" id="b-shutter" data-ta="shutter"></button>
       <span class="camspacer"></span>
     </div>
+  </div>
+</section>
+
+<!-- ═══════════ AÇIK RIZA ═══════════
+     Fincan fotoğrafı yurt dışındaki bir yapay zekâ hizmetine
+     gidiyor. KVKK 9. madde bunun için açık rıza istiyor; rıza
+     alınmadan hiçbir görüntü cihazdan çıkmıyor.               -->
+<section class="screen" id="scr-riza">
+  <div class="shell">
+    <p class="kicker" data-t="rizaKicker"></p>
+    <h2 class="ask" style="margin-top:12px;" data-t="rizaAsk"></h2>
+    <div class="riza-kutu">
+      <p data-t="rizaMetin1"></p>
+      <p data-t="rizaMetin2"></p>
+      <p data-t="rizaMetin3"></p>
+    </div>
+    <p class="ask-sub" style="margin-top:18px;" data-t="rizaAlt"></p>
+    <div class="actions" style="margin:34px auto 0;">
+      <button class="btn primary" id="b-riza-evet" type="button" data-t="rizaEvet"></button>
+      <button class="btn ghost" id="b-riza-hayir" type="button" data-t="rizaHayir"></button>
+    </div>
+    <p class="riza-link">
+      <a href="yasal/gizlilik.html" target="_blank" rel="noopener" data-t="rizaOku"></a>
+    </p>
   </div>
 </section>
 
@@ -3140,6 +3173,30 @@ PACK.en.sym.sahil = {
        yan:"At the side, so it happens together with those around you."}
 };
 
+
+/* ── Açık rıza ekranının yazıları ──
+   Sade Türkçe. Ne gönderiliyor, nereye gidiyor, orada ne oluyor ve
+   hayır derse ne olacak: dördü de tek bakışta anlaşılsın.        */
+PACK.tr.ui.rizaKicker  = "Başlamadan önce";
+PACK.tr.ui.rizaAsk     = "Fincanını yapay zekâya göstermemi ister misin?";
+PACK.tr.ui.rizaMetin1  = "Fotoğrafını çizdiğin halkaya göre kesiyorum. Fincanın dışında kalan her yer (kulbu, tabağı, masayı, elini, arkada ne varsa) siyaha boyanıyor ve hiç gönderilmiyor.";
+PACK.tr.ui.rizaMetin2  = "Kalan görüntü, falını daha güzel yorumlayabilmem için yurt dışındaki bir yapay zekâ hizmetine gidiyor. Adını göndermiyorum; adın yalnız senin telefonunda duruyor.";
+PACK.tr.ui.rizaMetin3  = "Ücretsiz kademeyi kullandığımız için o hizmet, gönderilen görüntüyü kendi sistemlerini geliştirmekte kullanabiliyor. Bunu bilmeni istedim.";
+PACK.tr.ui.rizaAlt     = "Hayır dersen de falına bakarım. O zaman fotoğrafın telefonundan hiç çıkmaz, fincanı ben kendi gözümle okurum.";
+PACK.tr.ui.rizaEvet    = "Olur, göster";
+PACK.tr.ui.rizaHayir   = "Hayır, telefonumda kalsın";
+PACK.tr.ui.rizaOku     = "Gizlilik metnini oku";
+
+PACK.en.ui.rizaKicker  = "Before we begin";
+PACK.en.ui.rizaAsk     = "May I show your cup to the AI?";
+PACK.en.ui.rizaMetin1  = "I crop your photograph to the ring you drew. Everything outside the cup (the handle, the saucer, the table, your hand, whatever is behind it) is painted black and never sent.";
+PACK.en.ui.rizaMetin2  = "What is left goes to an AI service abroad so that I can read your cup more richly. Your name is not sent; it stays on your phone alone.";
+PACK.en.ui.rizaMetin3  = "Because we use the free tier, that service may use the image it receives to improve its own systems. I wanted you to know this.";
+PACK.en.ui.rizaAlt     = "If you say no I will still read your cup. Your photograph then never leaves your phone and I read the grounds with my own eyes.";
+PACK.en.ui.rizaEvet    = "Yes, show it";
+PACK.en.ui.rizaHayir   = "No, keep it on my phone";
+PACK.en.ui.rizaOku     = "Read the privacy notice";
+
 /* ══════════════════ HUKUKİ METİNLER ══════════════════
    App Store başvurusunda Apple bir gizlilik politikası bağlantısı ister.
    Aşağıdaki metinler hem uygulama içinde gösterilir hem de ayrıca
@@ -3164,7 +3221,8 @@ PACK.tr.yasal = {
     ]},
     {b:"2. Kısaca özet", p:[
       "Fincan uygulaması hesap açmanızı istemez, sizi tanımlayan bir kimlik numarası üretmez, reklam ağı ve analiz aracı kullanmaz.",
-      "Fotoğrafınız cihazınızda işlenir. Yapay zekâ destekli okuma etkinse, yalnızca fincanın iç kısmına kırpılmış görüntü okuma süresince hizmet sağlayıcıya iletilir ve tarafımızca saklanmaz.",
+      "Fotoğrafınız cihazınızda işlenir. Yapay zekâ destekli okuma etkinse, yalnızca fincanın iç kısmına kırpılmış görüntü hizmet sağlayıcıya iletilir ve tarafımızca saklanmaz.",
+      "Hizmet sağlayıcının ücretsiz kademesini kullanıyoruz. Bu kademede gönderilen görüntü, sağlayıcı tarafından kendi hizmetlerinin geliştirilmesi ve eğitilmesi amacıyla kullanılabilir. Bu nedenle görüntü gönderilmeden önce uygulama içinde açık rızanız alınır ve rıza vermezseniz fotoğrafınız cihazınızdan hiç çıkmaz.",
       "Adınızı yazmak isteğe bağlıdır ve yalnızca cihazınızda tutulur."
     ]},
     {b:"3. İşlenen kişisel veriler", p:[
@@ -3180,8 +3238,11 @@ PACK.tr.yasal = {
     ]},
     {b:"5. Yurt dışına aktarım", p:[
       "Yapay zekâ destekli okuma etkin olduğunda, fincanın iç kısmına kırpılmış görüntü, yorumu üretebilmek için yurt dışında yerleşik yapay zekâ hizmet sağlayıcısının sunucularına aktarılır. Aktarım KVKK m.9 kapsamında açık rızanıza dayanır.",
-      "Aktarılan görüntü yalnızca o okuma için kullanılır; tarafımızca kaydedilmez. Hizmet sağlayıcının kendi saklama ve işleme politikaları geçerlidir.",
-      "Yapay zekâ okuması kapalıysa hiçbir görsel cihazınızdan çıkmaz ve yorum tamamen cihaz üzerinde üretilir."
+      "Açık rıza, ilk okumadan önce uygulama içinde ayrı bir ekranda istenir. Rıza vermezseniz fal yine bakılır, ancak yorum tamamen cihazınızda üretilir ve hiçbir görüntü gönderilmez.",
+      "Aktarılan görüntü tarafımızca kaydedilmez. Ancak hizmet sağlayıcının ücretsiz kademesini kullandığımız için, gönderilen görüntü sağlayıcı tarafından kendi hizmetlerini geliştirmek ve modellerini eğitmek amacıyla kullanılabilir, insan denetçiler tarafından incelenebilir ve sağlayıcının kendi süreleri boyunca saklanabilir. Bu konuda hizmet sağlayıcının kendi saklama ve işleme politikaları geçerlidir.",
+      "Bu sebeple fincan fotoğrafınızda sizi ya da başkasını tanıtacak bir şey bulunmamasına dikkat edin. Uygulama fincanın dışında kalan her yeri siyaha boyayarak bu riski azaltır.",
+      "Yapay zekâ okuması kapalıysa hiçbir görsel cihazınızdan çıkmaz ve yorum tamamen cihaz üzerinde üretilir.",
+      "Verdiğiniz rızayı dilediğiniz zaman geri alabilirsiniz. Tarayıcı ya da uygulama verilerini temizlemeniz yeterlidir; bundan sonraki ilk falda size yeniden sorulur. Geri alma, o ana kadar aktarılmış görüntüler bakımından hizmet sağlayıcının kendi süreçlerini etkilemez."
     ]},
     {b:"6. Saklama süresi", p:[
       "Fotoğrafınız sunucularımızda saklanmaz. Uygulama içinde tuttuğumuz görsel, siz uygulamayı kapatana veya yeni bir fal başlatana kadar yalnızca cihazın geçici belleğinde bulunur.",
@@ -3260,7 +3321,8 @@ PACK.en.yasal = {
     ]},
     {b:"2. Short version", p:[
       "Fincan asks for no account, creates no identifier for you, and uses no advertising network or analytics tool.",
-      "Your photograph is processed on your device. When the AI-assisted reading is active, only the image cropped to the inside of the cup is sent to the service provider for the duration of the reading, and we do not store it.",
+      "Your photograph is processed on your device. When the AI-assisted reading is active, only the image cropped to the inside of the cup is sent to the service provider, and we do not store it.",
+      "We use the provider's free tier. On that tier the image sent may be used by the provider to develop and train its own services. For this reason your explicit consent is requested inside the app before any image is sent, and if you do not consent your photograph never leaves your device.",
       "Entering your name is optional and it stays on your device."
     ]},
     {b:"3. Data we process", p:[
@@ -3276,8 +3338,11 @@ PACK.en.yasal = {
     ]},
     {b:"5. International transfer", p:[
       "When the AI-assisted reading is active, the image cropped to the inside of the cup is transferred to servers of an AI service provider located outside your country in order to generate the reading. This transfer relies on your explicit consent.",
-      "The transferred image is used only for that reading and is not recorded by us. The provider's own retention and processing policies apply.",
-      "When the AI reading is off, no image leaves your device and the reading is produced entirely on the device."
+      "Consent is requested on a separate screen inside the app before your first reading. If you decline, your cup is still read, but the reading is produced entirely on your device and no image is sent.",
+      "The transferred image is not recorded by us. However, because we use the provider's free tier, the image sent may be used by the provider to improve its services and train its models, may be reviewed by human reviewers, and may be retained for the provider's own periods. The provider's own retention and processing policies apply.",
+      "For this reason, take care that your cup photograph contains nothing that identifies you or anyone else. The app reduces this risk by painting everything outside the cup black.",
+      "When the AI reading is off, no image leaves your device and the reading is produced entirely on the device.",
+      "You may withdraw your consent at any time by clearing the app or browser data; you will be asked again on your next reading. Withdrawal does not affect the provider's own processes for images already transferred."
     ]},
     {b:"6. Retention", p:[
       "We keep no photograph on any server of ours. The image held inside the app lives only in the device's temporary memory until you close the app or start a new reading.",
@@ -6834,6 +6899,7 @@ const screens = {
   frame:document.getElementById("scr-frame"),
   intro:document.getElementById("scr-intro"),
   setup:document.getElementById("scr-setup"),
+  riza:document.getElementById("scr-riza"),
   ritual:document.getElementById("scr-ritual"),
   read:document.getElementById("scr-read")
 };
@@ -7156,6 +7222,41 @@ let sonAiVeri = null;
 let sonOlcum = null;   // eğitim verisi için son ölçüm dökümü
 let sonSoru = null;
 
+/* ══════ AÇIK RIZA ══════
+   Yapay zekâ okuması fincan fotoğrafını yurt dışındaki bir hizmete
+   gönderiyor. Kullanıcı bunu bilmeden hiçbir görüntü cihazdan
+   çıkmamalı. Cevap bir kere alınır ve saklanır; "hayır" diyen
+   kullanıcı falını yine görür, cihazdaki motor okur.            */
+function rizaDurumu(){
+  try{ return localStorage.getItem("fincan-riza"); }catch(e){ return null; }
+}
+function rizaYaz(deger){
+  try{ localStorage.setItem("fincan-riza", deger ? "1" : "0"); }catch(e){}
+}
+function rizaSor(){
+  /* yapay zekâ zaten yoksa soracak bir şey yok */
+  if(!aiMumkun()) return Promise.resolve(false);
+  const kayit = rizaDurumu();
+  if(kayit === "1") return Promise.resolve(true);
+  if(kayit === "0") return Promise.resolve(false);
+
+  go("riza");
+  return new Promise(function(bitir){
+    const evet = document.getElementById("b-riza-evet");
+    const hayir = document.getElementById("b-riza-hayir");
+    const sec = deger => {
+      evet.removeEventListener("click", eOk);
+      hayir.removeEventListener("click", hOk);
+      rizaYaz(deger);
+      bitir(deger);
+    };
+    function eOk(){ sec(true); }
+    function hOk(){ sec(false); }
+    evet.addEventListener("click", eOk);
+    hayir.addEventListener("click", hOk);
+  });
+}
+
 /* Fotoğraf TEPEDEN çekiliyor: fincanın ağzı dıştaki halka, dibi
    ortadaki noktadır. Halkanın gideceği yerler buna göre.        */
 const RITUAL_BOLGE = {
@@ -7172,6 +7273,8 @@ const RITUAL_BOLGE = {
 async function falAc(){
   if(!shots.length){ toast(P().ui.needOne); return; }
   const T = P();
+  /* Rıza alınmadan tek bir piksel bile cihazdan çıkmıyor. */
+  const yapayZeka = await rizaSor();
   go("ritual");
   const line = document.getElementById("ritual-line");
   /* Yazılar tekrar etmesin. Açılış ve kapanış yerinde durur, ortadaki
@@ -7213,7 +7316,7 @@ async function falAc(){
 
   /* Geri sayım: kullanıcı ne kadar bekleyeceğini görsün. */
   const kalanEl = document.getElementById("ritual-kalan");
-  const tahmin = aiMumkun() ? 45 : 4;
+  const tahmin = yapayZeka ? 45 : 4;
   let kalan = tahmin;
   const yazKalan = () => {
     if(!kalanEl) return;
@@ -7223,7 +7326,7 @@ async function falAc(){
   };
   yazKalan();
   const sayac = setInterval(()=>{ if(kalan > 0) kalan--; yazKalan(); }, 1000);
-  const enAz = new Promise(r => setTimeout(r, aiMumkun() ? 2600 : 2200));
+  const enAz = new Promise(r => setTimeout(r, yapayZeka ? 2600 : 2200));
 
   let veri = null;
   /* Ölçüm dökümünü her hâlükârda çıkarıyoruz: yapay zekâ kapalıyken de
@@ -7244,7 +7347,7 @@ async function falAc(){
     : null;
 
   try{
-    if(aiMumkun()){
+    if(yapayZeka){
       if(cvs.length){
         /* cihazın ölçtüğü lekeleri de veriyoruz: yorum somutlaşıyor ve
            işaretlenen kutular gerçekten lekenin üstüne oturuyor */
