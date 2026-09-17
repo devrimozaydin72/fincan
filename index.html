@@ -71,6 +71,8 @@
   }
   .shell{position:relative;z-index:1;max-width:1080px;margin:0 auto;padding-inline:22px;}
   @media (max-width:560px){ .shell{padding-inline:18px;} }
+  /* Telefonda hiçbir şey yatay kaydırma yapmasın. */
+  html,body{max-width:100%;overflow-x:hidden;}
   button{font-family:inherit;color:inherit;}
   :focus-visible{outline:2px solid var(--gold);outline-offset:3px;}
   .screen{display:none;}
@@ -90,7 +92,7 @@
   .cupmark{width:clamp(96px,26vw,138px);height:auto;display:block;margin:0 auto;}
   .rule-orn{display:flex;align-items:center;gap:12px;justify-content:center;margin:30px 0 0;width:min(320px,80%);}
   .rule-orn i{flex:1;height:1px;background:linear-gradient(90deg,transparent,var(--gold-dim),transparent);}
-  .rule-orn b{color:var(--gold);font-size:9px;letter-spacing:.4em;font-family:var(--ui);font-weight:300;}
+  .rule-orn b{color:var(--gold);font-size:11px;letter-spacing:.4em;font-family:var(--ui);font-weight:300;}
 
   .actions{display:flex;flex-direction:column;gap:12px;margin-top:34px;width:min(360px,100%);}
   .btn{
@@ -116,7 +118,7 @@
   }
   .langbar button{
     background:transparent;border:0;border-radius:99px;cursor:pointer;
-    font-family:var(--ui);font-size:10.5px;letter-spacing:.16em;
+    font-family:var(--ui);font-size:12.5px;letter-spacing:.16em;
     color:var(--ink-3);padding:5px 11px;transition:all .2s ease;
   }
   .langbar button:hover{color:var(--gold-soft);}
@@ -134,7 +136,7 @@
   .tips li{display:grid;grid-template-columns:26px 1fr;gap:12px;align-items:baseline;color:var(--ink-2);font-size:17px;line-height:1.45;}
   .tips li i{font-family:var(--display);font-size:15px;color:var(--gold);font-style:italic;}
   .fineprint{
-    margin:40px 0 0;font-family:var(--ui);font-weight:300;font-size:10.5px;
+    margin:40px 0 0;font-family:var(--ui);font-weight:300;font-size:12.5px;
     letter-spacing:.12em;line-height:1.8;color:var(--ink-3);max-width:34ch;text-transform:uppercase;
   }
 
@@ -152,7 +154,7 @@
   .slot .disc .num{
     position:absolute;top:5px;left:5px;width:19px;height:19px;border-radius:50%;
     background:rgba(24,12,18,.8);color:var(--gold-soft);font-family:var(--ui);
-    font-size:9.5px;display:grid;place-items:center;border:1px solid var(--gold-faint);
+    font-size:11.5px;display:grid;place-items:center;border:1px solid var(--gold-faint);
   }
   .slot .disc .x{
     position:absolute;top:4px;right:4px;width:21px;height:21px;border-radius:50%;
@@ -162,7 +164,7 @@
   .slot .disc .x:hover{color:var(--bad);border-color:var(--bad);}
   .slot .disc .plus{font-family:var(--display);font-size:30px;color:rgba(212,168,67,.4);}
   .slot .badge{
-    font-family:var(--ui);font-size:9.5px;letter-spacing:.11em;text-transform:uppercase;
+    font-family:var(--ui);font-size:11.5px;letter-spacing:.11em;text-transform:uppercase;
     display:flex;align-items:center;gap:5px;color:var(--ink-3);
   }
   .slot .badge b{width:6px;height:6px;border-radius:50%;display:block;}
@@ -189,7 +191,7 @@
   .hbtn{
     position:absolute;width:46px;height:46px;border-radius:50%;
     border:1px solid var(--gold-dim);background:var(--night-2);color:var(--ink-2);
-    font-family:var(--ui);font-size:10px;letter-spacing:.1em;cursor:pointer;
+    font-family:var(--ui);font-size:12px;letter-spacing:.1em;cursor:pointer;
     display:grid;place-items:center;transition:all .2s ease;
   }
   .hbtn:hover{border-color:var(--gold);color:var(--gold-soft);}
@@ -208,7 +210,9 @@
     padding:20px 22px;background:rgba(214,168,86,.055);}
   .riza-kutu p{margin:0 0 13px;color:var(--ink-2);font-size:15px;line-height:1.62;}
   .riza-kutu p:last-child{margin-bottom:0;}
-  .riza-link{margin:22px 0 0;text-align:center;font-size:13px;}
+  .riza-dip{margin:20px 0 0;font-size:11.5px;line-height:1.6;color:var(--ink-3);
+    opacity:.72;text-align:left;}
+  .riza-link{margin:12px 0 0;text-align:center;font-size:13px;}
   .riza-link a{color:var(--gold);text-underline-offset:3px;}
 
   /* ritüel */
@@ -223,6 +227,16 @@
   .ritual-isaret{position:absolute;inset:0;width:100%;height:100%;}
   .ritual-halka{fill:rgba(214,168,86,.12);stroke:var(--gold);stroke-width:.9;
     transition:cx .85s cubic-bezier(.4,0,.2,1),cy .85s cubic-bezier(.4,0,.2,1),r .85s cubic-bezier(.4,0,.2,1);}
+  .ritual-foto-no{font-family:var(--ui);font-size:11px;letter-spacing:.24em;
+    color:var(--gold);margin:0;min-height:1.2em;font-variant-numeric:tabular-nums;}
+  /* fotoğraf değişirken fincanı çevir */
+  .ritual-goz.doner{animation:gozDon .52s cubic-bezier(.4,0,.2,1);}
+  @keyframes gozDon{
+    0%{transform:rotateY(0deg);}
+    50%{transform:rotateY(74deg) scale(.9);}
+    100%{transform:rotateY(0deg);}
+  }
+  @media (prefers-reduced-motion:reduce){ .ritual-goz.doner{animation:none;} }
   .ritual-tara{position:absolute;left:0;right:0;top:-36%;height:36%;pointer-events:none;
     background:linear-gradient(180deg,transparent,rgba(214,168,86,.20),transparent);
     animation:tara 3.4s ease-in-out infinite;}
@@ -232,12 +246,28 @@
   .ritual-kalan{font-family:var(--ui);font-size:12px;letter-spacing:.2em;text-transform:uppercase;
     color:var(--gold);margin:14px 0 0;font-variant-numeric:tabular-nums;min-height:1.4em;}
 
+  .kucuk-not{margin:14px 0 0;font-size:11.5px;line-height:1.6;
+    color:var(--ink-3);opacity:.7;}
+
   /* falcı bacı */
   .stage-col{position:relative;perspective:1500px;}
-  .baci{position:absolute;left:-2%;bottom:-1%;width:31%;max-width:168px;
-    pointer-events:none;z-index:3;filter:drop-shadow(0 8px 22px rgba(0,0,0,.5));}
+  /* Bacı fincanın ALTINDA duruyor, fotoğrafın üstünü hiç kapatmıyor.
+     Sahneye alttan onun boyu kadar pay veriliyor; o da aşağıdan
+     yukarı, fincanın içine doğru parmağıyla gösteriyor.
+     Sola taşmıyor: telefonda yan kaydırma olmasın.              */
+  .stage-col{padding-bottom:164px;}
+  .baci{position:absolute;left:2%;bottom:0;width:29%;max-width:150px;
+    pointer-events:none;z-index:3;filter:drop-shadow(0 6px 18px rgba(0,0,0,.45));}
   .baci-svg{width:100%;height:auto;display:block;overflow:visible;}
-  @media (max-width:560px){ .baci{width:36%;max-width:132px;} }
+  .baci.konusuyor{filter:drop-shadow(0 6px 22px rgba(214,168,86,.4));}
+  @media (max-width:560px){
+    .stage-col{padding-bottom:142px;}
+    .baci{width:34%;max-width:128px;left:1%;}
+  }
+  @media (max-width:380px){
+    .stage-col{padding-bottom:126px;}
+    .baci{width:36%;max-width:114px;}
+  }
 
   /* fincanı sağa sola çevirme: fotoğraf değişirken */
   .stage{transform-style:preserve-3d;}
@@ -252,7 +282,7 @@
 
   /* sesli okuma düğmesi */
   .stage-col .sesdug{
-    position:absolute;right:10px;bottom:10px;width:36px;height:36px;border-radius:50%;
+    position:absolute;right:6px;bottom:14px;width:38px;height:38px;border-radius:50%;
     border:1px solid var(--gold-dim);background:rgba(10,5,8,.72);color:var(--gold-soft);
     font-size:15px;cursor:pointer;display:grid;place-items:center;padding:0;z-index:4;
     backdrop-filter:blur(4px);transition:all .2s ease;
@@ -277,13 +307,13 @@
     box-shadow:0 4px 18px rgba(0,0,0,.5);
   }
   .stage .lbl.show{opacity:1;}
-    position:absolute;font-family:var(--ui);font-size:9.5px;letter-spacing:.22em;
+    position:absolute;font-family:var(--ui);font-size:11.5px;letter-spacing:.22em;
     text-transform:uppercase;color:var(--gold);bottom:12px;left:14px;pointer-events:none;
     text-shadow:0 1px 8px rgba(0,0,0,.9);
   }
   .txt{padding:26px 2px 0;}
   @media (min-width:900px){ .txt{padding-top:6px;} }
-  .pg-kicker{font-family:var(--ui);font-weight:300;font-size:10.5px;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);margin:0 0 12px;}
+  .pg-kicker{font-family:var(--ui);font-weight:300;font-size:12.5px;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);margin:0 0 12px;}
   .pg-title{font-family:var(--display);font-weight:400;font-size:clamp(34px,8.5vw,54px);line-height:1.02;margin:0;text-wrap:balance;}
   .pg-title em{font-style:italic;color:var(--gold-soft);}
   .pg-where{font-family:var(--ui);font-weight:300;font-size:12px;letter-spacing:.12em;color:var(--ink-3);margin:14px 0 0;text-transform:uppercase;line-height:1.7;}
@@ -295,9 +325,9 @@
   .kanit figure{margin:0;display:flex;flex-direction:column;align-items:center;gap:7px;}
   .k-box{width:54px;height:54px;background:rgba(0,0,0,.3);border:1px solid var(--gold-faint);border-radius:2px;padding:3px;}
   .k-box svg{width:100%;height:100%;display:block;}
-  .kanit figcaption{font-family:var(--ui);font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);max-width:9ch;text-align:center;line-height:1.35;}
+  .kanit figcaption{font-family:var(--ui);font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);max-width:9ch;text-align:center;line-height:1.35;}
   .k-eq{font-family:var(--display);font-size:20px;color:var(--gold);}
-  .k-score{font-family:var(--ui);font-size:10.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--gold-soft);margin-left:auto;}
+  .k-score{font-family:var(--ui);font-size:12.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--gold-soft);margin-left:auto;}
 
   .pg-body{margin:22px 0 0;display:flex;flex-direction:column;gap:15px;max-width:52ch;}
   .pg-body p{margin:0;color:var(--ink-2);}
@@ -319,7 +349,7 @@
   .sum-row b{font-family:var(--display);font-size:17px;letter-spacing:0;color:var(--ink);font-weight:400;}
   .end-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:26px;}
   .end-actions .btn{flex:1;min-width:150px;}
-  .disclaim{font-family:var(--ui);font-weight:300;font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-3);text-align:center;padding:22px 0 40px;margin:0;}
+  .disclaim{font-family:var(--ui);font-weight:300;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-3);text-align:center;padding:22px 0 40px;margin:0;}
 
   /* ad sorusu */
   #scr-ad .shell{padding-block:clamp(44px,12vw,86px) 60px;text-align:center;display:flex;flex-direction:column;align-items:center;}
@@ -350,7 +380,7 @@
   .slot .acts{display:flex;gap:5px;}
   .slot .acts button{
     background:transparent;border:1px solid var(--gold-faint);border-radius:99px;
-    color:var(--ink-3);font-family:var(--ui);font-size:9px;letter-spacing:.09em;
+    color:var(--ink-3);font-family:var(--ui);font-size:11px;letter-spacing:.09em;
     text-transform:uppercase;padding:4px 9px;cursor:pointer;transition:all .18s ease;
   }
   .slot .acts button:hover{border-color:var(--gold);color:var(--gold-soft);}
@@ -422,7 +452,7 @@
     background:rgba(255,255,255,.02);border-radius:0 3px 3px 0;
   }
   .gordum b,.tahmin b{
-    display:block;font-family:var(--ui);font-weight:400;font-size:9.5px;
+    display:block;font-family:var(--ui);font-weight:400;font-size:11.5px;
     letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin-bottom:6px;
   }
   .gordum p,.tahmin p{margin:0;color:var(--ink-2);font-size:17.5px;line-height:1.55;}
@@ -435,12 +465,12 @@
     margin:18px 0 0;border-top:1px solid var(--gold-faint);padding-top:14px;
   }
   details.ogret summary{
-    cursor:pointer;list-style:none;font-family:var(--ui);font-size:10.5px;
+    cursor:pointer;list-style:none;font-family:var(--ui);font-size:12.5px;
     letter-spacing:.2em;text-transform:uppercase;color:var(--ink-3);
     display:flex;align-items:center;gap:8px;
   }
   details.ogret summary::-webkit-details-marker{display:none;}
-  details.ogret summary::before{content:"✦";color:var(--gold);font-size:9px;}
+  details.ogret summary::before{content:"✦";color:var(--gold);font-size:11px;}
   details.ogret summary:hover{color:var(--gold-soft);}
   details.ogret[open] summary{color:var(--gold-soft);margin-bottom:10px;}
   details.ogret p{margin:0;color:var(--ink-3);font-size:16.5px;line-height:1.6;max-width:52ch;}
@@ -454,13 +484,13 @@
   }
   .doc p{margin:0;color:var(--ink-2);font-size:17.5px;line-height:1.6;}
   .doc-date{
-    font-family:var(--ui);font-size:10px;letter-spacing:.16em;text-transform:uppercase;
+    font-family:var(--ui);font-size:12px;letter-spacing:.16em;text-transform:uppercase;
     color:var(--ink-3);margin:10px 0 0;
   }
   .doc-tabs{display:flex;gap:8px;margin:22px 0 0;flex-wrap:wrap;}
   .doc-tabs button{
     background:transparent;border:1px solid var(--gold-faint);border-radius:99px;
-    color:var(--ink-3);font-family:var(--ui);font-size:10.5px;letter-spacing:.14em;
+    color:var(--ink-3);font-family:var(--ui);font-size:12.5px;letter-spacing:.14em;
     text-transform:uppercase;padding:8px 16px;cursor:pointer;transition:all .2s ease;
   }
   .doc-tabs button[aria-pressed=true]{background:var(--gold);color:#20110A;border-color:var(--gold);}
@@ -469,14 +499,14 @@
   }
   .minor button{
     background:none;border:0;padding:0;cursor:pointer;
-    font-family:var(--ui);font-size:10px;letter-spacing:.16em;text-transform:uppercase;
+    font-family:var(--ui);font-size:12px;letter-spacing:.16em;text-transform:uppercase;
     color:var(--ink-3);border-bottom:1px solid transparent;
   }
   .minor button:hover{color:var(--gold-soft);border-bottom-color:var(--gold-dim);}
 
   /* fotoğraf açısı etiketleri */
   .slot .aci{
-    font-family:var(--ui);font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;
+    font-family:var(--ui);font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;
     color:var(--gold);text-align:center;line-height:1.3;
   }
   .slot .aci i{display:block;font-style:normal;color:var(--ink-3);letter-spacing:.04em;text-transform:none;font-size:11px;}
@@ -620,6 +650,7 @@
       <button class="btn" type="button" id="add-cam"><span data-t="addCam"></span></button>
       <label class="btn" for="f-lib" id="add-lib"><span data-t="addLib"></span></label>
     </div>
+    <p class="kucuk-not" data-t="sadeceFincan"></p>
 
     <div class="sec-head">
       <p class="kicker" data-t="setupKicker"></p>
@@ -667,13 +698,13 @@
     <div class="riza-kutu">
       <p data-t="rizaMetin1"></p>
       <p data-t="rizaMetin2"></p>
-      <p data-t="rizaMetin3"></p>
     </div>
-    <p class="ask-sub" style="margin-top:18px;" data-t="rizaAlt"></p>
-    <div class="actions" style="margin:34px auto 0;">
+    <p class="ask-sub" style="margin-top:16px;" data-t="rizaAlt"></p>
+    <div class="actions" style="margin:30px auto 0;">
       <button class="btn primary" id="b-riza-evet" type="button" data-t="rizaEvet"></button>
       <button class="btn ghost" id="b-riza-hayir" type="button" data-t="rizaHayir"></button>
     </div>
+    <p class="riza-dip" data-t="rizaDip"></p>
     <p class="riza-link">
       <a href="yasal/gizlilik.html" target="_blank" rel="noopener" data-t="rizaOku"></a>
     </p>
@@ -690,6 +721,7 @@
         <circle class="ritual-halka" id="ritual-halka" cx="50" cy="50" r="47"/>
       </svg>
     </div>
+    <p class="ritual-foto-no" id="ritual-foto-no"></p>
     <p class="ritual-line" id="ritual-line"></p>
     <p class="ritual-kalan" id="ritual-kalan"></p>
   </div>
@@ -3212,9 +3244,6 @@ PACK.en.sym.sahil = {
    hayır derse ne olacak: dördü de tek bakışta anlaşılsın.        */
 PACK.tr.ui.rizaKicker  = "Başlamadan önce";
 PACK.tr.ui.rizaAsk     = "Fincanını yapay zekâya göstermemi ister misin?";
-PACK.tr.ui.rizaMetin1  = "Fotoğrafını çizdiğin halkaya göre kesiyorum. Fincanın dışında kalan her yer (kulbu, tabağı, masayı, elini, arkada ne varsa) siyaha boyanıyor ve hiç gönderilmiyor.";
-PACK.tr.ui.rizaMetin2  = "Kalan görüntü, falını daha güzel yorumlayabilmem için yurt dışındaki bir yapay zekâ hizmetine gidiyor. Adını göndermiyorum; adın yalnız senin telefonunda duruyor.";
-PACK.tr.ui.rizaMetin3  = "Ücretsiz kademeyi kullandığımız için o hizmet, gönderilen görüntüyü kendi sistemlerini geliştirmekte kullanabiliyor. Bunu bilmeni istedim.";
 PACK.tr.ui.rizaAlt     = "Hayır dersen de falına bakarım. O zaman fotoğrafın telefonundan hiç çıkmaz, fincanı ben kendi gözümle okurum.";
 PACK.tr.ui.rizaEvet    = "Olur, göster";
 PACK.tr.ui.rizaHayir   = "Hayır, telefonumda kalsın";
@@ -3222,9 +3251,6 @@ PACK.tr.ui.rizaOku     = "Gizlilik metnini oku";
 
 PACK.en.ui.rizaKicker  = "Before we begin";
 PACK.en.ui.rizaAsk     = "May I show your cup to the AI?";
-PACK.en.ui.rizaMetin1  = "I crop your photograph to the ring you drew. Everything outside the cup (the handle, the saucer, the table, your hand, whatever is behind it) is painted black and never sent.";
-PACK.en.ui.rizaMetin2  = "What is left goes to an AI service abroad so that I can read your cup more richly. Your name is not sent; it stays on your phone alone.";
-PACK.en.ui.rizaMetin3  = "Because we use the free tier, that service may use the image it receives to improve its own systems. I wanted you to know this.";
 PACK.en.ui.rizaAlt     = "If you say no I will still read your cup. Your photograph then never leaves your phone and I read the grounds with my own eyes.";
 PACK.en.ui.rizaEvet    = "Yes, show it";
 PACK.en.ui.rizaHayir   = "No, keep it on my phone";
@@ -3234,6 +3260,73 @@ PACK.tr.ui.sesliAc    = "Falcı bacı okusun";
 PACK.tr.ui.sesliKapat = "Sesli okumayı kapat";
 PACK.en.ui.sesliAc    = "Let the fortune teller read aloud";
 PACK.en.ui.sesliKapat = "Turn off the reading voice";
+
+
+/* ── Açılış iltifatları ──
+   Falın ilk sayfasında, daha şekillere geçmeden söylenir. Aynı kişiye
+   üst üste aynısı gelmesin diye son kullanılanlar hatırlanıyor.   */
+PACK.tr.acilisIltifat = [
+  "Fincanı elime alır almaz bir şey söyleyeyim {ad}: yüzünün güzelliği falına da yansımış.",
+  "Şunu söylemeden geçemeyeceğim {ad}, gözlerinin güzelliği telveye bile vurmuş.",
+  "Bu fincanda ilk gördüğüm şey şekil değil {ad}, kalbinin temizliği.",
+  "Gülüşün bu fincanı aydınlatmış {ad}, telve bile ışıklı düşmüş.",
+  "Yanından geçenlerin dönüp sana bakmasına şaşırmamak gerek {ad}, fincan da aynı şeyi söylüyor.",
+  "Bir yere girdiğin an ortamın değiştiğini biliyor musun {ad}? Telve bunu bana ilk elden söyledi.",
+  "Saçının dalgası bugünkü ışığa öyle güzel uymuş ki {ad}, falda bile görülüyor.",
+  "Bulunduğun ortamdakilerin moralini bozuyorsun {ad}, bu kadar kusursuz olmak haksız rekabet.",
+  "Aynaya yansıması gereken güzellik fincana yansımış {ad}, ben böylesini az gördüm.",
+  "Fincanını açar açmaz içim ısındı {ad}, sende insanı rahatlatan bir hâl var.",
+  "Telve senin gibi düşmüş {ad}: zarif, düzenli ve kendinden emin.",
+  "Şu duruşunu fincan bile yakalamış {ad}, öyle kolay kolay eğilmiyorsun.",
+  "Sesinin tonu bile bu fala yansımış {ad}, yumuşak ama sözü geçen bir ton.",
+  "Ellerinin güzelliği fincanı tutuşundan belli {ad}, telve de öyle nazlı durmuş.",
+  "İnsanın yüzüne baktığında anlaşılan bir iyilik var sende {ad}, fincan onu ilk sayfaya yazmış."
+];
+PACK.en.acilisIltifat = [
+  "Let me say one thing before anything else, {ad}: the beauty of your face has found its way into your cup.",
+  "I cannot pass this by, {ad}. Even the grounds have caught the beauty of your eyes.",
+  "The first thing I see in this cup is not a shape, {ad}, it is how clean your heart is.",
+  "Your smile has lit this cup up, {ad}. Even the grounds fell bright.",
+  "No wonder people turn to look at you, {ad}. The cup says the same thing.",
+  "Do you know a room changes the moment you walk into it, {ad}? The grounds told me first.",
+  "The wave of your hair suits today's light so well, {ad}, that it shows even in the reading.",
+  "You are ruining the mood of everyone around you, {ad}. Being this flawless is unfair competition.",
+  "Beauty that belongs in a mirror has landed in this cup instead, {ad}. I have rarely seen the like.",
+  "My heart warmed the moment I opened your cup, {ad}. There is something in you that puts people at ease.",
+  "The grounds fell the way you carry yourself, {ad}: elegant, ordered and sure.",
+  "Even the cup has caught the way you stand, {ad}. You do not bend easily.",
+  "The tone of your voice has come through in this reading, {ad}: soft, but one that is listened to.",
+  "The beauty of your hands shows in the way you hold the cup, {ad}, and the grounds settled just as gracefully.",
+  "There is a kindness in you that shows the moment one looks at your face, {ad}. The cup wrote it on the first page."
+];
+
+/* Üç fotoğraf beklendiği açıkça söylensin. */
+PACK.tr.ui.hintIki  = "Bir fotoğraf aldım. 2 tane daha çeksen çok daha iyi olur, fincanın her yanını görmem lazım.";
+PACK.tr.ui.hintBir  = "İki oldu. Bir tane daha çek, ama bu sefer farklı bir açıdan.";
+PACK.tr.ui.allGood  = "Üç fotoğraf da tamam. Fincanın her yanını görüyorum, başlayalım.";
+PACK.en.ui.hintIki  = "That is one photo. Two more would help a great deal; I need to see every side of the cup.";
+PACK.en.ui.hintBir  = "That is two. Take one more, this time from a different angle.";
+PACK.en.ui.allGood  = "All three are in. I can see every side of the cup now. Let us begin.";
+
+/* Bekleme ekranında fotoğraf değiştirirken */
+PACK.tr.ui.fotoGecis = (no, toplam) => "Fincanı çevirip " + no + ". fotoğrafa bakıyorum…";
+PACK.en.ui.fotoGecis = (no, toplam) => "Turning the cup to look at photograph " + no + "…";
+
+/* Cihazda o dilin sesi yoksa */
+PACK.tr.ui.sesYok = "Telefonunda Türkçe konuşma sesi kurulu değil. Ayarlar'dan Türkçe ses eklersen falcı bacı sesli okur.";
+PACK.en.ui.sesYok = "No English speech voice is installed on this device. Add one in Settings and the fortune teller will read aloud.";
+
+/* Rıza ekranı: üstte sade soru, altta küçük not. */
+PACK.tr.ui.rizaMetin1  = "Fotoğrafını çizdiğin halkaya göre kesiyorum. Fincanın dışında kalan her yer siyaha boyanıyor ve hiç gönderilmiyor.";
+PACK.tr.ui.rizaMetin2  = "Kalan görüntüye yapay zekâ da baksın mı? Baksın dersen falın daha zengin olur.";
+PACK.tr.ui.rizaDip     = "Küçük not: görüntü, yurt dışındaki bir yapay zekâ hizmetine gidiyor ve ücretsiz kademede o hizmet görüntüyü kendi sistemlerini geliştirmekte kullanabiliyor. Adın gönderilmiyor. Kahve falı için fincan fotoğrafından başka bir fotoğraf yükleme.";
+PACK.en.ui.rizaMetin1  = "I crop your photograph to the ring you drew. Everything outside the cup is painted black and is never sent.";
+PACK.en.ui.rizaMetin2  = "Shall the AI look at what is left? If you say yes, your reading will be richer.";
+PACK.en.ui.rizaDip     = "A small note: the image goes to an AI service abroad, and on the free tier that service may use it to improve its own systems. Your name is not sent. Do not upload any photograph other than a coffee cup.";
+
+/* Fotoğraf ekranındaki küçük not. */
+PACK.tr.ui.sadeceFincan = "Küçük not: kahve falı için fincan fotoğrafından başka bir fotoğraf yükleme. Fincanın içi görünecek şekilde, yukarıdan çek.";
+PACK.en.ui.sadeceFincan = "A small note: upload nothing but a photograph of the cup. Shoot from above so the inside of the cup is visible.";
 
 /* ══════════════════ HUKUKİ METİNLER ══════════════════
    App Store başvurusunda Apple bir gizlilik politikası bağlantısı ister.
@@ -5670,95 +5763,134 @@ let baciSesAcik = true;
 /* ── çizim ──
    Yazması, küpesi, şalı olan bir kadın. Yüz hatları yumuşak;
    korkutucu değil, sıcak bir komşu teyze olmalı.               */
+/* ── çizim ──
+   Kırmızı bandana, uzun dalgalı siyah saç, iri altın halka küpeler,
+   kırmızı bluz ve renkli etek. Güzel, güler yüzlü, korkutucu değil.  */
 function baciCiz(){
-  return '' +
-  '<svg class="baci-svg" viewBox="0 0 200 270" aria-hidden="true">' +
+  return "" +
+  '<svg class="baci-svg" viewBox="0 10 220 240" aria-hidden="true">' +
     '<defs>' +
-      '<linearGradient id="bc-yazma" x1="0" y1="0" x2="0" y2="1">' +
-        '<stop offset="0" stop-color="#9E2B3B"/><stop offset="1" stop-color="#6E1C2A"/>' +
+      '<linearGradient id="bc-bandana" x1="0" y1="0" x2="0" y2="1">' +
+        '<stop offset="0" stop-color="#D4344A"/><stop offset="1" stop-color="#9E1F33"/>' +
       '</linearGradient>' +
-      '<linearGradient id="bc-sal" x1="0" y1="0" x2="1" y2="1">' +
-        '<stop offset="0" stop-color="#2E4A52"/><stop offset="1" stop-color="#1B2E34"/>' +
+      '<linearGradient id="bc-sac" x1="0" y1="0" x2="0.3" y2="1">' +
+        '<stop offset="0" stop-color="#3A3340"/><stop offset="1" stop-color="#1A1620"/>' +
       '</linearGradient>' +
-      '<radialGradient id="bc-ten" cx="0.42" cy="0.36" r="0.75">' +
-        '<stop offset="0" stop-color="#F0C9A4"/><stop offset="1" stop-color="#D9A87C"/>' +
+      '<linearGradient id="bc-bluz" x1="0" y1="0" x2="0" y2="1">' +
+        '<stop offset="0" stop-color="#D4344A"/><stop offset="1" stop-color="#A62236"/>' +
+      '</linearGradient>' +
+      '<linearGradient id="bc-etek" x1="0" y1="0" x2="1" y2="1">' +
+        '<stop offset="0" stop-color="#E8A33D"/><stop offset="0.45" stop-color="#C9518A"/>' +
+        '<stop offset="1" stop-color="#4E7FB8"/>' +
+      '</linearGradient>' +
+      '<radialGradient id="bc-ten" cx="0.42" cy="0.34" r="0.78">' +
+        '<stop offset="0" stop-color="#F6DCC0"/><stop offset="1" stop-color="#E5BE97"/>' +
       '</radialGradient>' +
     '</defs>' +
 
-    /* gövde ve şal */
+    /* arkadaki uzun dalgalı saç */
+    '<g class="bc-sac-arka">' +
+      '<path d="M58 96 C44 132 40 178 46 222 C50 250 58 262 66 266 ' +
+              'C62 232 60 190 66 152 C70 124 74 108 78 98 Z" fill="url(#bc-sac)"/>' +
+      '<path d="M162 96 C176 132 180 178 174 222 C170 250 162 262 154 266 ' +
+              'C158 232 160 190 154 152 C150 124 146 108 142 98 Z" fill="url(#bc-sac)"/>' +
+      '<path d="M66 118 C56 150 54 190 60 226 C55 196 56 156 62 126 Z" fill="#2A2430" opacity=".7"/>' +
+      '<path d="M154 118 C164 150 166 190 160 226 C165 196 164 156 158 126 Z" fill="#2A2430" opacity=".7"/>' +
+    '</g>' +
+
+    /* gövde: renkli etek ve kırmızı bluz */
     '<g class="bc-govde">' +
-      '<path d="M40 270 C42 214 66 188 100 188 C134 188 158 214 160 270 Z" fill="url(#bc-sal)"/>' +
-      '<path d="M100 188 C86 206 82 234 84 270 L116 270 C118 234 114 206 100 188 Z" fill="#24393F"/>' +
-      /* şal saçakları */
-      '<g stroke="#C9A227" stroke-width="1.4" opacity=".65">' +
-        '<path d="M58 240 l-5 9"/><path d="M70 250 l-4 9"/>' +
-        '<path d="M130 250 l4 9"/><path d="M142 240 l5 9"/>' +
+      '<path d="M72 300 C70 248 82 214 110 210 C138 214 150 248 148 300 Z" fill="url(#bc-etek)"/>' +
+      '<g fill="#FFF4D6" opacity=".55">' +
+        '<circle cx="92" cy="258" r="2.6"/><circle cx="110" cy="248" r="2.2"/>' +
+        '<circle cx="128" cy="258" r="2.6"/><circle cx="100" cy="278" r="2"/>' +
+        '<circle cx="122" cy="276" r="2.4"/><circle cx="110" cy="292" r="2.2"/>' +
       '</g>' +
+      '<path d="M110 186 C84 188 70 202 68 226 C86 234 134 234 152 226 ' +
+              'C150 202 136 188 110 186 Z" fill="url(#bc-bluz)"/>' +
+      '<path d="M68 226 C86 234 134 234 152 226 L150 240 C132 248 88 248 70 240 Z" fill="#8E1B2C"/>' +
+      '<path d="M96 192 C104 200 116 200 124 192" fill="none" stroke="#8E1B2C" ' +
+            'stroke-width="2" stroke-linecap="round" opacity=".7"/>' +
     '</g>' +
 
     /* KOL: omuzdan döner, ucunda işaret parmağı */
-    '<g class="bc-kol" transform="rotate(-30 146 205)">' +
-      '<path d="M146 205 L206 189 L212 199 L150 218 Z" fill="url(#bc-sal)"/>' +
-      '<path d="M204 186 C216 182 226 186 228 192 C230 198 224 203 216 204 ' +
-              'C222 204 224 208 222 211 C220 214 212 215 206 214 ' +
-              'C210 215 211 218 209 220 C206 223 196 222 190 219 ' +
-              'C184 216 182 208 186 200 Z" fill="url(#bc-ten)"/>' +
-      /* işaret parmağı */
-      '<path d="M222 190 C232 186 246 185 250 188 C254 191 250 196 242 197 ' +
-              'C234 198 226 197 222 195 Z" fill="#F0C9A4"/>' +
-      '<circle class="bc-uc" cx="250" cy="191" r="2.6" fill="#F5D9BC"/>' +
+    '<g class="bc-kol" transform="rotate(-34 150 214)">' +
+      '<path d="M150 206 L206 192 L212 206 L154 224 Z" fill="url(#bc-bluz)"/>' +
+      '<path d="M200 188 C214 184 226 188 229 195 C232 202 225 208 216 209 ' +
+              'C223 209 226 213 224 217 C221 221 212 222 205 221 ' +
+              'C210 222 211 226 208 228 C204 231 194 230 188 227 ' +
+              'C181 223 179 214 184 204 Z" fill="url(#bc-ten)"/>' +
+      '<path d="M223 192 C234 188 249 187 253 190 C257 194 252 199 244 200 ' +
+              'C235 201 227 200 223 198 Z" fill="#F6DCC0"/>' +
+      '<circle class="bc-uc" cx="253" cy="193" r="2.8" fill="#FBEAD8"/>' +
+      '<path d="M198 190 L203 206" stroke="#E8C56B" stroke-width="3" stroke-linecap="round"/>' +
     '</g>' +
 
     /* boyun */
-    '<path d="M86 160 L114 160 L116 192 L84 192 Z" fill="#D9A87C"/>' +
+    '<path d="M96 168 L124 168 L126 196 L94 196 Z" fill="#E5BE97"/>' +
+    '<path d="M96 168 L124 168 L125 178 C116 184 104 184 95 178 Z" fill="#D4A87F"/>' +
 
-    /* KAFA: hafifçe sallanır */
+    /* KAFA */
     '<g class="bc-kafa">' +
-      /* yazmanın arkası */
-      '<path d="M46 86 C46 34 84 12 100 12 C116 12 154 34 154 86 ' +
-              'C154 124 142 150 138 158 L62 158 C58 150 46 124 46 86 Z" fill="url(#bc-yazma)"/>' +
-      /* yüz */
-      '<ellipse cx="100" cy="92" rx="38" ry="45" fill="url(#bc-ten)"/>' +
-      /* yazmanın ön kenarı */
-      '<path d="M46 86 C46 36 82 14 100 14 C118 14 154 36 154 86 ' +
-              'C154 86 140 58 100 58 C60 58 46 86 46 86 Z" fill="url(#bc-yazma)"/>' +
-      '<path d="M46 86 C46 86 60 58 100 58 C140 58 154 86 154 86" ' +
-            'fill="none" stroke="#E8C56B" stroke-width="2.4" opacity=".8"/>' +
-      /* yazma çiçekleri */
-      '<g fill="#E8C56B" opacity=".75">' +
-        '<circle cx="66" cy="44" r="3"/><circle cx="88" cy="28" r="2.4"/>' +
-        '<circle cx="112" cy="27" r="2.6"/><circle cx="134" cy="44" r="3"/>' +
-        '<circle cx="54" cy="70" r="2.2"/><circle cx="146" cy="70" r="2.2"/>' +
+      '<path d="M62 92 C62 44 82 22 110 22 C138 22 158 44 158 92 ' +
+              'C158 112 154 126 150 134 L70 134 C66 126 62 112 62 92 Z" fill="url(#bc-sac)"/>' +
+      '<ellipse cx="110" cy="98" rx="36" ry="43" fill="url(#bc-ten)"/>' +
+      '<path d="M74 78 C68 104 70 132 76 152 C80 130 78 102 82 84 Z" fill="url(#bc-sac)"/>' +
+      '<path d="M146 78 C152 104 150 132 144 152 C140 130 142 102 138 84 Z" fill="url(#bc-sac)"/>' +
+      /* kırmızı bandana */
+      '<path d="M64 76 C68 48 86 34 110 34 C134 34 152 48 156 76 ' +
+              'C140 64 126 60 110 60 C94 60 80 64 64 76 Z" fill="url(#bc-bandana)"/>' +
+      '<path d="M64 76 C80 64 94 60 110 60 C126 60 140 64 156 76 ' +
+              'C154 82 152 86 150 88 C134 78 122 74 110 74 C98 74 86 78 70 88 ' +
+              'C68 86 66 82 64 76 Z" fill="#B82A3E"/>' +
+      '<g stroke="#8E1B2C" stroke-width="1.6" fill="none" opacity=".55">' +
+        '<path d="M76 66 C92 56 128 56 144 66"/>' +
+        '<path d="M70 74 C90 62 130 62 150 74"/>' +
       '</g>' +
-      /* yanaklar */
-      '<ellipse cx="76" cy="104" rx="9" ry="6" fill="#D98C7A" opacity=".38"/>' +
-      '<ellipse cx="124" cy="104" rx="9" ry="6" fill="#D98C7A" opacity=".38"/>' +
+      '<path d="M152 74 C164 70 172 76 170 84 C168 92 158 92 152 86 Z" fill="#D4344A"/>' +
+      '<path d="M168 82 C178 84 184 92 180 98 C176 102 168 98 166 90 Z" fill="#B82A3E"/>' +
+      /* alın süsü */
+      '<circle cx="110" cy="72" r="3" fill="#E8C56B"/>' +
+      '<circle cx="110" cy="79" r="1.6" fill="#E8C56B" opacity=".8"/>' +
       /* kaşlar */
-      '<path d="M74 78 C80 73 90 73 95 77" fill="none" stroke="#4A2E22" ' +
+      '<path d="M86 88 C92 82 102 82 107 87" fill="none" stroke="#2A2430" ' +
             'stroke-width="2.6" stroke-linecap="round"/>' +
-      '<path d="M105 77 C110 73 120 73 126 78" fill="none" stroke="#4A2E22" ' +
+      '<path d="M113 87 C118 82 128 82 134 88" fill="none" stroke="#2A2430" ' +
             'stroke-width="2.6" stroke-linecap="round"/>' +
       /* gözler */
       '<g>' +
-        '<ellipse class="bc-goz bc-goz-l" cx="84" cy="90" rx="7.4" ry="5.4" fill="#FFFDF8"/>' +
-        '<circle cx="85" cy="90" r="3.4" fill="#3A2318"/>' +
-        '<circle cx="86.2" cy="88.8" r="1.1" fill="#FFF" opacity=".9"/>' +
+        '<ellipse class="bc-goz bc-goz-l" cx="95" cy="99" rx="8" ry="5.2" fill="#FFFDF8"/>' +
+        '<circle cx="96" cy="99" r="3.6" fill="#3A2318"/>' +
+        '<circle cx="97.3" cy="97.7" r="1.2" fill="#FFF" opacity=".92"/>' +
+        '<path d="M87 96 C92 91 101 91 104 95" fill="none" stroke="#2A2430" ' +
+              'stroke-width="2.2" stroke-linecap="round"/>' +
+        '<path d="M86 95 l-4 -3" stroke="#2A2430" stroke-width="1.8" stroke-linecap="round"/>' +
       '</g>' +
       '<g>' +
-        '<ellipse class="bc-goz bc-goz-r" cx="116" cy="90" rx="7.4" ry="5.4" fill="#FFFDF8"/>' +
-        '<circle cx="117" cy="90" r="3.4" fill="#3A2318"/>' +
-        '<circle cx="118.2" cy="88.8" r="1.1" fill="#FFF" opacity=".9"/>' +
+        '<ellipse class="bc-goz bc-goz-r" cx="125" cy="99" rx="8" ry="5.2" fill="#FFFDF8"/>' +
+        '<circle cx="126" cy="99" r="3.6" fill="#3A2318"/>' +
+        '<circle cx="127.3" cy="97.7" r="1.2" fill="#FFF" opacity=".92"/>' +
+        '<path d="M116 95 C119 91 128 91 133 96" fill="none" stroke="#2A2430" ' +
+              'stroke-width="2.2" stroke-linecap="round"/>' +
+        '<path d="M134 95 l4 -3" stroke="#2A2430" stroke-width="1.8" stroke-linecap="round"/>' +
       '</g>' +
+      /* yanaklar */
+      '<ellipse cx="86" cy="112" rx="8" ry="5" fill="#E08A86" opacity=".42"/>' +
+      '<ellipse cx="134" cy="112" rx="8" ry="5" fill="#E08A86" opacity=".42"/>' +
       /* burun */
-      '<path d="M100 96 C97 104 96 108 100 110 C103 111 105 110 106 108" ' +
-            'fill="none" stroke="#B8845C" stroke-width="2" stroke-linecap="round"/>' +
-      /* ağız: konuşurken açılır kapanır */
-      '<ellipse class="bc-agiz" cx="100" cy="123" rx="9" ry="3" fill="#7E3140"/>' +
-      '<path class="bc-dudak" d="M89 121 C94 117 106 117 111 121" fill="none" ' +
-            'stroke="#A8455A" stroke-width="2.2" stroke-linecap="round"/>' +
-      /* küpeler */
-      '<circle cx="54" cy="104" r="5.5" fill="none" stroke="#E8C56B" stroke-width="2.4"/>' +
-      '<circle cx="146" cy="104" r="5.5" fill="none" stroke="#E8C56B" stroke-width="2.4"/>' +
+      '<path d="M110 104 C107 113 106 117 110 119 C113 120 115 119 116 117" ' +
+            'fill="none" stroke="#C99A73" stroke-width="1.9" stroke-linecap="round"/>' +
+      /* kırmızı dudak: konuşurken açılır */
+      '<ellipse class="bc-agiz" cx="110" cy="131" rx="9" ry="3" fill="#7E1F2E"/>' +
+      '<path class="bc-dudak" d="M99 128 C104 123 116 123 121 128 ' +
+            'C116 134 104 134 99 128 Z" fill="#CE2E48"/>' +
+      '<path d="M99 128 C104 125 116 125 121 128" fill="none" stroke="#9E1F33" ' +
+            'stroke-width="1.2" opacity=".7"/>' +
+      /* iri altın halka küpeler */
+      '<ellipse cx="68" cy="118" rx="9" ry="12" fill="none" stroke="#E8C56B" stroke-width="3.2"/>' +
+      '<ellipse cx="152" cy="118" rx="9" ry="12" fill="none" stroke="#E8C56B" stroke-width="3.2"/>' +
+      '<circle cx="68" cy="106" r="2" fill="#E8C56B"/>' +
+      '<circle cx="152" cy="106" r="2" fill="#E8C56B"/>' +
     '</g>' +
   '</svg>';
 }
@@ -5788,7 +5920,9 @@ function baciGoster(ac){
    Derece cinsinden; 0 sağa doğru, negatif yukarı.               */
 let baciHedefAci = -30, baciSuAci = -30;
 function baciAciVer(derece){
-  baciHedefAci = Math.max(-84, Math.min(28, derece));
+  /* Bacı fincanın altında durduğu için yukarı doğru gösteriyor:
+     açı aralığı yukarıyı da kapsamalı.                        */
+  baciHedefAci = Math.max(-118, Math.min(34, derece));
 }
 /* omuz noktası ve parmak ucu, sahne pikselinde */
 function baciOlcu(){
@@ -5799,11 +5933,11 @@ function baciOlcu(){
   const sahne = sahneEl.getBoundingClientRect();
   if(!s.width) return null;
   const bx = s.left - sahne.left, by = s.top - sahne.top;
-  const k = s.width / 200;                    // viewBox genişliği 200
+  const k = s.width / 220;                    // viewBox genişliği 220
   return {
-    x: bx + 146*k,
-    y: by + 205*k,
-    L: 104*k,                                  // omuzdan parmak ucuna
+    x: bx + 150*k,
+    y: by + 204*k,                              // kırpılmış görüntüde omuz
+    L: 106*k,                                  // omuzdan parmak ucuna
     aci: baciSuAci
   };
 }
@@ -5815,7 +5949,7 @@ function baciTik(zaman){
   /* kol hedefe yumuşak gitsin */
   baciSuAci += (baciHedefAci - baciSuAci) * 0.14;
   if(baciKol) baciKol.setAttribute("transform",
-    "rotate(" + baciSuAci.toFixed(2) + " 146 205)");
+    "rotate(" + baciSuAci.toFixed(2) + " 150 214)");
 
   /* konuşurken ağız oynasın */
   if(baciAgiz){
@@ -5842,7 +5976,7 @@ function baciTik(zaman){
   /* hafif sallanma */
   if(baciKafa){
     const s = Math.sin(zaman/1400) * 1.7;
-    baciKafa.setAttribute("transform", "rotate(" + s.toFixed(2) + " 100 150)");
+    baciKafa.setAttribute("transform", "rotate(" + s.toFixed(2) + " 110 160)");
   }
 }
 
@@ -5858,20 +5992,49 @@ if(window.speechSynthesis){
   try{ window.speechSynthesis.onvoiceschanged = baciSesleriTopla; }catch(e){}
 }
 
-/* Dile en yakışan sesi seç. Kadın sesi varsa onu tercih ediyoruz:
-   falcı bacı kadın.                                             */
+/* ── sesi seçmek ──
+   En önemli kural: TÜRKÇE METİN TÜRKÇE SESLE OKUNUR. Dil eşleşmezse
+   tarayıcı Türkçeyi İngilizce okuyor ve tek kelime anlaşılmıyor;
+   öyle bir durumda hiç konuşmamak daha iyidir.
+   İkinci kural: falcı bacı kadın, kadın sesi arıyoruz.          */
+const BACI_KADIN = /female|woman|kad[ıi]n|yelda|filiz|seda|emel|aylin|zeynep|elif|deniz|g[üu]l|t[üu]rk[çc]e|samantha|karen|serena|zira|aria|emma|sonia|libby|hazel|susan|joanna|salli|kimberly|amy|nicole|victoria|moira|tessa|fiona|allison|ava|kate/i;
+const BACI_ERKEK = /male|erkek|tolga|volkan|cem|burak|ahmet|mehmet|daniel|alex|fred|george|james|ryan|guy|tom|oliver|arthur|david|mark|richard/i;
+
 function baciSesSec(dil){
   if(!baciSesler.length) baciSesleriTopla();
   const on = dil === "tr" ? "tr" : "en";
-  const uygun = baciSesler.filter(v => (v.lang || "").toLowerCase().indexOf(on) === 0);
+  /* Dil kodu tam eşleşmeli. "tr" ile başlayan yoksa Türkçe ses yok
+     demektir; başka dille okutmuyoruz.                           */
+  const uygun = baciSesler.filter(v => {
+    const l = (v.lang || "").toLowerCase().replace("_", "-");
+    return l === on || l.indexOf(on + "-") === 0;
+  });
   if(!uygun.length) return null;
-  const kadin = /female|kadın|yelda|filiz|seda|samantha|karen|serena|zira|aria|emma|sonia|libby/i;
-  const iyi = uygun.filter(v => kadin.test(v.name || ""));
-  const havuz = iyi.length ? iyi : uygun;
-  /* yerel (cihazda kurulu) ses daha hızlı başlar */
-  const yerel = havuz.filter(v => v.localService);
-  return (yerel.length ? yerel : havuz)[0];
+
+  /* Kadın sesini öne al, erkek sesini geriye at, gerisi ortada.  */
+  const puan = v => {
+    const ad = (v.name || "") + " " + (v.voiceURI || "");
+    let p = 0;
+    if(BACI_KADIN.test(ad)) p += 10;
+    if(BACI_ERKEK.test(ad)) p -= 10;
+    if(v.localService) p += 2;          // cihazdaki ses daha çabuk başlar
+    if(v.default) p += 1;
+    return p;
+  };
+  return uygun.slice().sort((a,b) => puan(b) - puan(a))[0];
 }
+
+/* Seçilen ses erkekse perdeyi yükseltip kadınlaştırıyoruz. Doğru
+   telaffuz her şeyden önemli: erkek de olsa Türkçe ses, İngilizce
+   kadın sesinden iyidir.                                        */
+function baciErkekMi(ses){
+  if(!ses) return false;
+  return BACI_ERKEK.test((ses.name || "") + " " + (ses.voiceURI || ""))
+      || !BACI_KADIN.test((ses.name || "") + " " + (ses.voiceURI || ""));
+}
+
+/* O dilde hiç ses var mı? Yoksa kullanıcıya bir kere söylüyoruz. */
+function baciSesVarMi(dil){ return !!baciSesSec(dil); }
 
 /* iOS ilk konuşma için kullanıcı hareketi istiyor. Düğmeye
    basıldığı anda boş bir söz söyleyip kilidi açıyoruz.          */
@@ -5937,19 +6100,34 @@ function baciKonus(metin, dil, girisli){
   if(!govde) return;
   const tam = (girisli ? baciGiris(dil) + " " : "") + govde;
 
+  const ses = baciSesSec(dil);
+  /* O dilde ses yoksa hiç konuşma. Türkçeyi İngilizce sesle okutmak
+     anlaşılmaz bir gürültü çıkarıyor; sessizlik daha iyi.        */
+  if(!ses){ baciSesUyar(dil); return; }
+
   let u;
   try{ u = new SpeechSynthesisUtterance(tam); }catch(e){ return; }
-  const ses = baciSesSec(dil);
-  if(ses) u.voice = ses;
-  u.lang = dil === "tr" ? "tr-TR" : (ses && ses.lang) || "en-GB";
+  u.voice = ses;
+  u.lang = ses.lang || (dil === "tr" ? "tr-TR" : "en-GB");
   /* yavaş yavaş okusun: falcı acele etmez */
-  u.rate  = dil === "tr" ? 0.80 : 0.86;
-  u.pitch = 1.02;
+  u.rate  = dil === "tr" ? 0.82 : 0.88;
+  /* erkek ses bulduysak perdeyi kaldırıp kadın sesine yaklaştır */
+  u.pitch = baciErkekMi(ses) ? 1.45 : 1.08;
   u.volume = 1;
   u.onstart = () => { baciKonusuyor = true; };
   u.onend   = () => { baciKonusuyor = false; };
   u.onerror = () => { baciKonusuyor = false; };
   try{ window.speechSynthesis.speak(u); }catch(e){}
+}
+
+/* Cihazda o dilin sesi kurulu değilse kullanıcı neden sessiz
+   olduğunu bilsin. Bir kere söylüyoruz, her sayfada değil.      */
+let baciUyardi = false;
+function baciSesUyar(dil){
+  if(baciUyardi) return;
+  baciUyardi = true;
+  const T = (typeof P === "function") ? P().ui : null;
+  if(T && T.sesYok && typeof toast === "function") toast(T.sesYok);
 }
 
 function baciSesCevir(){
@@ -6149,6 +6327,40 @@ function gecmisYaz(semboller, baslik){
   }catch(e){}
 }
 /* Önceki fallarda en çok geçen sembol: bağ cümlesi bunun üstüne kurulur */
+/* Aynı kişiye üst üste aynı iltifatı yapmayalım. Son fallarda
+   kullanılanların sırası saklanıyor.                           */
+function iltifatAnahtar(){
+  return "fincan-iltifat-" + (KULLANICI_ADI || "misafir").toLocaleLowerCase("tr");
+}
+function iltifatGecmisi(){
+  try{
+    const h = JSON.parse(localStorage.getItem(iltifatAnahtar()) || "[]");
+    return Array.isArray(h) ? h : [];
+  }catch(e){ return []; }
+}
+function iltifatKaydet(ix){
+  try{
+    const h = iltifatGecmisi();
+    h.push(ix);
+    localStorage.setItem(iltifatAnahtar(), JSON.stringify(h.slice(-6)));
+  }catch(e){}
+}
+/* Son fallarda geçmeyenlerden birini seç; hepsi geçtiyse en eskisine
+   dön. Seçim tohuma bağlı olduğu için aynı fincan hep aynı iltifatı
+   alır; geçmişe yazma fal bitince, gecmisKaydet içinde yapılır.   */
+let sonIltifatIx = -1;
+function acilisIltifati(T){
+  const havuz = T.acilisIltifat || [];
+  if(!havuz.length) return null;
+  const gecen = iltifatGecmisi();
+  let aday = havuz.map((_, i) => i).filter(i => gecen.indexOf(i) < 0);
+  if(!aday.length) aday = havuz.map((_, i) => i).filter(i => i !== gecen[gecen.length-1]);
+  if(!aday.length) aday = havuz.map((_, i) => i);
+  const ix = aday[Math.floor(rnd()*aday.length) % aday.length];
+  sonIltifatIx = ix;
+  return havuz[ix];
+}
+
 function gecmisSembol(){
   const h = gecmisOku();
   if(!h.length) return null;
@@ -6243,7 +6455,10 @@ function buildPagesAI(v){
   if(!shots.length || !v || !v.sekiller.length) return false;
 
   const k = T.kapak[v.yogunluk] || T.kapak.denge;
-  const kapakBody = [nm(v.giris || (k.alt ? pick(k.alt) : k.a))];
+  const kapakBody = [];
+  const iltAi = acilisIltifati(T);
+  if(iltAi) kapakBody.push(nm(iltAi));
+  kapakBody.push(nm(v.giris || (k.alt ? pick(k.alt) : k.a)));
   kapakBody.push(nm(shots.length >= 3 ? T.tamFoto : (T.eksikFoto[shots.length] || T.eksikFoto[1])));
   const oncekiAi = gecmisSembol();
   if(oncekiAi && T.gecmisBag)
@@ -6381,7 +6596,10 @@ function buildPages(){
   /* ── kapak ── */
   const frac = shots.reduce((s,x)=>s+x.frac,0)/shots.length;
   const k = T.kapak[frac > 0.30 ? "yogun" : frac < 0.16 ? "acik" : "denge"];
-  const kapakBody = [nm(k.alt ? pick(k.alt) : k.a), nm(k.b(koyu.length + beyaz.length))];
+  const kapakBody = [];
+  const ilt = acilisIltifati(T);
+  if(ilt) kapakBody.push(nm(ilt));
+  kapakBody.push(nm(k.alt ? pick(k.alt) : k.a), nm(k.b(koyu.length + beyaz.length)));
   const oncekiSembol = gecmisSembol();
   if(oncekiSembol && T.gecmisBag)
     kapakBody.push(nm(pick(T.gecmisBag).split("{onceki}").join(oncekiSembol)));
@@ -6419,13 +6637,35 @@ function buildPages(){
   }
 
   /* ── aynı şey birden çok fotoğraftaysa en belirginini al ── */
-  const grup = new Map();
+  /* Aynı sembol birden çok fotoğrafta çıkarsa en belirgini alınır.
+     Ama AYNI fotoğrafta uzak iki yerde çıkarsa ikisi de okunur:
+     fincanın iki ayrı köşesindeki iki kuş iki ayrı haberdir.    */
+  const gruplar = [];
   for(const t of koyu){
     if(used.has(t.b)) continue;
-    const g = grup.get(t.sym);
-    if(!g) grup.set(t.sym, {best:t, shots:new Set([t.sh])});
-    else { g.shots.add(t.sh); if(t.guven > g.best.guven || (t.guven === g.best.guven && t.rel > g.best.rel)) g.best = t; }
+    const C = t.sh.cup;
+    let girdi = null;
+    for(const g of gruplar){
+      if(g.best.sym !== t.sym) continue;
+      /* Başka fotoğraftaki aynı şey tek sayılır. Aynı fotoğrafta
+         uzaktaki aynı şey ayrı sayılır: fincanın iki köşesindeki
+         iki kuş iki ayrı haberdir.                              */
+      const ayniYer = Math.hypot(g.best.b.cx - t.b.cx, g.best.b.cy - t.b.cy)
+                      < Math.min(C.rx, C.ry)*0.55;
+      if(g.best.sh !== t.sh || ayniYer){ girdi = g; break; }
+    }
+    if(girdi){
+      girdi.shots.add(t.sh);
+      girdi.uyeler.push(t);
+      if(t.guven > girdi.best.guven ||
+         (t.guven === girdi.best.guven && t.rel > girdi.best.rel)) girdi.best = t;
+    } else {
+      gruplar.push({best:t, shots:new Set([t.sh]), uyeler:[t]});
+    }
   }
+  /* lekeden grubuna: seçim döngüsü buradan bakıyor */
+  const grup = new Map();
+  for(const g of gruplar) for(const t of g.uyeler) grup.set(t, g);
 
   let oncekiAd = null;
   const sayfaEkle = (t, s, extra, akMi, kicker) => {
@@ -6467,8 +6707,8 @@ function buildPages(){
     const netler = koyu.filter(t => t.b.ton !== "orta").length;
     for(let q=koyu.length-1; q>=0; q--){
       const k = koyu[q].b.karanlik || 0;
-      const silik = k < enKoyu*0.55;
-      const soluk = koyu[q].b.ton === "orta" && netler >= 4;
+      const silik = k < enKoyu*0.40;
+      const soluk = koyu[q].b.ton === "orta" && netler >= 8;
       if(silik || soluk) koyu.splice(q, 1);
     }
     /* hepsini elediysek en koyu üçünü geri al: fal boş kalmasın */
@@ -6484,20 +6724,20 @@ function buildPages(){
     for(const v of secilenler){
       if(v.sh !== t.sh) continue;
       const d = Math.hypot(t.b.cx - v.b.cx, t.b.cy - v.b.cy);
-      if(d < Math.min(C.rx, C.ry)*0.38) return false;
+      if(d < Math.min(C.rx, C.ry)*0.26) return false;
     }
     return true;
   };
 
-  /* BÜYÜK ŞEKİLLERE ODAKLAN.
-     Fincanın en iri izinin beşte birinden küçük kalanlar okunmuyor.
-     Ufak bir benek bir şeye benzese bile kullanıcı onu fotoğrafta
-     zor seçer; falcı da göze çarpanı okur.                       */
+  /* ÇOK KÜÇÜĞÜ ELE, GERİSİNE BAK.
+     Fincanın her yanı okunmalı. Yalnız gerçekten ufak benekler
+     (fincanın binde beşinden küçük) düşüyor; onun dışında her iz
+     okunabilir. Eskiden eşik çok sertti ve fincanda üç şekil
+     kalıyordu; oysa falcı yedi sekiz şey görür.                 */
   if(koyu.length){
-    const enIri = koyu.reduce((m,t)=>Math.max(m, t.b.area/Math.max(1,t.sh.cup.area)), 0);
     for(let q=koyu.length-1; q>=0; q--){
       const oran = koyu[q].b.area/Math.max(1, koyu[q].sh.cup.area);
-      if(oran < enIri*0.20 || oran < 0.006) koyu.splice(q, 1);
+      if(oran < 0.005) koyu.splice(q, 1);
     }
   }
 
@@ -6516,16 +6756,20 @@ function buildPages(){
     if(!eklendi) break;
   }
 
+  /* HEDEF: yedi sekiz şekil. Üç şekilde bırakmak fal değil.
+     Önce dağılım kuralına uyanları alıyoruz; sekize ulaşamazsak
+     kuralı gevşetip ikinci turda kalanlardan tamamlıyoruz.      */
+  const HEDEF = 8;
   let say = 0;
   const fotoSayisi = new Map();
   for(const t of sirayla){
-    if(say >= 8) break;
+    if(say >= HEDEF) break;
     if(!uzakMi(t)) continue;
-    const g = grup.get(t.sym);
+    const g = grup.get(t);
     if(!g || g.best !== t || used.has(t.b)) continue;
-    /* tek fotoğraf sayfaların yarısından fazlasını kapmasın */
+    /* tek fotoğraf sayfaların çoğunu kapmasın */
     const kac = fotoSayisi.get(t.sh) || 0;
-    if(shots.length > 1 && kac >= Math.ceil(8/shots.length) + 1) continue;
+    if(shots.length > 1 && kac >= Math.ceil(HEDEF/shots.length) + 2) continue;
     used.add(t.b);
     const s = T.sym[t.sym] || T.sym.iz;
     const extra = [];
@@ -6538,6 +6782,31 @@ function buildPages(){
     fotoSayisi.set(t.sh, kac + 1);
     sayfaEkle(t, s, extra, false, null);
     say++;
+  }
+
+  /* İKİNCİ TUR: yedi şekle ulaşamadıysak aralık kuralını gevşetip
+     kalan izlerden tamamlıyoruz. Aynı lekeye iki ad verilmiyor,
+     sadece birbirine biraz daha yakın şekiller kabul ediliyor.  */
+  if(say < 7){
+    for(const t of sirayla){
+      if(say >= HEDEF) break;
+      if(used.has(t.b)) continue;
+      const g = grup.get(t);
+      if(!g || g.best !== t) continue;
+      /* yine de üst üste binmesin */
+      let cakisti = false;
+      for(const v of secilenler){
+        if(v.sh !== t.sh) continue;
+        const d = Math.hypot(t.b.cx - v.b.cx, t.b.cy - v.b.cy);
+        if(d < Math.min(t.sh.cup.rx, t.sh.cup.ry)*0.16){ cakisti = true; break; }
+      }
+      if(cakisti) continue;
+      used.add(t.b);
+      const s2 = T.sym[t.sym] || T.sym.iz;
+      secilenler.push(t);
+      sayfaEkle(t, s2, null, false, null);
+      say++;
+    }
   }
 
   /* ── telvenin bıraktığı boşluk ── */
@@ -7142,6 +7411,8 @@ document.getElementById("b-frame-ok").addEventListener("click", ()=>{
     go("setup");
     renderTray();
     if(sh.q.level === "kotu") toast(P().q[sh.q.code](ix+1, P().yonAd[sh.q.yon] || ""));
+    /* Üç fotoğraf beklendiği açıkça anlaşılsın: her eklemede söyle. */
+    else fotoKacKaldi();
   }catch(err){
     console.error(err);
     toast(P().ui.badRead);
@@ -7155,6 +7426,15 @@ document.getElementById("b-frame-drop").addEventListener("click", ()=>{
 /* ---- fotoğraf tepsisi ---- */
 const tray = document.getElementById("tray");
 const trayNote = document.getElementById("tray-note");
+
+/* Kaç fotoğraf kaldığını kullanıcının yüzüne söyle. Uygulamanın üç
+   fotoğraf beklediği ilk bakışta anlaşılmıyordu.                */
+function fotoKacKaldi(){
+  const T = P().ui;
+  if(shots.length === 1) toast(T.hintIki);
+  else if(shots.length === 2) toast(T.hintBir);
+  else if(shots.length >= 3) toast(T.allGood);
+}
 
 function renderTray(){
   const T = P();
@@ -7209,8 +7489,12 @@ function renderTray(){
     msg = T.q[o.s.q.code](o.i+1, T.yonAd[o.s.q.yon] || ""); cls = "bad";
   } else if(sorun.length){
     msg = T.q.soft(sorun[0].i+1, ""); cls = "warn";
+  } else if(shots.length === 1){
+    msg = T.ui.hintIki; cls = "warn";
+  } else if(shots.length === 2){
+    msg = T.ui.hintBir; cls = "warn";
   } else {
-    msg = shots.length < 3 ? T.ui.hintMore : T.ui.allGood; cls = "";
+    msg = T.ui.allGood; cls = "";
   }
   trayNote.className = "tray-note " + cls;
   trayNote.textContent = msg;
@@ -7327,13 +7611,41 @@ async function falAc(){
   const RL = dizin.map(q => RLh[q]);
   const RZ = dizin.map(q => RZh[q] || "hepsi");
 
-  /* fincanı ritüel ekranına koy */
+  /* Fincanı ritüel ekranına koy. Birden çok fotoğraf varsa hepsi
+     sırayla gösteriliyor: kullanıcı yalnız bir tanesine bakılıyor
+     sanmasın. Fotoğraf değişirken fincan da dönüyor.            */
   const goz = document.getElementById("ritual-goz");
   const fotoEl = document.getElementById("ritual-foto");
-  if(goz && fotoEl && shots.length && shots[0].url){
-    fotoEl.style.backgroundImage = "url(" + shots[0].url + ")";
+  const fotolar = shots.filter(s => s && s.url);
+  let fotoIx = 0;
+  const fotoKoy = ix => {
+    if(!goz || !fotoEl || !fotolar.length) return;
+    fotoEl.style.backgroundImage = "url(" + fotolar[ix % fotolar.length].url + ")";
     goz.classList.remove("bos");
-  } else if(goz) goz.classList.add("bos");
+  };
+  if(fotolar.length) fotoKoy(0);
+  else if(goz) goz.classList.add("bos");
+
+  /* fotoğraf sayacı: "2 / 3" */
+  const sayacEl = document.getElementById("ritual-foto-no");
+  const sayacYaz = () => {
+    if(!sayacEl) return;
+    sayacEl.textContent = fotolar.length > 1
+      ? (fotoIx % fotolar.length + 1) + " / " + fotolar.length
+      : "";
+  };
+  sayacYaz();
+
+  /* Fotoğraf değiştirirken fincanı çevir. */
+  const fotoCevir = () => {
+    if(fotolar.length < 2) return;
+    fotoIx++;
+    if(goz){
+      goz.classList.remove("doner"); void goz.offsetWidth;
+      goz.classList.add("doner");
+    }
+    setTimeout(()=>{ fotoKoy(fotoIx); sayacYaz(); }, 260);
+  };
 
   const halka = document.getElementById("ritual-halka");
   const odakla = ad => {
@@ -7347,8 +7659,27 @@ async function falAc(){
   let i = 0;
   line.textContent = RL[0] || "";
   odakla(RZ[0]);
+  /* Kaç satırda bir öbür fotoğrafa geçileceği: bütün fotoğraflar
+     bekleme boyunca en az bir kere görünsün.                    */
+  const gecisAraligi = fotolar.length > 1
+    ? Math.max(2, Math.floor(RL.length / (fotolar.length + 1)))
+    : 0;
   const tick = setInterval(()=>{
-    if(i < RL.length - 1){ i++; line.textContent = RL[i]; odakla(RZ[i]); }
+    if(i < RL.length - 1){
+      i++;
+      /* fotoğraf değişecekse önce onu söyle, sonra çevir */
+      if(gecisAraligi && i % gecisAraligi === 0){
+        const yeniNo = (fotoIx + 1) % fotolar.length;
+        line.textContent = (T.ui.fotoGecis
+          ? T.ui.fotoGecis(yeniNo + 1, fotolar.length)
+          : RL[i]);
+        odakla("hepsi");
+        fotoCevir();
+      } else {
+        line.textContent = RL[i];
+        odakla(RZ[i]);
+      }
+    }
   }, 2600);
 
   /* Geri sayım: kullanıcı ne kadar bekleyeceğini görsün. */
@@ -7411,6 +7742,7 @@ async function falAc(){
   clearInterval(tick);
   clearInterval(sayac);
   if(kalanEl) kalanEl.textContent = "";
+  if(sayacEl) sayacEl.textContent = "";
   try{
     sonAiVeri = veri;
     if(!(veri && buildPagesAI(veri))){ sonAiVeri = null; buildPages(); }
@@ -7437,6 +7769,8 @@ async function falAc(){
   }
 }
 function gecmisKaydet(){
+  /* iltifat geçmişi: fal gerçekten bittiğinde yazılır */
+  if(sonIltifatIx >= 0){ iltifatKaydet(sonIltifatIx); sonIltifatIx = -1; }
   const adlar = pages.filter(p => p.kind === "sym")
                      .map(p => p.title.replace(/<[^>]+>/g, "").toLocaleLowerCase(P().loc))
                      .filter(Boolean);
