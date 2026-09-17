@@ -232,6 +232,34 @@
   .ritual-kalan{font-family:var(--ui);font-size:12px;letter-spacing:.2em;text-transform:uppercase;
     color:var(--gold);margin:14px 0 0;font-variant-numeric:tabular-nums;min-height:1.4em;}
 
+  /* falcı bacı */
+  .stage-col{position:relative;perspective:1500px;}
+  .baci{position:absolute;left:-2%;bottom:-1%;width:31%;max-width:168px;
+    pointer-events:none;z-index:3;filter:drop-shadow(0 8px 22px rgba(0,0,0,.5));}
+  .baci-svg{width:100%;height:auto;display:block;overflow:visible;}
+  @media (max-width:560px){ .baci{width:36%;max-width:132px;} }
+
+  /* fincanı sağa sola çevirme: fotoğraf değişirken */
+  .stage{transform-style:preserve-3d;}
+  .stage.cevir{animation:fincanCevir .66s cubic-bezier(.36,0,.2,1);}
+  @keyframes fincanCevir{
+    0%{transform:rotateY(0deg) scale(1);}
+    42%{transform:rotateY(var(--cev,28deg)) scale(.955);}
+    72%{transform:rotateY(calc(var(--cev,28deg) * -0.28)) scale(.99);}
+    100%{transform:rotateY(0deg) scale(1);}
+  }
+  @media (prefers-reduced-motion:reduce){ .stage.cevir{animation:none;} }
+
+  /* sesli okuma düğmesi */
+  .stage-col .sesdug{
+    position:absolute;right:10px;bottom:10px;width:36px;height:36px;border-radius:50%;
+    border:1px solid var(--gold-dim);background:rgba(10,5,8,.72);color:var(--gold-soft);
+    font-size:15px;cursor:pointer;display:grid;place-items:center;padding:0;z-index:4;
+    backdrop-filter:blur(4px);transition:all .2s ease;
+  }
+  .stage-col .sesdug:hover{border-color:var(--gold);background:rgba(10,5,8,.9);}
+  .stage-col .sesdug[aria-pressed=false]{opacity:.55;}
+
   /* okuma */
   #scr-read .shell{padding-block:18px 0;}
   .reader{display:grid;grid-template-columns:minmax(0,1fr);}
@@ -677,6 +705,10 @@
           <canvas id="cVeil"></canvas>
           <div class="corner" id="corner"></div>
         </div>
+        <!-- Falcı bacı: fincanın önünde durur, konuşur ve
+             parmağıyla nereye baktığını gösterir. -->
+        <div class="baci" id="baci" hidden></div>
+        <button class="sesdug" type="button" id="b-sesli" aria-pressed="true">&#128266;</button>
       </div>
       <div class="txt">
         <div id="page-slot"></div>
@@ -1740,6 +1772,13 @@ p.dokum ? "CİHAZIN ÖLÇTÜĞÜ LEKELER\nUygulama fincandaki telve kümelerini 
 "- Bu yüzden 'düz çizgi', 'açıklık', 'boşluk', 'şerit', 'gölge', 'leke' gibi şeyler YAZMA. Bunlar şekil değildir, tepeden bakışın yarattığı yanılsamadır ve kullanıcıya hiçbir şey anlatmaz.",
 "- Fincanın ağız çemberini, kenarın gölgesini, porselenin parlamasını ve kahvenin yüzeydeki halkasını şekil sanma. Bunlar fincanın kendisidir.",
 "- Adını koyduğun her şey BİR NESNE olmalı: kuş, el, yüzük, ağaç, yol, kalp, balık, insan, kapı… 'Uzunca bir iz' bir ad değildir.",
+"HER FOTOĞRAFI OKU",
+"- Kaç fotoğraf verildiyse HEPSİNDEN şekil çıkar. Üç fotoğraf varsa üçünden de en az bir şekil oku; birine yığılıp ötekileri atlama. Kullanıcı fincanı üç açıdan çekmek için uğraştı, üçü de okunmalı.",
+"- Her şekilde hangi fotoğraftan olduğunu doğru yaz. Cihazın listesinde her ölçümün foto numarası duruyor, ona uy.",
+"",
+"BÜYÜK VE GÖZE ÇARPAN ŞEKİLLER",
+"- Yalnız büyük, koyu ve gözle hemen seçilen izleri oku. Ufak benekler, ince kenar bulaşmaları ve zor seçilen izler fal değildir.",
+"- Bir şekil kullanıcının fotoğrafa bakınca 'evet, gerçekten orada bir şey var' diyeceği kadar belirgin olmalı. Diyemeyeceği bir iz için hiç yazma.",
 "- BELİRGİN OLANA BAK. Gözle hemen seçilen koyu, büyük izleri oku. Zor görülen, silik, ufak izleri bulmaya çalışma; kolay görülen bir sürü iz dururken zor olanı kovalamak falı zayıflatır. Cihazın listesinde EN BELİRGİN diye işaretlenen izle başla.",
 "- Silik izlere ASLA şekil deme. Bir iz fotoğrafta zor seçiliyorsa kullanıcı da seçemez.",
 "- TELVE OLMAYAN YERE ŞEKİL YAZMA. Gösterdiğin kutunun içinde gerçekten koyu telve olmalı. Boş porselene, parlamaya, gölgeye ad verme. Uygulama her kutuyu ölçüyor ve içinde telve yoksa o şekli hiç göstermiyor; boşa yazmış olursun.",
@@ -1924,6 +1963,13 @@ p.dokum ? "MARKS THE DEVICE MEASURED\nThe app has already measured the clusters 
 "- So never write things like straight line, opening, gap, band, shadow or stain. Those are not shapes, they are artefacts of the overhead view and they tell the reader nothing.",
 "- Do not mistake the rim circle, the shadow at the edge, the shine on the porcelain or the ring the coffee left for a shape. Those are the cup itself.",
 "- Everything you name must be AN OBJECT: a bird, a hand, a ring, a tree, a road, a heart, a fish, a person, a door. A longish mark is not a name.",
+"READ EVERY PHOTOGRAPH",
+"- Take shapes from ALL the photographs given. If there are three, read at least one shape from each; do not pile everything onto one and skip the others. The reader went to the trouble of shooting the cup from three angles.",
+"- Give the correct photo number for every shape. The device list carries the photo number for each measurement; follow it.",
+"",
+"BIG, OBVIOUS SHAPES",
+"- Read only the large, dark marks the eye picks out at once. Small specks, thin smears at the edge and marks that are hard to make out are not a reading.",
+"- A shape must be clear enough that the reader, looking at the photograph, would say yes, there really is something there. If they would not, do not write it.",
 "- GO FOR WHAT IS OBVIOUS. Read the dark, large marks the eye picks out at once. Do not hunt for faint or tiny ones; chasing the hard mark while easy ones sit there weakens the reading. Start with the one the device marks EN BELİRGİN.",
 "- NEVER call a faint mark a shape. If a mark is hard to make out in the photograph, the reader cannot make it out either.",
 "- NEVER PLACE A SHAPE WHERE THERE ARE NO GROUNDS. The box you give must actually contain dark grounds. Do not name bare porcelain, a highlight or a shadow. The app measures every box and drops any shape whose box holds no grounds, so it would be wasted.",
@@ -3183,6 +3229,11 @@ PACK.en.ui.rizaAlt     = "If you say no I will still read your cup. Your photogr
 PACK.en.ui.rizaEvet    = "Yes, show it";
 PACK.en.ui.rizaHayir   = "No, keep it on my phone";
 PACK.en.ui.rizaOku     = "Read the privacy notice";
+
+PACK.tr.ui.sesliAc    = "Falcı bacı okusun";
+PACK.tr.ui.sesliKapat = "Sesli okumayı kapat";
+PACK.en.ui.sesliAc    = "Let the fortune teller read aloud";
+PACK.en.ui.sesliKapat = "Turn off the reading voice";
 
 /* ══════════════════ HUKUKİ METİNLER ══════════════════
    App Store başvurusunda Apple bir gizlilik politikası bağlantısı ister.
@@ -5176,8 +5227,8 @@ function lekeDokumu(shot, sira, T){
   /* en belirgine göre çok sönük kalanları hiç gönderme */
   const enIyi = aday.length ? aday[0].puan : 0;
   return aday
-    .filter(o => o.puan >= enIyi*0.28)
-    .slice(0, 8)
+    .filter(o => o.puan >= enIyi*0.30)
+    .slice(0, 7)
     .map(o => o.b)
     .map(b => {
       const p = place(b);
@@ -5470,12 +5521,23 @@ function aiTemizle(j, fotoSayisi){
     const ka = (a[2]-a[0])*(a[3]-a[1]), kb = (b[2]-b[0])*(b[3]-b[1]);
     return kesisim / Math.max(1e-6, Math.min(ka, kb));
   };
+  /* İki kutunun merkezi, küçük olanın yarı boyundan yakınsa
+     fincanın aynı yerini gösteriyorlar demektir.                */
+  const merkezYakin = (a, b) => {
+    const ax = (a[0]+a[2])/2, ay = (a[1]+a[3])/2;
+    const bx = (b[0]+b[2])/2, by = (b[1]+b[3])/2;
+    const ka = Math.min(a[2]-a[0], a[3]-a[1]);
+    const kb = Math.min(b[2]-b[0], b[3]-b[1]);
+    return Math.hypot(ax-bx, ay-by) < Math.max(0.05, Math.min(ka, kb)*0.75);
+  };
   const ayik = [];
   for(const s of sekiller){
     if(!s.kutu){ ayik.push(s); continue; }
     let cakisan = false;
     for(const v of ayik){
-      if(v.kutu && ortusme(s.kutu, v.kutu) > 0.22){ cakisan = true; break; }
+      if(v.kutu && ortusme(s.kutu, v.kutu) > 0.15){ cakisan = true; break; }
+      /* Kutular çakışmasa bile merkezleri çok yakınsa aynı yerdir. */
+      if(v.kutu && v.foto === s.foto && merkezYakin(s.kutu, v.kutu)){ cakisan = true; break; }
     }
     if(!cakisan) ayik.push(s);
     if(ayik.length >= 16) break;
@@ -5588,6 +5650,325 @@ function kutuyuLekeyeBagla(shot, kb){
   return {kutuMod:true, shot:shot,
           x0:Math.min(wx0,wx1), y0:Math.min(wy0,wy1),
           bw:Math.max(8, Math.abs(wx1-wx0)), bh:Math.max(8, Math.abs(wy1-wy0))};
+}
+
+/* ══════════════════ FALCI BACI ══════════════════
+   Falı yazıyla okumak yetmiyor: karşısında biri olsun, konuşsun,
+   parmağıyla fincanda nereye baktığını göstersin. Hazır bir görsel
+   kullanmıyoruz; bacı burada SVG ile çiziliyor, yüzü ve kolu
+   uygulamanın içinde oynuyor. Sesi de tarayıcının kendi konuşma
+   motorundan geliyor, dışarıya hiçbir şey gitmiyor.              */
+
+let baciEl = null, baciKol = null, baciAgiz = null, baciGozL = null,
+    baciGozR = null, baciKafa = null, baciGovde = null;
+let baciAcik = false;                 // karakter ekranda mı
+let baciKonusuyor = false;
+let baciAgizZaman = 0;
+let baciKirpZaman = 0;
+let baciSesAcik = true;
+
+/* ── çizim ──
+   Yazması, küpesi, şalı olan bir kadın. Yüz hatları yumuşak;
+   korkutucu değil, sıcak bir komşu teyze olmalı.               */
+function baciCiz(){
+  return '' +
+  '<svg class="baci-svg" viewBox="0 0 200 270" aria-hidden="true">' +
+    '<defs>' +
+      '<linearGradient id="bc-yazma" x1="0" y1="0" x2="0" y2="1">' +
+        '<stop offset="0" stop-color="#9E2B3B"/><stop offset="1" stop-color="#6E1C2A"/>' +
+      '</linearGradient>' +
+      '<linearGradient id="bc-sal" x1="0" y1="0" x2="1" y2="1">' +
+        '<stop offset="0" stop-color="#2E4A52"/><stop offset="1" stop-color="#1B2E34"/>' +
+      '</linearGradient>' +
+      '<radialGradient id="bc-ten" cx="0.42" cy="0.36" r="0.75">' +
+        '<stop offset="0" stop-color="#F0C9A4"/><stop offset="1" stop-color="#D9A87C"/>' +
+      '</radialGradient>' +
+    '</defs>' +
+
+    /* gövde ve şal */
+    '<g class="bc-govde">' +
+      '<path d="M40 270 C42 214 66 188 100 188 C134 188 158 214 160 270 Z" fill="url(#bc-sal)"/>' +
+      '<path d="M100 188 C86 206 82 234 84 270 L116 270 C118 234 114 206 100 188 Z" fill="#24393F"/>' +
+      /* şal saçakları */
+      '<g stroke="#C9A227" stroke-width="1.4" opacity=".65">' +
+        '<path d="M58 240 l-5 9"/><path d="M70 250 l-4 9"/>' +
+        '<path d="M130 250 l4 9"/><path d="M142 240 l5 9"/>' +
+      '</g>' +
+    '</g>' +
+
+    /* KOL: omuzdan döner, ucunda işaret parmağı */
+    '<g class="bc-kol" transform="rotate(-30 146 205)">' +
+      '<path d="M146 205 L206 189 L212 199 L150 218 Z" fill="url(#bc-sal)"/>' +
+      '<path d="M204 186 C216 182 226 186 228 192 C230 198 224 203 216 204 ' +
+              'C222 204 224 208 222 211 C220 214 212 215 206 214 ' +
+              'C210 215 211 218 209 220 C206 223 196 222 190 219 ' +
+              'C184 216 182 208 186 200 Z" fill="url(#bc-ten)"/>' +
+      /* işaret parmağı */
+      '<path d="M222 190 C232 186 246 185 250 188 C254 191 250 196 242 197 ' +
+              'C234 198 226 197 222 195 Z" fill="#F0C9A4"/>' +
+      '<circle class="bc-uc" cx="250" cy="191" r="2.6" fill="#F5D9BC"/>' +
+    '</g>' +
+
+    /* boyun */
+    '<path d="M86 160 L114 160 L116 192 L84 192 Z" fill="#D9A87C"/>' +
+
+    /* KAFA: hafifçe sallanır */
+    '<g class="bc-kafa">' +
+      /* yazmanın arkası */
+      '<path d="M46 86 C46 34 84 12 100 12 C116 12 154 34 154 86 ' +
+              'C154 124 142 150 138 158 L62 158 C58 150 46 124 46 86 Z" fill="url(#bc-yazma)"/>' +
+      /* yüz */
+      '<ellipse cx="100" cy="92" rx="38" ry="45" fill="url(#bc-ten)"/>' +
+      /* yazmanın ön kenarı */
+      '<path d="M46 86 C46 36 82 14 100 14 C118 14 154 36 154 86 ' +
+              'C154 86 140 58 100 58 C60 58 46 86 46 86 Z" fill="url(#bc-yazma)"/>' +
+      '<path d="M46 86 C46 86 60 58 100 58 C140 58 154 86 154 86" ' +
+            'fill="none" stroke="#E8C56B" stroke-width="2.4" opacity=".8"/>' +
+      /* yazma çiçekleri */
+      '<g fill="#E8C56B" opacity=".75">' +
+        '<circle cx="66" cy="44" r="3"/><circle cx="88" cy="28" r="2.4"/>' +
+        '<circle cx="112" cy="27" r="2.6"/><circle cx="134" cy="44" r="3"/>' +
+        '<circle cx="54" cy="70" r="2.2"/><circle cx="146" cy="70" r="2.2"/>' +
+      '</g>' +
+      /* yanaklar */
+      '<ellipse cx="76" cy="104" rx="9" ry="6" fill="#D98C7A" opacity=".38"/>' +
+      '<ellipse cx="124" cy="104" rx="9" ry="6" fill="#D98C7A" opacity=".38"/>' +
+      /* kaşlar */
+      '<path d="M74 78 C80 73 90 73 95 77" fill="none" stroke="#4A2E22" ' +
+            'stroke-width="2.6" stroke-linecap="round"/>' +
+      '<path d="M105 77 C110 73 120 73 126 78" fill="none" stroke="#4A2E22" ' +
+            'stroke-width="2.6" stroke-linecap="round"/>' +
+      /* gözler */
+      '<g>' +
+        '<ellipse class="bc-goz bc-goz-l" cx="84" cy="90" rx="7.4" ry="5.4" fill="#FFFDF8"/>' +
+        '<circle cx="85" cy="90" r="3.4" fill="#3A2318"/>' +
+        '<circle cx="86.2" cy="88.8" r="1.1" fill="#FFF" opacity=".9"/>' +
+      '</g>' +
+      '<g>' +
+        '<ellipse class="bc-goz bc-goz-r" cx="116" cy="90" rx="7.4" ry="5.4" fill="#FFFDF8"/>' +
+        '<circle cx="117" cy="90" r="3.4" fill="#3A2318"/>' +
+        '<circle cx="118.2" cy="88.8" r="1.1" fill="#FFF" opacity=".9"/>' +
+      '</g>' +
+      /* burun */
+      '<path d="M100 96 C97 104 96 108 100 110 C103 111 105 110 106 108" ' +
+            'fill="none" stroke="#B8845C" stroke-width="2" stroke-linecap="round"/>' +
+      /* ağız: konuşurken açılır kapanır */
+      '<ellipse class="bc-agiz" cx="100" cy="123" rx="9" ry="3" fill="#7E3140"/>' +
+      '<path class="bc-dudak" d="M89 121 C94 117 106 117 111 121" fill="none" ' +
+            'stroke="#A8455A" stroke-width="2.2" stroke-linecap="round"/>' +
+      /* küpeler */
+      '<circle cx="54" cy="104" r="5.5" fill="none" stroke="#E8C56B" stroke-width="2.4"/>' +
+      '<circle cx="146" cy="104" r="5.5" fill="none" stroke="#E8C56B" stroke-width="2.4"/>' +
+    '</g>' +
+  '</svg>';
+}
+
+function baciKur(){
+  baciEl = document.getElementById("baci");
+  if(!baciEl || baciEl.dataset.hazir) return;
+  baciEl.innerHTML = baciCiz();
+  baciEl.dataset.hazir = "1";
+  baciKol   = baciEl.querySelector(".bc-kol");
+  baciAgiz  = baciEl.querySelector(".bc-agiz");
+  baciGozL  = baciEl.querySelector(".bc-goz-l");
+  baciGozR  = baciEl.querySelector(".bc-goz-r");
+  baciKafa  = baciEl.querySelector(".bc-kafa");
+  baciGovde = baciEl.querySelector(".bc-govde");
+}
+
+function baciGoster(ac){
+  baciKur();
+  if(!baciEl) return;
+  baciAcik = !!ac;
+  baciEl.hidden = !ac;
+  if(!ac) baciSus();
+}
+
+/* ── kolun açısı ──
+   Derece cinsinden; 0 sağa doğru, negatif yukarı.               */
+let baciHedefAci = -30, baciSuAci = -30;
+function baciAciVer(derece){
+  baciHedefAci = Math.max(-84, Math.min(28, derece));
+}
+/* omuz noktası ve parmak ucu, sahne pikselinde */
+function baciOlcu(){
+  if(!baciEl || baciEl.hidden) return null;
+  const sahneEl = document.getElementById('stage');
+  if(!sahneEl) return null;
+  const s = baciEl.getBoundingClientRect();
+  const sahne = sahneEl.getBoundingClientRect();
+  if(!s.width) return null;
+  const bx = s.left - sahne.left, by = s.top - sahne.top;
+  const k = s.width / 200;                    // viewBox genişliği 200
+  return {
+    x: bx + 146*k,
+    y: by + 205*k,
+    L: 104*k,                                  // omuzdan parmak ucuna
+    aci: baciSuAci
+  };
+}
+
+/* ── canlandırma ── */
+function baciTik(zaman){
+  if(!baciEl || baciEl.hidden) return;
+
+  /* kol hedefe yumuşak gitsin */
+  baciSuAci += (baciHedefAci - baciSuAci) * 0.14;
+  if(baciKol) baciKol.setAttribute("transform",
+    "rotate(" + baciSuAci.toFixed(2) + " 146 205)");
+
+  /* konuşurken ağız oynasın */
+  if(baciAgiz){
+    let ry = 2.2;
+    if(baciKonusuyor){
+      const t = zaman/1000;
+      /* iki ayrı hızın toplamı: makine gibi değil, konuşma gibi */
+      const a = Math.sin(t*15.5) * 0.5 + Math.sin(t*9.3) * 0.5;
+      ry = 3.2 + Math.abs(a) * 5.4;
+    }
+    baciAgiz.setAttribute("ry", ry.toFixed(2));
+  }
+
+  /* göz kırpma */
+  if(zaman > baciKirpZaman){
+    baciKirpZaman = zaman + 2600 + Math.random()*3400;
+    for(const g of [baciGozL, baciGozR]){
+      if(!g) continue;
+      g.setAttribute("ry", "0.6");
+      setTimeout(()=>{ try{ g.setAttribute("ry","5.4"); }catch(e){} }, 130);
+    }
+  }
+
+  /* hafif sallanma */
+  if(baciKafa){
+    const s = Math.sin(zaman/1400) * 1.7;
+    baciKafa.setAttribute("transform", "rotate(" + s.toFixed(2) + " 100 150)");
+  }
+}
+
+/* ══════════════════ SES ══════════════════
+   Tarayıcının kendi konuşma motoru. Ücretsiz, çevrimdışı çalışıyor
+   ve hiçbir metin dışarı gitmiyor.                              */
+let baciSesler = [];
+function baciSesleriTopla(){
+  try{ baciSesler = window.speechSynthesis.getVoices() || []; }catch(e){ baciSesler = []; }
+}
+if(window.speechSynthesis){
+  baciSesleriTopla();
+  try{ window.speechSynthesis.onvoiceschanged = baciSesleriTopla; }catch(e){}
+}
+
+/* Dile en yakışan sesi seç. Kadın sesi varsa onu tercih ediyoruz:
+   falcı bacı kadın.                                             */
+function baciSesSec(dil){
+  if(!baciSesler.length) baciSesleriTopla();
+  const on = dil === "tr" ? "tr" : "en";
+  const uygun = baciSesler.filter(v => (v.lang || "").toLowerCase().indexOf(on) === 0);
+  if(!uygun.length) return null;
+  const kadin = /female|kadın|yelda|filiz|seda|samantha|karen|serena|zira|aria|emma|sonia|libby/i;
+  const iyi = uygun.filter(v => kadin.test(v.name || ""));
+  const havuz = iyi.length ? iyi : uygun;
+  /* yerel (cihazda kurulu) ses daha hızlı başlar */
+  const yerel = havuz.filter(v => v.localService);
+  return (yerel.length ? yerel : havuz)[0];
+}
+
+/* iOS ilk konuşma için kullanıcı hareketi istiyor. Düğmeye
+   basıldığı anda boş bir söz söyleyip kilidi açıyoruz.          */
+let baciKilitAcik = false;
+function baciSesKilidiAc(){
+  if(baciKilitAcik || !window.speechSynthesis) return;
+  try{
+    const u = new SpeechSynthesisUtterance(" ");
+    u.volume = 0; u.rate = 1;
+    window.speechSynthesis.speak(u);
+    baciKilitAcik = true;
+  }catch(e){}
+}
+
+function baciSus(){
+  baciKonusuyor = false;
+  try{ if(window.speechSynthesis) window.speechSynthesis.cancel(); }catch(e){}
+}
+
+/* Metni okunacak hâle getir: etiketleri at, kısaltmaları aç,
+   cümle aralarına nefes koy.                                    */
+function baciMetinHazirla(ham, dil){
+  let t = String(ham || "")
+    .replace(/<[^>]+>/g, " ")
+    .replace(/&amp;/g, "&").replace(/&lt;/g, "<").replace(/&gt;/g, ">")
+    .replace(/&#39;/g, "'").replace(/&quot;/g, '"')
+    .replace(/\s+/g, " ")
+    .trim();
+  /* üç nokta okunmasın, duraklama olsun */
+  t = t.replace(/…/g, ", ").replace(/\.\.\./g, ", ");
+  if(dil === "tr"){
+    /* kısaltma ve işaretler seslendirmede tökezletiyor */
+    t = t.replace(/%/g, " yüzde ").replace(/&/g, " ve ");
+  }
+  return t;
+}
+
+/* Bacının ağzından çıkan giriş sözleri. Yazıya dokunmuyoruz;
+   bunlar yalnız seste var ve falcı ağzıyla söylenmiş oluyor.   */
+const BACI_GIRIS_TR = [
+  "Bak şimdi kızım.", "Şuraya bir bak.", "Gel bakayım buraya.",
+  "Şimdi dinle beni.", "Hele şuna bak sen.", "Bunu iyi dinle.",
+  "Gözüme şu çarptı.", "Şurası çok konuşuyor."
+];
+const BACI_GIRIS_EN = [
+  "Now look here.", "Let me show you this.", "Listen to me now.",
+  "See this part.", "This is what caught my eye.", "Look at this closely."
+];
+
+let baciGirisSira = 0;
+function baciGiris(dil){
+  const h = dil === "tr" ? BACI_GIRIS_TR : BACI_GIRIS_EN;
+  const s = h[baciGirisSira % h.length];
+  baciGirisSira++;
+  return s;
+}
+
+/* ── konuş ── */
+function baciKonus(metin, dil, girisli){
+  if(!baciSesAcik || !window.speechSynthesis) return;
+  baciSus();
+  const govde = baciMetinHazirla(metin, dil);
+  if(!govde) return;
+  const tam = (girisli ? baciGiris(dil) + " " : "") + govde;
+
+  let u;
+  try{ u = new SpeechSynthesisUtterance(tam); }catch(e){ return; }
+  const ses = baciSesSec(dil);
+  if(ses) u.voice = ses;
+  u.lang = dil === "tr" ? "tr-TR" : (ses && ses.lang) || "en-GB";
+  /* yavaş yavaş okusun: falcı acele etmez */
+  u.rate  = dil === "tr" ? 0.80 : 0.86;
+  u.pitch = 1.02;
+  u.volume = 1;
+  u.onstart = () => { baciKonusuyor = true; };
+  u.onend   = () => { baciKonusuyor = false; };
+  u.onerror = () => { baciKonusuyor = false; };
+  try{ window.speechSynthesis.speak(u); }catch(e){}
+}
+
+function baciSesCevir(){
+  baciSesAcik = !baciSesAcik;
+  try{ localStorage.setItem("fincan-sesli", baciSesAcik ? "1" : "0"); }catch(e){}
+  if(!baciSesAcik) baciSus();
+  baciSesDugmeYaz();
+  return baciSesAcik;
+}
+function baciSesIster(){
+  try{ return localStorage.getItem("fincan-sesli") !== "0"; }catch(e){ return true; }
+}
+function baciSesDugmeYaz(){
+  const d = document.getElementById("b-sesli");
+  if(!d) return;
+  d.setAttribute("aria-pressed", String(baciSesAcik));
+  d.textContent = baciSesAcik ? "🔊" : "🔇";
+  const T = (typeof P === "function") ? P().ui : null;
+  if(T) d.title = baciSesAcik ? (T.sesliKapat || "") : (T.sesliAc || "");
 }
 
 /* ══════════════════ FOTOĞRAF KALİTESİ ══════════════════ */
@@ -6103,17 +6484,48 @@ function buildPages(){
     for(const v of secilenler){
       if(v.sh !== t.sh) continue;
       const d = Math.hypot(t.b.cx - v.b.cx, t.b.cy - v.b.cy);
-      if(d < Math.min(C.rx, C.ry)*0.30) return false;
+      if(d < Math.min(C.rx, C.ry)*0.38) return false;
     }
     return true;
   };
 
+  /* BÜYÜK ŞEKİLLERE ODAKLAN.
+     Fincanın en iri izinin beşte birinden küçük kalanlar okunmuyor.
+     Ufak bir benek bir şeye benzese bile kullanıcı onu fotoğrafta
+     zor seçer; falcı da göze çarpanı okur.                       */
+  if(koyu.length){
+    const enIri = koyu.reduce((m,t)=>Math.max(m, t.b.area/Math.max(1,t.sh.cup.area)), 0);
+    for(let q=koyu.length-1; q>=0; q--){
+      const oran = koyu[q].b.area/Math.max(1, koyu[q].sh.cup.area);
+      if(oran < enIri*0.20 || oran < 0.006) koyu.splice(q, 1);
+    }
+  }
+
+  /* ÜÇ FOTOĞRAFA DA BAK.
+     Eskiden liste güven sırasına göre taranıyordu ve en konuşkan
+     fotoğraf bütün sayfaları kapıyordu. Artık fotoğraflar sırayla
+     geliyor: birinciden bir şekil, ikinciden bir şekil, üçüncüden
+     bir şekil, sonra başa dönüyoruz.                             */
+  const kuyruk = shots.map(sh => koyu.filter(t => t.sh === sh));
+  const sirayla = [];
+  for(let tur = 0; sirayla.length < koyu.length; tur++){
+    let eklendi = false;
+    for(const q of kuyruk){
+      if(tur < q.length){ sirayla.push(q[tur]); eklendi = true; }
+    }
+    if(!eklendi) break;
+  }
+
   let say = 0;
-  for(const t of koyu){
+  const fotoSayisi = new Map();
+  for(const t of sirayla){
     if(say >= 8) break;
     if(!uzakMi(t)) continue;
     const g = grup.get(t.sym);
     if(!g || g.best !== t || used.has(t.b)) continue;
+    /* tek fotoğraf sayfaların yarısından fazlasını kapmasın */
+    const kac = fotoSayisi.get(t.sh) || 0;
+    if(shots.length > 1 && kac >= Math.ceil(8/shots.length) + 1) continue;
     used.add(t.b);
     const s = T.sym[t.sym] || T.sym.iz;
     const extra = [];
@@ -6123,6 +6535,7 @@ function buildPages(){
     }
     if(g.shots.size > 1) extra.push(T.tekrar(g.shots.size));
     secilenler.push(t);
+    fotoSayisi.set(t.sh, kac + 1);
     sayfaEkle(t, s, extra, false, null);
     say++;
   }
@@ -6235,6 +6648,47 @@ function glowCanvas(b, renk){
   return c;
 }
 
+/* Bacının parmağı işaretli yeri göstersin. Kutunun ekran koordinatı
+   her karede değiştiği için burada hesaplanıyor.                 */
+function baciIsaretle(p, tf, sh, vc, renk){
+  const olcu = baciOlcu();
+  if(!olcu) return;
+  if(!p.blobs || !p.blobs.length){
+    baciAciVer(-26);                       // kimseyi göstermiyorsa dinlenme
+    return;
+  }
+  let x0=1e9, y0=1e9, x1=-1, y1=-1;
+  for(const b of p.blobs){
+    x0=Math.min(x0,b.x0); y0=Math.min(y0,b.y0);
+    x1=Math.max(x1,b.x0+b.bw); y1=Math.max(y1,b.y0+b.bh);
+  }
+  const hx = ((x0+x1)/2)*tf.s + tf.tx;
+  const hy = ((y0+y1)/2)*tf.s + tf.ty;
+  if(!isFinite(hx) || !isFinite(hy)) return;
+
+  const aci = Math.atan2(hy - olcu.y, hx - olcu.x) * 180/Math.PI;
+  baciAciVer(aci);
+
+  /* parmak ucundan kutuya noktalı çizgi */
+  const r = olcu.aci * Math.PI/180;
+  const fx = olcu.x + Math.cos(r)*olcu.L;
+  const fy = olcu.y + Math.sin(r)*olcu.L;
+  const uz = Math.hypot(hx-fx, hy-fy);
+  if(uz < 12 || cevriliyor) return;
+  vc.save();
+  vc.setTransform(DPR,0,0,DPR,0,0);
+  vc.strokeStyle = renk;
+  vc.globalAlpha = 0.45;
+  vc.lineWidth = 1.3;
+  vc.setLineDash([3, 5]);
+  vc.beginPath();
+  vc.moveTo(fx, fy);
+  vc.lineTo(hx, hy);
+  vc.stroke();
+  vc.setLineDash([]);
+  vc.restore();
+}
+
 function draw(){
   const p = pages[curPage]; if(!p || !p.shot) return;
   const sh = p.shot;
@@ -6292,6 +6746,7 @@ function draw(){
     vc.restore();
   }
   placeLabels(p, marks);
+  baciIsaretle(p, tf, sh, vc, renk);
 }
 
 /* köşeleri yumuşak dikdörtgen */
@@ -6321,7 +6776,7 @@ function placeLabels(p, marks){
   });
 }
 
-function loop(){
+function loop(zaman){
   if(!surukleniyor){
     const e = 0.12;
     view.k += (target.k - view.k)*e;
@@ -6329,10 +6784,40 @@ function loop(){
     view.cy += (target.cy - view.cy)*e;
   }
   draw();
+  baciTik(zaman || 0);
   rafId = requestAnimationFrame(loop);
 }
 
 /* ══════════════════ SAYFA GÖSTERİMİ ══════════════════ */
+
+/* Fotoğraf değişince fincan sağa sola çevriliyormuş gibi dönsün.
+   cevriliyor: dönerken parmak çizgisini gizlemek için.          */
+let cevriliyor = false, cevirZaman = 0, oncekiShot = null;
+function fincaniCevir(yon){
+  if(!stage) return;
+  clearTimeout(cevirZaman);
+  stage.classList.remove("cevir");
+  void stage.offsetWidth;
+  stage.style.setProperty("--cev", (yon < 0 ? -28 : 28) + "deg");
+  stage.classList.add("cevir");
+  cevriliyor = true;
+  cevirZaman = setTimeout(()=>{
+    cevriliyor = false;
+    if(stage) stage.classList.remove("cevir");
+  }, 680);
+}
+
+/* Sayfadan bacının okuyacağı metni çıkar: başlık, gövde ve tahmin.
+   Ekranda yazan neyse o okunuyor, fazlası değil.                */
+function sayfaSesi(p){
+  const par = [];
+  if(p.title) par.push(p.title);
+  if(p.gordugum) par.push(p.gordugum);
+  for(const t of (p.body || [])) par.push(t);
+  if(p.tahmin) par.push(p.tahmin);
+  if(p.kind === "son" && p.liste && p.liste.length) par.push(p.liste.join(", "));
+  return par.join(" ");
+}
 
 const slot   = document.getElementById("page-slot");
 const dotsEl = document.getElementById("dots");
@@ -6364,9 +6849,16 @@ function kanitHtml(k, T, ak){
 }
 
 function showPage(i){
+  const eski = curPage;
   curPage = Math.max(0, Math.min(pages.length-1, i));
   const p = pages[curPage], T = P();
   target = viewFor(p);
+
+  /* Fotoğraf değiştiyse fincanı çevir. Aynı fotoğrafta kalıyorsak
+     çevirmiyoruz; her sayfada dönmek göz yorar.                 */
+  if(oncekiShot && p.shot && p.shot !== oncekiShot)
+    fincaniCevir(curPage >= eski ? 1 : -1);
+  oncekiShot = p.shot;
 
   let html = '<p class="pg-kicker">' + p.kicker + "</p>";
   html += '<h2 class="pg-title">' + p.title + "</h2>";
@@ -6404,6 +6896,10 @@ function showPage(i){
   document.getElementById("b-next").disabled = curPage === pages.length-1;
   const again = document.getElementById("b-again"); if(again) again.addEventListener("click", reset);
   const copy  = document.getElementById("b-copy");  if(copy)  copy.addEventListener("click", copyFal);
+
+  /* Bacı sayfayı okusun. Şekil sayfalarında falcı ağzıyla bir
+     giriş sözü de söylüyor; yazıda böyle bir şey yok.          */
+  baciKonus(sayfaSesi(p), T.loc, p.kind === "sym");
 }
 
 function copyFal(){
@@ -6811,6 +7307,9 @@ const RITUAL_BOLGE = {
 async function falAc(){
   if(!shots.length){ toast(P().ui.needOne); return; }
   const T = P();
+  /* iPhone ilk konuşma için kullanıcı hareketi ister; düğmeye
+     basılmışken kilidi açıyoruz, yoksa bacı sessiz kalıyor.  */
+  baciSesKilidiAc();
   /* Rıza alınmadan tek bir piksel bile cihazdan çıkmıyor. */
   const yapayZeka = await rizaSor();
   go("ritual");
@@ -6918,6 +7417,8 @@ async function falAc(){
     if(!pages.length) throw new Error("sayfa yok");
     go("read");
     sizeStage();
+    baciGoster(true);
+    oncekiShot = null;
     showPage(0);
     if(!rafId) loop();
     gecmisKaydet();
@@ -6947,6 +7448,8 @@ document.getElementById("b-open").addEventListener("click", falAc);
 
 function reset(){
   shots = []; pages = []; curPage = 0; sonAiVeri = null;
+  baciGoster(false);
+  oncekiShot = null;
   renderTray();
   go("intro");
 }
@@ -7232,6 +7735,22 @@ document.getElementById("b-veri-indir").addEventListener("click", async ()=>{
 });
 
 
+
+/* ── bacının sesi ──
+   Konuşan bir sayfanın susturma düğmesi olmalı; kullanıcı sesli
+   okumayı istemiyorsa tek dokunuşla kapatabilsin.              */
+(function(){
+  const d = document.getElementById("b-sesli");
+  if(!d) return;
+  baciSesAcik = baciSesIster();
+  baciSesDugmeYaz();
+  d.addEventListener("click", ()=>{
+    const acik = baciSesCevir();
+    /* açıldığı anda o sayfayı okumaya başlasın, beklemesin */
+    if(acik && pages.length && pages[curPage])
+      baciKonus(sayfaSesi(pages[curPage]), P().loc, false);
+  });
+})();
 /* ══════════════════ 8. ÖRNEK FİNCAN ══════════════════ */
 
 function makeSample(){
